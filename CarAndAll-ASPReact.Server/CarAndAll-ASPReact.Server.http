@@ -1,0 +1,6 @@
+@CarAndAll_ASPReact.Server_HostAddress = http://localhost:5294
+
+GET {{CarAndAll_ASPReact.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
