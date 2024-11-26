@@ -8,4 +8,10 @@
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="src\pages\Aanvragen.jsx" />
+    <None Remove="src\pages\Account.jsx" />
+    <None Remove="src\pages\Footer.jsc" />
+    <None Remove="src\pages\Huren.jsx" />
+  </ItemGroup>
 </Project>

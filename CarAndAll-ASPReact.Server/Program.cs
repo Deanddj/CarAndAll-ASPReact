@@ -1,5 +1,8 @@
-var builder = WebApplication.CreateBuilder(args);
+using CarAndAll_ASPReact.Server;
+using Microsoft.EntityFrameworkCore;
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<CarAndAllDbContext>();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -20,7 +23,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
