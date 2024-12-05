@@ -1,0 +1,158 @@
+.dashboard-layout {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 240px 1fr;
+    grid-template-areas:
+        "navbar navbar"
+        "sidebar content"
+        "sidebar footer";
+    height: 100vh;
+}
+
+.dashboard-navbar {
+    grid-area: navbar;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, rgba(246, 128, 24, 0.75), rgba(227, 90, 0, 0.75));
+    color: white;
+    padding: 10px 10px 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-logo h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-decoration: inherit;
+    color: white;
+}
+
+.navbar-account {
+    font-size: 1.5rem;
+}
+
+.account-icon {
+    cursor: pointer;
+    font-size: 26px;
+}
+
+.dashboard-sidebar {
+    grid-area: sidebar;
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ddd;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+    .dashboard-sidebar button {
+        background-color: transparent;
+        color: #555; 
+        border: none;
+        padding: 15px 20px;
+        font-size: 16px;
+        font-weight: normal;
+        text-align: left;
+        cursor: pointer;
+        border-left: 4px solid transparent;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        border-radius: 4px;
+    }
+
+        .dashboard-sidebar button:hover {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+    .dashboard-sidebar .active {
+        background-color: #d1d1d1;
+        color: #333;
+        font-weight: bold;
+        border-left: 4px solid #888; 
+    }
+
+.dashboard-content {
+    grid-area: content;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+        grid-template-areas:
+            "navbar"
+            "sidebar"
+            "content";
+    }
+
+    .dashboard-sidebar {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .dashboard-content {
+        padding: 1rem;
+    }
+}
+
+.car-list {
+    text-align: center;
+    padding: 2rem;
+}
+
+.car-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.car-item {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .car-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .car-item h3 {
+        margin: 0;
+        font-size: 18px;
+        color: #333;
+        text-align: center;
+    }
+
+    .car-item p {
+        font-size: 14px;
+        color: #555;
+        margin: 0.5rem 0;
+        text-align: center;
+    }
+
+    .car-item button {
+        display: block;
+        margin: 1rem auto 0;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+        .car-item button:hover {
+            background-color: #0056b3;
+        }

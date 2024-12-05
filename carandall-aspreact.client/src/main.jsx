@@ -1,23 +1,44 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './index.css';
 import Homepage from './pages/HomePage.jsx';
-import ProfileSettingsPage from './pages/ProfileSettingsPage.jsx';
 import Footer from './pages/Footer.jsx';
 import Login from './pages/Login.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 import Register from './pages/Register.jsx';
+import ProtectedRoute from './pages/ProtectedRoute';
+
+const AppWithFooter = () => {
+    const location = useLocation();
+
+    const noFooterPaths = ['/dashboard'];
+
+    return (
+        <>
+            <Routes>
+                <Route path="/" element={<Homepage />} />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+            </Routes>
+
+            {!noFooterPaths.includes(location.pathname) && <Footer />}
+        </>
+    );
+};
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <Router>
-            <Routes>
-                <Route path="/" element={<Homepage />} />
-                <Route path="/dashboard/account" element={<ProfileSettingsPage />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-            </Routes>
-            <Footer />
+            <AppWithFooter />
         </Router>
     </StrictMode>
 );

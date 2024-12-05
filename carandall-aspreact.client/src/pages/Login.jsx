@@ -1,15 +1,33 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/Login.css';
-import '../index.css'
+import '../index.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        alert('Ingelogd met email: ' + email);
+
+        try {
+            const response = await axios.post(
+                'https://localhost:7159/api/account/login',
+                { email, password },
+                {
+                    withCredentials: true,
+                }
+            );
+
+            console.log(response.data.message);
+            alert('Login successful');
+            navigate('/dashboard');
+        } catch (error) {
+            console.error('Login failed:', error);
+            alert('Invalid email or password');
+        }
     };
 
     return (

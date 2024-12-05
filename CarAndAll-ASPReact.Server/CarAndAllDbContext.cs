@@ -1,9 +1,11 @@
 ﻿using CarAndAll_ASPReact.Server.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarAndAll_ASPReact.Server
 {
-    public class CarAndAllDbContext : DbContext
+    public class CarAndAllDbContext : IdentityDbContext<User>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -1,0 +1,41 @@
+.account-section {
+    padding: 1rem;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+}
+
+    .account-section h2 {
+        margin-bottom: 1rem;
+    }
+
+    .account-section div {
+        margin-bottom: 1rem;
+    }
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.2rem;
+}
+
+.account-section button {
+    margin-right: 10px;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    button[style*="background-color: red"] {
+        background-color: red;
+    }

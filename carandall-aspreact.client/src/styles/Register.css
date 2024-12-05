@@ -3,8 +3,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 85vh;
+    padding: 20px;
     background-color: #f4f4f4;
+    min-height: 75vh;
 }
 
 h2 {
@@ -12,15 +13,124 @@ h2 {
     margin-bottom: 20px;
 }
 
+.slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    margin: 0 25px;
+}
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 30px;
+}
+
+    .slider::before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        left: 5px;
+        top: 5px;
+        background-color: white;
+        transition: .4s;
+    }
+
+input:checked + .slider {
+    background-color: #E35A00;
+}
+
+    input:checked + .slider::before {
+        transform: translateX(30px);
+    }
+
+.slider-labels {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    width: 50px;
+}
+
+    .slider-labels.left {
+        margin-right: 10px;
+    }
+
+    .slider-labels.right {
+        margin-left: 10px;
+    }
+
+    .slider-labels span {
+        cursor: pointer;
+    }
+
+        .slider-labels span.active {
+            font-weight: bold;
+            color: #E35A00;
+        }
+
 .register-form {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    transition: all 0.3s;
+}
+
+    .register-form.particulier {
+        max-width: 600px;
+        margin: 0 auto; 
+    }
+
+.form-layout {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.left-side {
+    display: flex;
+    flex-direction: column;
+    width: 45%; 
+}
+
+.left-side,
+.right-side {
+    width: 45%;
+    margin: 0 2.5%;
+}
+
+.right-side {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
 }
 
 .input-group {
@@ -35,6 +145,7 @@ h2 {
 
     .input-group input {
         width: 100%;
+        max-width: 100%;
         padding: 10px;
         font-size: 16px;
         border: 1px solid #ddd;
@@ -47,8 +158,25 @@ h2 {
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
+    color: white;
+    margin-top: 15px;
+    align-self: center;
 }
 
 .login-link {
     margin-top: 10px;
+    text-align: center;
 }
+
+    .login-link p {
+        font-size: 14px;
+    }
+
+    .login-link a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
