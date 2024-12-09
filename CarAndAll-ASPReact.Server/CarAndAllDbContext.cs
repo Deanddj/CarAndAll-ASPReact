@@ -17,5 +17,7 @@ namespace CarAndAll_ASPReact.Server
         public DbSet<Abonnement> Abonnementen { get; set; }
         public DbSet<Voertuig> Voertuigen { get; set; }
         public DbSet<Verhuuraanvraag> Verhuuraanvragen { get; set; }
+
+
     }
 }

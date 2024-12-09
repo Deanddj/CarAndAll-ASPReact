@@ -15,7 +15,7 @@ namespace CarAndAll_ASPReact.Server.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Abonnement", b =>
                 {
@@ -213,11 +213,22 @@ namespace CarAndAll_ASPReact.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("Aanschafjaar")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Kenteken")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Kleur")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Merk")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Soort")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
