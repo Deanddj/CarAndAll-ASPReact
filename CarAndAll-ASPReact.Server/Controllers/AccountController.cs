@@ -60,7 +60,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                     var authProperties = new AuthenticationProperties
                     {
                         IsPersistent = true,
-                        ExpiresUtc = DateTime.UtcNow.AddDays(7)
+                        ExpiresUtc = DateTime.UtcNow.AddDays(1)
                     };
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
@@ -108,7 +108,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
             return Ok(new { Message = "Logged out successfully." });
         }
 
-        [HttpGet]
+        [HttpGet("get")]
         public async Task<IActionResult> GetUserDetails()
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -194,7 +194,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
             return BadRequest(new { Message = "Failed to update user details.", Errors = result.Errors });
         }
 
-        [HttpDelete]
+        [HttpDelete("delete")]
         public async Task<IActionResult> DeleteUserAccount()
         {
             var user = await _userManager.GetUserAsync(User);

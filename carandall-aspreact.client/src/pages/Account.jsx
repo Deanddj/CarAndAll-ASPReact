@@ -7,13 +7,12 @@ axios.defaults.withCredentials = true;
 
 const AccountSection = () => {
     const [userDetails, setUserDetails] = useState(null);
-    const [isEditable, setIsEditable] = useState(false);
     const [updatedData, setUpdatedData] = useState({});
 
     useEffect(() => {
         axios.get('/api/account/isAuthenticated')
             .then(() => {
-                return axios.get('/api/account', { withCredentials: true });
+                return axios.get('/api/account/get', { withCredentials: true });
             })
             .then(response => {
                 setUserDetails(response.data);
@@ -35,16 +34,24 @@ const AccountSection = () => {
     };
 
     const handleSave = () => {
-        axios.put('/api/account', updatedData)
+        if (
+            (userDetails.telefoonnummer && (!updatedData.telefoonnummer || updatedData.telefoonnummer.trim() === '')) ||
+            (userDetails.kvk && (!updatedData.kvk || updatedData.kvk.trim() === ''))
+        ) {
+            alert('Telefoonnummer and KVK cannot be empty once provided.');
+            return;
+        }
+
+        axios.put('/api/account/update', updatedData)
             .then(() => {
-                setIsEditable(false);
+                alert('Account details updated successfully.');
                 setUserDetails(updatedData);
             })
             .catch(error => console.error('Error updating user data:', error));
     };
 
     const handleDelete = () => {
-        axios.delete('/api/account')
+        axios.delete('/api/account/delete')
             .then(() => {
                 alert('Account data deleted');
                 window.location.href = '/';
@@ -59,49 +66,37 @@ const AccountSection = () => {
             <h2>Account Details</h2>
             <div>
                 <label>Name:</label>
-                {isEditable ? (
-                    <input type="text" name="name" value={updatedData.name} onChange={handleChange} />
-                ) : (
-                    <span>{userDetails.userName}</span>
-                )}
+                <input type="text" name="name" value={updatedData.name || ''} onChange={handleChange} />
             </div>
             <div>
                 <label>Address:</label>
-                {isEditable ? (
-                    <input type="text" name="address" value={updatedData.adres} onChange={handleChange} />
-                ) : (
-                    <span>{userDetails.adres}</span>
-                )}
+                <input type="text" name="address" value={updatedData.adres || ''} onChange={handleChange} />
             </div>
             <div>
                 <label>Email:</label>
-                {isEditable ? (
-                    <input type="email" name="email" value={updatedData.email} onChange={handleChange} />
-                ) : (
-                    <span>{userDetails.email}</span>
-                )}
+                <input type="email" name="email" value={updatedData.email || ''} onChange={handleChange} />
             </div>
-            <div>
-                <label>Phone Number:</label>
-                {isEditable ? (
-                    <input type="text" name="phoneNumber" value={updatedData.telefoonnummer} onChange={handleChange} />
-                ) : (
-                    <span>{userDetails.telefoonnummer || 'N/A'}</span>
-                )}
-            </div>
-            <div>
-                <label>KVK:</label>
-                {isEditable ? (
+            {userDetails.telefoonnummer && (
+                <div>
+                    <label>Phone Number:</label>
+                    <input
+                        type="text"
+                        name="phoneNumber"
+                        value={updatedData.telefoonnummer}
+                        onChange={handleChange}
+                    />
+                </div>
+            )}
+            {userDetails.kvk && (
+                <div>
+                    <label>KVK:</label>
                     <input type="text" name="kvk" value={updatedData.kvk} onChange={handleChange} />
-                ) : (
-                    <span>{userDetails.kvk || 'N/A'}</span>
-                )}
-            </div>
+                </div>
+            )}
             <div>
-                <button onClick={() => setIsEditable(!isEditable)}>
-                    {isEditable ? 'Cancel' : 'Edit'}
+                <button onClick={handleSave} style={{ marginRight: '10px' }}>
+                    Save
                 </button>
-                {isEditable && <button onClick={handleSave}>Save</button>}
                 <button onClick={handleDelete} style={{ backgroundColor: 'red', color: 'white' }}>
                     Delete Account Data
                 </button>
