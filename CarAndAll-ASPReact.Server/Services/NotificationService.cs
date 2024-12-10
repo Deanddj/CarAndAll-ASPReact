@@ -1,0 +1,33 @@
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+
+public class NotificationService
+{
+    private readonly HttpClient _httpClient;
+
+    public NotificationService(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
+
+    public async Task SendNotificationAsync(string email, string title, string message)
+    {
+        var payload = new
+        {
+            email,
+            title,
+            message
+        };
+
+        var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync("https://localhost:7159/api/notifications", content);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Notificatie kon niet worden verstuurd.");
+        }
+    }
+}

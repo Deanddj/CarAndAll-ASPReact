@@ -15,18 +15,20 @@ const Login = () => {
         try {
             const response = await axios.post(
                 'https://localhost:7159/api/account/login',
-                { email, password },
+                { email: email,
+                    wachtwoord: password
+                },
                 {
                     withCredentials: true,
                 }
             );
 
             console.log(response.data.message);
-            alert('Login successful');
+            alert('Succesvol ingelogd.');
             navigate('/dashboard');
         } catch (error) {
-            console.error('Login failed:', error);
-            alert('Invalid email or password');
+            console.error('Login mislukt:', error);
+            alert('Verkeerde email of wachtwoord');
         }
     };
 

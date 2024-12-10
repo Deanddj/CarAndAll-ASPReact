@@ -27,13 +27,27 @@
     color: white;
 }
 
-.navbar-account {
-    font-size: 1.5rem;
+.navbar-right-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-logout {
+    font-size: 1rem;
+    margin: 0;
+    color: white;
+    text-decoration: none;
 }
 
 .account-icon {
-    cursor: pointer;
     font-size: 26px;
+    cursor: pointer;
+    color: white;
+}
+
+.navbar-account {
+    font-size: 1.5rem;
 }
 
 .dashboard-sidebar {
@@ -142,7 +156,6 @@
     .car-item button {
         display: block;
         margin: 1rem auto 0;
-        background-color: #007bff;
         color: white;
         border: none;
         padding: 0.5rem 1rem;
@@ -152,7 +165,3 @@
         font-weight: bold;
         transition: background-color 0.3s ease;
     }
-
-        .car-item button:hover {
-            background-color: #0056b3;
-        }

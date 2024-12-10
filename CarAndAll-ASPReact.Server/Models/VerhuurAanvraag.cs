@@ -6,11 +6,8 @@
         public DateTime Startdatum { get; set; }
         public DateTime Einddatum { get; set; }
         public string Status { get; set; } // bv: "Goedgekeurd", "Afgewezen" of "In behandeling"
-        public int? KlantId { get; set; }
-        public Klant Klant { get; set; }
-
-        public int? ZakelijkeHuurderId { get; set; }
-        public ZakelijkeHuurder ZakelijkeHuurder { get; set; }
+        public string HuurderId { get; set; }
+        public Huurder Huurder { get; set; }
         public int VoertuigId { get; set; }
         public Voertuig Voertuig { get; set; }
     }
