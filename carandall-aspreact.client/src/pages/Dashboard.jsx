@@ -46,7 +46,7 @@ const Dashboard = () => {
             window.location.reload();
             console.log(response.data.message);
         } catch (error) {
-            console.error('Logout failed: ', error);
+            console.error('Uitloggen mislukt: ', error);
         }
     };
 

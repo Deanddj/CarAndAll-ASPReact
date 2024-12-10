@@ -18,23 +18,23 @@ const Notifications = () => {
             })
             .catch(error => {
                 if (error.response && error.response.status === 401) {
-                    alert('You need to be logged in to access this page.');
+                    alert('Je moet zijn ingelogd voor deze pagina.');
                     window.location.href = '/login';
                 } else {
-                    console.error('Error fetching user data:', error);
+                    console.error('Fout met gebruikersdata verkrijgen:', error);
                     setError(error.message);
                 }
             });
     }, []);
 
     useEffect(() => {
-        if (userDetails && userDetails.email) {
+        if (userDetails && userDetails.userName) {
             const fetchNotifications = async () => {
                 try {
-                    const response = await axios.get(`/api/notifications/${encodeURIComponent(userDetails.email)}`);
+                    const response = await axios.get(`/api/notifications/`);
                     setNotifications(response.data);
                 } catch (err) {
-                    console.error("Error fetching notifications:", err);
+                    console.error("Fout met notificatiedata verkijgen:", err);
                     setError(err.message);
                 } finally {
                     setLoading(false);
@@ -56,7 +56,7 @@ const Notifications = () => {
                 )
             );
         } catch (err) {
-            console.error("Error marking notification as read:", err);
+            console.error("Fout met notificatie markeren als gelezen:", err);
             setError(err.message);
         }
     };

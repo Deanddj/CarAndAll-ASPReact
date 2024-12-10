@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.AddConsole();
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<NotificationService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

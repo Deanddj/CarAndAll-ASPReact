@@ -50,14 +50,13 @@ namespace CarAndAll_ASPReact.Server.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Abonnementstype")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Adres")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("KvkNummer")
+                    b.Property<string>("Kvk")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -68,33 +67,6 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.HasKey("BedrijfId");
 
                     b.ToTable("Bedrijven");
-                });
-
-            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Klant", b =>
-                {
-                    b.Property<int>("KlantId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Adres")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Naam")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Telefoonnummer")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("KlantId");
-
-                    b.ToTable("Klant");
                 });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Notification", b =>
@@ -134,12 +106,13 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Adres")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -149,13 +122,14 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Kvk")
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Naam")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
@@ -178,9 +152,6 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Telefoonnummer")
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
 
@@ -198,6 +169,10 @@ namespace CarAndAll_ASPReact.Server.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Verhuuraanvraag", b =>
@@ -209,8 +184,9 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Property<DateTime>("Einddatum")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("KlantId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("HuurderId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Startdatum")
                         .HasColumnType("TEXT");
@@ -222,16 +198,11 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Property<int>("VoertuigId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ZakelijkeHuurderId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("VerhuuraanvraagId");
 
-                    b.HasIndex("KlantId");
+                    b.HasIndex("HuurderId");
 
                     b.HasIndex("VoertuigId");
-
-                    b.HasIndex("ZakelijkeHuurderId");
 
                     b.ToTable("Verhuuraanvragen");
                 });
@@ -261,55 +232,6 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.HasKey("VoertuigId");
 
                     b.ToTable("Voertuigen");
-                });
-
-            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", b =>
-                {
-                    b.Property<int>("ZakelijkeBeheerderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("BedrijfId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Naam")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ZakelijkeBeheerderId");
-
-                    b.HasIndex("BedrijfId")
-                        .IsUnique();
-
-                    b.ToTable("ZakelijkeBeheerder");
-                });
-
-            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeHuurder", b =>
-                {
-                    b.Property<int>("ZakelijkeHuurderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("BedrijfId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Naam")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ZakelijkeHuurderId");
-
-                    b.HasIndex("BedrijfId");
-
-                    b.ToTable("ZakelijkeHuurder");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -440,6 +362,45 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Huurder", b =>
+                {
+                    b.HasBaseType("CarAndAll_ASPReact.Server.Models.User");
+
+                    b.Property<string>("Adres")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("BedrijfId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Telefoonnummer")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasIndex("BedrijfId");
+
+                    b.HasDiscriminator().HasValue("Huurder");
+                });
+
+            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", b =>
+                {
+                    b.HasBaseType("CarAndAll_ASPReact.Server.Models.User");
+
+                    b.Property<int>("BedrijfId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasIndex("BedrijfId")
+                        .IsUnique();
+
+                    b.ToTable("AspNetUsers", t =>
+                        {
+                            t.Property("BedrijfId")
+                                .HasColumnName("ZakelijkeBeheerder_BedrijfId");
+                        });
+
+                    b.HasDiscriminator().HasValue("ZakelijkeBeheerder");
+                });
+
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Abonnement", b =>
                 {
                     b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
@@ -453,9 +414,11 @@ namespace CarAndAll_ASPReact.Server.Migrations
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Verhuuraanvraag", b =>
                 {
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Klant", "Klant")
+                    b.HasOne("CarAndAll_ASPReact.Server.Models.Huurder", "Huurder")
                         .WithMany("Verhuuraanvragen")
-                        .HasForeignKey("KlantId");
+                        .HasForeignKey("HuurderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CarAndAll_ASPReact.Server.Models.Voertuig", "Voertuig")
                         .WithMany("Verhuuraanvragen")
@@ -463,37 +426,9 @@ namespace CarAndAll_ASPReact.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.ZakelijkeHuurder", "ZakelijkeHuurder")
-                        .WithMany("Verhuuraanvragen")
-                        .HasForeignKey("ZakelijkeHuurderId");
-
-                    b.Navigation("Klant");
+                    b.Navigation("Huurder");
 
                     b.Navigation("Voertuig");
-
-                    b.Navigation("ZakelijkeHuurder");
-                });
-
-            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", b =>
-                {
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
-                        .WithOne("ZakelijkeBeheerder")
-                        .HasForeignKey("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", "BedrijfId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bedrijf");
-                });
-
-            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeHuurder", b =>
-                {
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
-                        .WithMany("ZakelijkeHuurders")
-                        .HasForeignKey("BedrijfId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bedrijf");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -547,19 +482,34 @@ namespace CarAndAll_ASPReact.Server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Huurder", b =>
+                {
+                    b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
+                        .WithMany("Huurders")
+                        .HasForeignKey("BedrijfId");
+
+                    b.Navigation("Bedrijf");
+                });
+
+            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", b =>
+                {
+                    b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
+                        .WithOne("ZakelijkeBeheerder")
+                        .HasForeignKey("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", "BedrijfId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bedrijf");
+                });
+
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Bedrijf", b =>
                 {
                     b.Navigation("Abonnementen");
 
+                    b.Navigation("Huurders");
+
                     b.Navigation("ZakelijkeBeheerder")
                         .IsRequired();
-
-                    b.Navigation("ZakelijkeHuurders");
-                });
-
-            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Klant", b =>
-                {
-                    b.Navigation("Verhuuraanvragen");
                 });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Voertuig", b =>
@@ -567,7 +517,7 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Navigation("Verhuuraanvragen");
                 });
 
-            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeHuurder", b =>
+            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Huurder", b =>
                 {
                     b.Navigation("Verhuuraanvragen");
                 });

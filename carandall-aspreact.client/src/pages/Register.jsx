@@ -3,43 +3,53 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Register.css';
 import '../index.css';
 import axios from 'axios';
+import postNotification from "../api/notificationApi.js";
 
 const Register = () => {
     const [email, setEmail] = useState('');
+    const [naam, setNaam] = useState(''); // Added Naam field for User
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [kvk, setKVK] = useState('');
+    const [companyName, setCompanyName] = useState(''); // For ZakelijkeBeheerder
+    const [companyAddress, setCompanyAddress] = useState(''); // For ZakelijkeBeheerder
     const [accountType, setAccountType] = useState('particulier');
-    const navigate = useNavigate();
+    const navigate = useNavigate();        
 
     const handleRegister = async (e) => {
-        e.preventDefault();
+            e.preventDefault();
 
-        if (password !== confirmPassword) {
-            alert('Wachtwoorden komen niet overeen');
-            return;
-        }
+            if (password !== confirmPassword) {
+                alert('Wachtwoorden komen niet overeen');
+                return;
+            }
 
-        const data = {
-            email,
-            password,
-            adres: address,
-            telefoonnummer: accountType === 'particulier' ? phone : null,
-            kvk: accountType === 'zakelijk' ? kvk : null,
+            const data = {
+                Naam: naam,
+                Email: email,
+                Wachtwoord: password,
+                Adres: address,
+                Telefoonnummer: accountType === 'particulier' ? phone : null,
+                Kvk: accountType === 'zakelijk' ? kvk : null,
+                BedrijfNaam: accountType === 'zakelijk' ? companyName : null,
+                BedrijfAdres: accountType === 'zakelijk' ? companyAddress : null,
+                AccountType: accountType 
+            };
+
+            try {
+                const response = await axios.post('https://localhost:7159/api/account/register', data, {
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                alert(response.data.message || 'Registratie successvol');
+                navigate('/login');
+            } catch (error) {
+                console.log((error.response?.data && error.message))
+                alert('Registration mislukt: ' + (error.response?.data || error.message));
+            }
         };
 
-        try {
-            const response = await axios.post('https://localhost:7159/api/account/register', data, {
-                headers: { 'Content-Type': 'application/json' }
-            });
-            alert(response.data.message || 'Registration successful');
-            navigate('/login')
-        } catch (error) {
-            alert('Registration failed: ' + (error.response?.data || error.message));
-        }
-    };
 
     const handleToggle = () => {
         setAccountType(accountType === 'particulier' ? 'zakelijk' : 'particulier');
@@ -67,6 +77,16 @@ const Register = () => {
                 </div>
                 <div className="form-layout">
                     <div className="left-side">
+                        <div className="input-group">
+                            <label htmlFor="naam">Naam</label>
+                            <input
+                                type="text"
+                                id="naam"
+                                value={naam}
+                                onChange={(e) => setNaam(e.target.value)}
+                                required
+                            />
+                        </div>
                         <div className="input-group">
                             <label htmlFor="email">E-mail</label>
                             <input
@@ -98,53 +118,65 @@ const Register = () => {
                             />
                         </div>
                     </div>
-                    {accountType === 'zakelijk' ? (
-                        <div className="right-side">
-                            <div className="input-group">
-                                <label htmlFor="kvk">KVK</label>
-                                <input
-                                    type="text"
-                                    id="kvk"
-                                    value={kvk}
-                                    onChange={(e) => setKVK(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="input-group">
-                                <label htmlFor="address">Adres</label>
-                                <input
-                                    type="text"
-                                    id="address"
-                                    value={address}
-                                    onChange={(e) => setAddress(e.target.value)}
-                                    required
-                                />
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="right-side">
-                            <div className="input-group">
-                                <label htmlFor="phone">Telefoonnummer</label>
-                                <input
-                                    type="tel"
-                                    id="phone"
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="input-group">
-                                <label htmlFor="address">Adres</label>
-                                <input
-                                    type="text"
-                                    id="address"
-                                    value={address}
-                                    onChange={(e) => setAddress(e.target.value)}
-                                    required
-                                />
-                            </div>
-                        </div>
-                    )}
+                    <div className="right-side">
+                        {accountType === 'zakelijk' ? (
+                            <>
+                                <div className="input-group">
+                                    <label htmlFor="companyName">Bedrijfsnaam</label>
+                                    <input
+                                        type="text"
+                                        id="companyName"
+                                        value={companyName}
+                                        onChange={(e) => setCompanyName(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="input-group">
+                                    <label htmlFor="kvk">KVK</label>
+                                    <input
+                                        type="text"
+                                        id="kvk"
+                                        value={kvk}
+                                        onChange={(e) => setKVK(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="input-group">
+                                    <label htmlFor="companyAddress">Bedrijf Adres</label>
+                                    <input
+                                        type="text"
+                                        id="companyAddress"
+                                        value={companyAddress}
+                                        onChange={(e) => setCompanyAddress(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="input-group">
+                                    <label htmlFor="phone">Telefoonnummer</label>
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="input-group">
+                                    <label htmlFor="address">Adres</label>
+                                    <input
+                                        type="text"
+                                        id="address"
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
                 <button type="submit" className="register-button">Registreer</button>
             </form>

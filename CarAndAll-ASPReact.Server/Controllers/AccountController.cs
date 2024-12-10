@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.CodeAnalysis.Editing;
 
 namespace CarAndAll_ASPReact.Server.Controllers
 {
@@ -16,12 +18,15 @@ namespace CarAndAll_ASPReact.Server.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly CarAndAllDbContext _context;
+        private readonly NotificationService _notificationService;
 
-
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(CarAndAllDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, NotificationService notificationService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
+            _notificationService = notificationService;
         }
 
         [HttpGet("isAuthenticated")]
@@ -29,10 +34,10 @@ namespace CarAndAll_ASPReact.Server.Controllers
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                return Ok(new { Message = "Authenticated" });
+                return Ok(new { Message = "Geauthoriseerd" });
             }
 
-            return Unauthorized(new { Message = "Not authenticated" });
+            return Unauthorized(new { Message = "Niet geauthoriseerd" });
         }
 
         [HttpPost("login")]
@@ -40,64 +45,94 @@ namespace CarAndAll_ASPReact.Server.Controllers
         {
             if (model == null)
             {
-                return BadRequest("Invalid login data.");
+                return BadRequest("Ongeldige login details.");
             }
 
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null)
+            if (user == null)
             {
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: true, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, user.UserName),
-                        new Claim(ClaimTypes.Email, user.Email),
-                        new Claim(ClaimTypes.NameIdentifier, user.Id)
-                    };
-
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var authProperties = new AuthenticationProperties
-                    {
-                        IsPersistent = true,
-                        ExpiresUtc = DateTime.UtcNow.AddDays(1)
-                    };
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-
-                    return Ok(new { Message = "Login successful." });
-                }
+                return Unauthorized();
             }
 
-            return Unauthorized(new { Message = "Invalid credentials." });
+            var result = await _signInManager.PasswordSignInAsync(user, model.Wachtwoord, isPersistent: true, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties
+
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddDays(1)
+                };
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                return Ok(new { Message = "Login succesvol." });
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterUserModel model)
         {
             if (model == null)
             {
-                return BadRequest("Invalid registration data.");
+                return BadRequest("Ongeldige info.");
             }
 
-            var user = new User
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                Adres = model.Adres,
-                Telefoonnummer = model.Telefoonnummer,
-                Kvk = model.Kvk
-            };
+            User user;
 
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
+            if (model.AccountType == "particulier")
             {
-                return Ok(new { Message = "User registered successfully." });
+                user = new Huurder
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Naam = model.Naam,
+                    Adres = model.Adres,
+                    Telefoonnummer = model.Telefoonnummer,
+                };
+            }
+            else if (model.AccountType == "zakelijk")
+            {
+                user = new ZakelijkeBeheerder
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Naam = model.Naam,
+                    Bedrijf = new()
+                    {
+                        Adres = model.BedrijfAdres,
+                        Kvk = model.Kvk,
+                        Naam = model.BedrijfNaam
+                    }
+                };
+            }
+            else
+            {
+                return BadRequest("Ongeldig account type.");
             }
 
-            return BadRequest(result.Errors);
+            var userResult = await _userManager.CreateAsync(user, model.Wachtwoord);
+
+            if (userResult.Succeeded)
+            {
+                await _notificationService.SendNotificationAsync(user.Email, "Account registratie", "Uw account is succesvol geregistreerd!");
+                return Ok(new { Message = "Gebruiker succesvol geregistreerd." });
+            }
+
+            return BadRequest(userResult.Errors);
         }
+
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
@@ -105,7 +140,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync("Identity.Application");
 
-            return Ok(new { Message = "Logged out successfully." });
+            return Ok(new { Message = "Succesvol uitgelogd." });
         }
 
         [HttpGet("get")]
@@ -115,30 +150,70 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
             if (string.IsNullOrEmpty(userId))
             {
-                return NotFound(new { Message = "User ID not found in claims." });
+                return NotFound(new { Message = "User ID komt niet voor in claims." });
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.Users
+                .Include(u => (u as ZakelijkeBeheerder).Bedrijf)
+                .Include(u => (u as Huurder).Bedrijf)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
             if (user == null)
             {
-                return NotFound(new { Message = "User not found." });
+                return NotFound(new { Message = "Gebruiker niet gevonden." });
             }
 
-            bool isTelefoonnummerEmpty = string.IsNullOrEmpty(user.Telefoonnummer);
-            bool isKvkEmpty = string.IsNullOrEmpty(user.Kvk);
-
-            var userDetails = new
+            if (user is ZakelijkeBeheerder zakelijkeBeheerder)
             {
-                user.UserName,
-                user.Email,
-                user.Adres,
-                user.Telefoonnummer,
-                user.Kvk,
-                isTelefoonnummerEmpty,
-                isKvkEmpty
-            };
-
-            return Ok(userDetails);
+                return Ok(new
+                {
+                    Type = nameof(ZakelijkeBeheerder),
+                    zakelijkeBeheerder.UserName,
+                    zakelijkeBeheerder.Naam,
+                    Bedrijf = new
+                    {
+                        zakelijkeBeheerder.BedrijfId,
+                        zakelijkeBeheerder.Bedrijf.Kvk,
+                        zakelijkeBeheerder.Bedrijf.Adres,
+                        zakelijkeBeheerder.Bedrijf.Naam
+                    }
+                });
+            }
+            else if (user is Medewerker medewerker)
+            {
+                return Ok(new
+                {
+                    Type = nameof(Medewerker),
+                    medewerker.UserName,
+                    medewerker.Naam,
+                    medewerker.Rol
+                });
+            }
+            else if (user is Huurder huurder)
+            {
+                return Ok(new
+                {
+                    Type = nameof(Huurder),
+                    huurder.UserName,
+                    huurder.Naam,
+                    huurder.Telefoonnummer,
+                    huurder.Adres,
+                    Bedrijf = huurder.Bedrijf != null ? new
+                    {
+                        huurder.BedrijfId,
+                        huurder.Bedrijf.Kvk
+                    } : null
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    Type = nameof(User),
+                    user.UserName,
+                    user.Naam,
+                });
+            }
         }
 
         [HttpPut("update")]
@@ -146,52 +221,65 @@ namespace CarAndAll_ASPReact.Server.Controllers
         {
             if (model == null)
             {
-                return BadRequest(new { Message = "Invalid data." });
+                return BadRequest(new { Message = "Ongeldige info." });
             }
 
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.Users
+       .Include(u => (u as ZakelijkeBeheerder).Bedrijf)
+       .FirstOrDefaultAsync(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
             if (user == null)
             {
-                return NotFound(new { Message = "User not found." });
+                return NotFound(new { Message = "Gebruiker niet gevonden." });
             }
+
+            if (!string.IsNullOrEmpty(model.Naam))
+                user.Naam = model.Naam;
 
             if (!string.IsNullOrEmpty(model.Email))
-            {
                 user.Email = model.Email;
-            }
-            if (!string.IsNullOrEmpty(model.Adres))
-            {
-                user.Adres = model.Adres;
-            }
-            if (!string.IsNullOrEmpty(model.Telefoonnummer))
-            {
-                user.Telefoonnummer = model.Telefoonnummer;
-            }
-            else
-            {
-                user.Telefoonnummer = null;
-            }
-            if (!string.IsNullOrEmpty(model.Kvk))
-            {
-                user.Kvk = model.Kvk;
-            }
-            else
-            {
-                user.Kvk = null;
-            }
+                user.UserName = model.Email;
 
-            if (string.IsNullOrEmpty(user.Telefoonnummer) && string.IsNullOrEmpty(user.Kvk))
+            switch (user)
             {
-                return BadRequest(new { Message = "Either Telefoonnummer or KVK must be provided." });
+                case Huurder huurder:
+                    if (!string.IsNullOrEmpty(model.Adres))
+                        huurder.Adres = model.Adres;
+
+                    if (!string.IsNullOrEmpty(model.Telefoonnummer))
+                        huurder.Telefoonnummer = model.Telefoonnummer;
+
+                    if (model.BedrijfId.HasValue)
+                        huurder.BedrijfId = model.BedrijfId;
+
+                    break;
+
+                case ZakelijkeBeheerder beheerder:
+                    if (model.Bedrijf != null)
+                    {
+                        if (!string.IsNullOrEmpty(model.Bedrijf.Naam))
+                            beheerder.Bedrijf.Naam = model.Bedrijf.Naam;
+
+                        if (!string.IsNullOrEmpty(model.Bedrijf.Adres))
+                            beheerder.Bedrijf.Adres = model.Bedrijf.Adres;
+
+                        if (!string.IsNullOrEmpty(model.Bedrijf.Kvk))
+                            beheerder.Bedrijf.Kvk = model.Bedrijf.Kvk;
+                    }
+                    break;
+
+                case Medewerker medewerker:
+                    if (!string.IsNullOrEmpty(model.Rol))
+                        medewerker.Rol = model.Rol;
+                    break;
             }
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                return Ok(new { Message = "User details updated successfully." });
+                return Ok(user);
             }
 
-            return BadRequest(new { Message = "Failed to update user details.", Errors = result.Errors });
+            return BadRequest(new { Message = "Gebruiker gegevens konden niet worden bijgewerkt", Errors = result.Errors });
         }
 
         [HttpDelete("delete")]
@@ -200,19 +288,20 @@ namespace CarAndAll_ASPReact.Server.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound(new { Message = "User not found." });
+                return NotFound(new { Message = "Gebruiker niet gevonden." });
             }
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync("Identity.Application");
 
+
             var result = await _userManager.DeleteAsync(user);
             if (result.Succeeded)
             {
-                return Ok(new { Message = "Account deleted successfully." });
+                return Ok(new { Message = "Account verwijderd." });
             }
 
-            return BadRequest(new { Message = "Failed to delete account.", Errors = result.Errors });
+            return BadRequest(new { Message = "Account kon niet worden verwijderd.", Errors = result.Errors });
         }
     }
 }
@@ -220,22 +309,35 @@ namespace CarAndAll_ASPReact.Server.Controllers
 public class LoginModel
 {
     public string Email { get; set; }
-    public string Password { get; set; }
+    public string Wachtwoord { get; set; }
 }
 
-public class RegisterModel
+public class RegisterUserModel
 {
+    public string Naam { get; set; }
     public string Email { get; set; }
-    public string Password { get; set; }
+    public string Wachtwoord { get; set; }
     public string Adres { get; set; }
     public string? Telefoonnummer { get; set; }
     public string? Kvk { get; set; }
+    public string? BedrijfNaam { get; set; }
+    public string? BedrijfAdres { get; set; }
+    public string AccountType { get; set; }
 }
-
 public class UpdateUserModel
 {
+    public string Naam { get; set; }
     public string Email { get; set; }
-    public string Adres { get; set; }
+    public string? Adres { get; set; }
     public string? Telefoonnummer { get; set; }
-    public string? Kvk { get; set; }
+    public int? BedrijfId { get; set; }
+    public BedrijfUpdateModel? Bedrijf { get; set; }
+    public string? Rol { get; set; }
+}
+
+public class BedrijfUpdateModel
+{
+    public string Naam { get; set; }
+    public string Adres { get; set; }
+    public string Kvk { get; set; }
 }
