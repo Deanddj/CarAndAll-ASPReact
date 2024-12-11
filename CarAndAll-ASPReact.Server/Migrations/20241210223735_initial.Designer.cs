@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     [DbContext(typeof(CarAndAllDbContext))]
-    [Migration("20241210215645_initial")]
+    [Migration("20241210223735_initial")]
     partial class initial
     {
         /// <inheritdoc />
