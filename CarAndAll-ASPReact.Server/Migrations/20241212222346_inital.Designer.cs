@@ -11,8 +11,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     [DbContext(typeof(CarAndAllDbContext))]
+<<<<<<<< HEAD:CarAndAll-ASPReact.Server/Migrations/20241210004549_initial.Designer.cs
     [Migration("20241210004549_initial")]
     partial class initial
+========
+    [Migration("20241212222346_inital")]
+    partial class inital
+>>>>>>>> VoertuigSelectie:CarAndAll-ASPReact.Server/Migrations/20241212222346_inital.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -216,11 +221,22 @@ namespace CarAndAll_ASPReact.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("Aanschafjaar")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Kenteken")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Kleur")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Merk")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Soort")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

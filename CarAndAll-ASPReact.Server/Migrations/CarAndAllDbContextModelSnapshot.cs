@@ -213,11 +213,22 @@ namespace CarAndAll_ASPReact.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("Aanschafjaar")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Kenteken")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Kleur")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Merk")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Soort")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

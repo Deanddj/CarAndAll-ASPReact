@@ -1,0 +1,110 @@
+/* RentCar.css */
+
+/* Algemene container voor de RentCar-pagina */
+.rent-car-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+    /* Titel styling */
+    .rent-car-container h2 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+/* Sectie layout */
+.rent-car-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Specifieke styling voor voertuiginformatie */
+.vehicle-info {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+    .vehicle-info h3 {
+        margin-top: 0;
+        color: #555;
+    }
+
+    .vehicle-info p {
+        margin: 10px 0;
+        font-size: 16px;
+        color: #666;
+    }
+
+/* Overzicht van gehuurde periodes */
+.rental-periods {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+    .rental-periods h3 {
+        color: #555;
+    }
+
+    .rental-periods ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .rental-periods li {
+        font-size: 16px;
+        color: #666;
+    }
+
+/* Formuliervelden styling */
+.rental-form {
+    margin-top: 20px;
+}
+
+    .rental-form label {
+        display: block;
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .rental-form input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .rental-form button {
+        background-color: #E35A00;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .rental-form button:hover {
+            background-color: #f78d47;
+        }
+
+/* Mobielvriendelijke layout */
+@media (max-width: 768px) {
+    .rent-car-sections {
+        flex-direction: column;
+    }
+}

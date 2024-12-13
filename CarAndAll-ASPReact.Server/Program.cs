@@ -3,6 +3,8 @@ using CarAndAll_ASPReact.Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using CarAndAll_ASPReact.Server.NewFolder;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,8 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<DataSeeder>();
+
 
 builder.Services.AddDbContext<CarAndAllDbContext>();
 
@@ -44,6 +48,12 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dataSeeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+    dataSeeder.SeedData(); // Roep de SeedData methode aan
+}
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
