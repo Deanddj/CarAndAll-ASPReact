@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import 'react-calendar/dist/Calendar.css'; // Standaard CSS voor de kalender
 import '../styles/RentCar.css';
 import '../index.css';
 

@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:CarAndAll-ASPReact.Server/Migrations/20241210004549_initial.cs
-    public partial class initial : Migration
-========
     public partial class inital : Migration
->>>>>>>> VoertuigSelectie:CarAndAll-ASPReact.Server/Migrations/20241212222346_inital.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -68,18 +64,12 @@ namespace CarAndAll_ASPReact.Server.Migrations
                 {
                     VoertuigId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-<<<<<<<< HEAD:CarAndAll-ASPReact.Server/Migrations/20241210004549_initial.cs
-                    Merk = table.Column<string>(type: "TEXT", nullable: false),
-                    Type = table.Column<string>(type: "TEXT", nullable: false),
-                    Kenteken = table.Column<string>(type: "TEXT", nullable: false),
-========
                     Soort = table.Column<string>(type: "TEXT", nullable: false),
                     Merk = table.Column<string>(type: "TEXT", nullable: false),
                     Type = table.Column<string>(type: "TEXT", nullable: false),
                     Kenteken = table.Column<string>(type: "TEXT", nullable: false),
                     Kleur = table.Column<string>(type: "TEXT", nullable: false),
                     Aanschafjaar = table.Column<int>(type: "INTEGER", nullable: true),
->>>>>>>> VoertuigSelectie:CarAndAll-ASPReact.Server/Migrations/20241212222346_inital.cs
                     Status = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

@@ -11,13 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     [DbContext(typeof(CarAndAllDbContext))]
-<<<<<<<< HEAD:CarAndAll-ASPReact.Server/Migrations/20241210004549_initial.Designer.cs
-    [Migration("20241210004549_initial")]
-    partial class initial
-========
     [Migration("20241212222346_inital")]
     partial class inital
->>>>>>>> VoertuigSelectie:CarAndAll-ASPReact.Server/Migrations/20241212222346_inital.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,520 +21,520 @@ namespace CarAndAll_ASPReact.Server.Migrations
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Abonnement", b =>
-                {
-                    b.Property<int>("AbonnementId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+            {
+                b.Property<int>("AbonnementId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("INTEGER");
 
-                    b.Property<int>("BedrijfId")
-                        .HasColumnType("INTEGER");
+                b.Property<int>("BedrijfId")
+                    .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Einddatum")
-                        .HasColumnType("TEXT");
+                b.Property<DateTime>("Einddatum")
+                    .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Startdatum")
-                        .HasColumnType("TEXT");
+                b.Property<DateTime>("Startdatum")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Type")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("AbonnementId");
+                b.HasKey("AbonnementId");
 
-                    b.HasIndex("BedrijfId");
+                b.HasIndex("BedrijfId");
 
-                    b.ToTable("Abonnementen");
-                });
+                b.ToTable("Abonnementen");
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Bedrijf", b =>
-                {
-                    b.Property<int>("BedrijfId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+            {
+                b.Property<int>("BedrijfId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("INTEGER");
 
-                    b.Property<string>("Abonnementstype")
-                        .HasColumnType("TEXT");
+                b.Property<string>("Abonnementstype")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Adres")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Adres")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Kvk")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Kvk")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Naam")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Naam")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("BedrijfId");
+                b.HasKey("BedrijfId");
 
-                    b.ToTable("Bedrijven");
-                });
+                b.ToTable("Bedrijven");
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Notification", b =>
-                {
-                    b.Property<int>("NotificationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+            {
+                b.Property<int>("NotificationId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("INTEGER");
+                b.Property<bool>("IsRead")
+                    .HasColumnType("INTEGER");
 
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Message")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Title")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("NotificationId");
+                b.HasKey("NotificationId");
 
-                    b.ToTable("Notificaties");
-                });
+                b.ToTable("Notificaties");
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+            {
+                b.Property<string>("Id")
+                    .HasColumnType("TEXT");
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
+                b.Property<int>("AccessFailedCount")
+                    .HasColumnType("INTEGER");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                b.Property<string>("ConcurrencyStamp")
+                    .IsConcurrencyToken()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("TEXT");
+                b.Property<string>("Discriminator")
+                    .IsRequired()
+                    .HasMaxLength(21)
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                b.Property<string>("Email")
+                    .HasMaxLength(256)
+                    .HasColumnType("TEXT");
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
+                b.Property<bool>("EmailConfirmed")
+                    .HasColumnType("INTEGER");
 
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
+                b.Property<bool>("LockoutEnabled")
+                    .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
+                b.Property<DateTimeOffset?>("LockoutEnd")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Naam")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Naam")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                b.Property<string>("NormalizedEmail")
+                    .HasMaxLength(256)
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                b.Property<string>("NormalizedUserName")
+                    .HasMaxLength(256)
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
+                b.Property<string>("PasswordHash")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
+                b.Property<string>("PhoneNumber")
+                    .HasColumnType("TEXT");
 
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
+                b.Property<bool>("PhoneNumberConfirmed")
+                    .HasColumnType("INTEGER");
 
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
+                b.Property<string>("SecurityStamp")
+                    .HasColumnType("TEXT");
 
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
+                b.Property<bool>("TwoFactorEnabled")
+                    .HasColumnType("INTEGER");
 
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                b.Property<string>("UserName")
+                    .HasMaxLength(256)
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
+                b.HasIndex("NormalizedEmail")
+                    .HasDatabaseName("EmailIndex");
 
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
+                b.HasIndex("NormalizedUserName")
+                    .IsUnique()
+                    .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                b.ToTable("AspNetUsers", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+                b.HasDiscriminator<string>("Discriminator").HasValue("User");
 
-                    b.UseTphMappingStrategy();
-                });
+                b.UseTphMappingStrategy();
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Verhuuraanvraag", b =>
-                {
-                    b.Property<int>("VerhuuraanvraagId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+            {
+                b.Property<int>("VerhuuraanvraagId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Einddatum")
-                        .HasColumnType("TEXT");
+                b.Property<DateTime>("Einddatum")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("HuurderId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("HuurderId")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Startdatum")
-                        .HasColumnType("TEXT");
+                b.Property<DateTime>("Startdatum")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Status")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<int>("VoertuigId")
-                        .HasColumnType("INTEGER");
+                b.Property<int>("VoertuigId")
+                    .HasColumnType("INTEGER");
 
-                    b.HasKey("VerhuuraanvraagId");
+                b.HasKey("VerhuuraanvraagId");
 
-                    b.HasIndex("HuurderId");
+                b.HasIndex("HuurderId");
 
-                    b.HasIndex("VoertuigId");
+                b.HasIndex("VoertuigId");
 
-                    b.ToTable("Verhuuraanvragen");
-                });
+                b.ToTable("Verhuuraanvragen");
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Voertuig", b =>
-                {
-                    b.Property<int>("VoertuigId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+            {
+                b.Property<int>("VoertuigId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Aanschafjaar")
-                        .HasColumnType("INTEGER");
+                b.Property<int?>("Aanschafjaar")
+                    .HasColumnType("INTEGER");
 
-                    b.Property<string>("Kenteken")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Kenteken")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Kleur")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Kleur")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Merk")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Merk")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Soort")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Soort")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Status")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Type")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("VoertuigId");
+                b.HasKey("VoertuigId");
 
-                    b.ToTable("Voertuigen");
-                });
+                b.ToTable("Voertuigen");
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+            {
+                b.Property<string>("Id")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                b.Property<string>("ConcurrencyStamp")
+                    .IsConcurrencyToken()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                b.Property<string>("Name")
+                    .HasMaxLength(256)
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                b.Property<string>("NormalizedName")
+                    .HasMaxLength(256)
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
+                b.HasIndex("NormalizedName")
+                    .IsUnique()
+                    .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles", (string)null);
-                });
+                b.ToTable("AspNetRoles", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("INTEGER");
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                b.Property<string>("ClaimType")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                b.Property<string>("ClaimValue")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("RoleId")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
+                b.ToTable("AspNetRoleClaims", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("INTEGER");
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                b.Property<string>("ClaimType")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                b.Property<string>("ClaimValue")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("UserId")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
+                b.ToTable("AspNetUserClaims", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+            {
+                b.Property<string>("LoginProvider")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("TEXT");
+                b.Property<string>("ProviderKey")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("TEXT");
+                b.Property<string>("ProviderDisplayName")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("UserId")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
+                b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.HasIndex("UserId");
+                b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
+                b.ToTable("AspNetUserLogins", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+            {
+                b.Property<string>("UserId")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("TEXT");
+                b.Property<string>("RoleId")
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("UserId", "RoleId");
+                b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("RoleId");
+                b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
+                b.ToTable("AspNetUserRoles", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+            {
+                b.Property<string>("UserId")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                b.Property<string>("LoginProvider")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                b.Property<string>("Name")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("Value")
-                        .HasColumnType("TEXT");
+                b.Property<string>("Value")
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
+                b.ToTable("AspNetUserTokens", (string)null);
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Huurder", b =>
-                {
-                    b.HasBaseType("CarAndAll_ASPReact.Server.Models.User");
+            {
+                b.HasBaseType("CarAndAll_ASPReact.Server.Models.User");
 
-                    b.Property<string>("Adres")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Adres")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<int?>("BedrijfId")
-                        .HasColumnType("INTEGER");
+                b.Property<int?>("BedrijfId")
+                    .HasColumnType("INTEGER");
 
-                    b.Property<string>("Telefoonnummer")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("Telefoonnummer")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.HasIndex("BedrijfId");
+                b.HasIndex("BedrijfId");
 
-                    b.HasDiscriminator().HasValue("Huurder");
-                });
+                b.HasDiscriminator().HasValue("Huurder");
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", b =>
+            {
+                b.HasBaseType("CarAndAll_ASPReact.Server.Models.User");
+
+                b.Property<int>("BedrijfId")
+                    .HasColumnType("INTEGER");
+
+                b.HasIndex("BedrijfId")
+                    .IsUnique();
+
+                b.ToTable("AspNetUsers", t =>
                 {
-                    b.HasBaseType("CarAndAll_ASPReact.Server.Models.User");
-
-                    b.Property<int>("BedrijfId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("BedrijfId")
-                        .IsUnique();
-
-                    b.ToTable("AspNetUsers", t =>
-                        {
-                            t.Property("BedrijfId")
-                                .HasColumnName("ZakelijkeBeheerder_BedrijfId");
-                        });
-
-                    b.HasDiscriminator().HasValue("ZakelijkeBeheerder");
+                    t.Property("BedrijfId")
+                        .HasColumnName("ZakelijkeBeheerder_BedrijfId");
                 });
+
+                b.HasDiscriminator().HasValue("ZakelijkeBeheerder");
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Abonnement", b =>
-                {
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
-                        .WithMany("Abonnementen")
-                        .HasForeignKey("BedrijfId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
+                    .WithMany("Abonnementen")
+                    .HasForeignKey("BedrijfId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Bedrijf");
-                });
+                b.Navigation("Bedrijf");
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Verhuuraanvraag", b =>
-                {
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Huurder", "Huurder")
-                        .WithMany("Verhuuraanvragen")
-                        .HasForeignKey("HuurderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("CarAndAll_ASPReact.Server.Models.Huurder", "Huurder")
+                    .WithMany("Verhuuraanvragen")
+                    .HasForeignKey("HuurderId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Voertuig", "Voertuig")
-                        .WithMany("Verhuuraanvragen")
-                        .HasForeignKey("VoertuigId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("CarAndAll_ASPReact.Server.Models.Voertuig", "Voertuig")
+                    .WithMany("Verhuuraanvragen")
+                    .HasForeignKey("VoertuigId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Huurder");
+                b.Navigation("Huurder");
 
-                    b.Navigation("Voertuig");
-                });
+                b.Navigation("Voertuig");
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    .WithMany()
+                    .HasForeignKey("RoleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("CarAndAll_ASPReact.Server.Models.User", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("CarAndAll_ASPReact.Server.Models.User", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    .WithMany()
+                    .HasForeignKey("RoleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                b.HasOne("CarAndAll_ASPReact.Server.Models.User", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("CarAndAll_ASPReact.Server.Models.User", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Huurder", b =>
-                {
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
-                        .WithMany("Huurders")
-                        .HasForeignKey("BedrijfId");
+            {
+                b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
+                    .WithMany("Huurders")
+                    .HasForeignKey("BedrijfId");
 
-                    b.Navigation("Bedrijf");
-                });
+                b.Navigation("Bedrijf");
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", b =>
-                {
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
-                        .WithOne("ZakelijkeBeheerder")
-                        .HasForeignKey("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", "BedrijfId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
+                    .WithOne("ZakelijkeBeheerder")
+                    .HasForeignKey("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", "BedrijfId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Bedrijf");
-                });
+                b.Navigation("Bedrijf");
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Bedrijf", b =>
-                {
-                    b.Navigation("Abonnementen");
+            {
+                b.Navigation("Abonnementen");
 
-                    b.Navigation("Huurders");
+                b.Navigation("Huurders");
 
-                    b.Navigation("ZakelijkeBeheerder")
-                        .IsRequired();
-                });
+                b.Navigation("ZakelijkeBeheerder")
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Voertuig", b =>
-                {
-                    b.Navigation("Verhuuraanvragen");
-                });
+            {
+                b.Navigation("Verhuuraanvragen");
+            });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Huurder", b =>
-                {
-                    b.Navigation("Verhuuraanvragen");
-                });
+            {
+                b.Navigation("Verhuuraanvragen");
+            });
 #pragma warning restore 612, 618
         }
     }
