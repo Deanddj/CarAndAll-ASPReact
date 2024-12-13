@@ -1,4 +1,6 @@
-﻿namespace CarAndAll_ASPReact.Server.Models
+﻿using System.Text.Json.Serialization;
+
+namespace CarAndAll_ASPReact.Server.Models
 {
     public class Verhuuraanvraag
     {
@@ -9,6 +11,8 @@
         public string HuurderId { get; set; }
         public Huurder Huurder { get; set; }
         public int VoertuigId { get; set; }
+
+        [JsonIgnore]
         public Voertuig Voertuig { get; set; }
     }
 }

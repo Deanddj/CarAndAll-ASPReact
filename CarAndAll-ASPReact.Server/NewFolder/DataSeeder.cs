@@ -80,7 +80,7 @@ namespace CarAndAll_ASPReact.Server.NewFolder
 
             value = value.Replace(": ", "").Trim(); // Remove ": " and any surrounding spaces
 
-            Console.WriteLine($"Aanschafjaar string after stripping: '{value}'"); // Debugging: Check the stripped value
+            //Console.WriteLine($"Aanschafjaar string after stripping: '{value}'"); // Debugging: Check the stripped value
 
             int result = 0; // Default value if the conversion fails
             if (int.TryParse(value, out result))

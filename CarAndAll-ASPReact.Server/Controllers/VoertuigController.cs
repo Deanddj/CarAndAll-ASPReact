@@ -27,5 +27,22 @@ namespace CarAndAll_ASPReact.Server.Controllers
             Console.WriteLine("GETREQUEST");
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetVoertuig(int id)
+        {
+            var voertuig = await _context.Voertuigen
+                .Include(v => v.Verhuuraanvragen)
+                .FirstOrDefaultAsync(v => v.VoertuigId == id);
+
+            if (voertuig == null)
+            {
+                // Return een lege object om te voorkomen dat de client een fout krijgt
+                return NotFound(new { message = "Voertuig niet gevonden" });
+            }
+
+            return Ok(voertuig);
+        }
+
+
     }
 }

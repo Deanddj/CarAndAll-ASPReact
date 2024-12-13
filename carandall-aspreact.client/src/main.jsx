@@ -8,6 +8,8 @@ import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Register from './pages/Register.jsx';
 import ProtectedRoute from './pages/ProtectedRoute';
+import RentCar from './pages/RentCar';
+import CarList from './pages/CarList';
 
 const AppWithFooter = () => {
     const location = useLocation();
@@ -27,7 +29,9 @@ const AppWithFooter = () => {
                     }
                 />
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                <Route path="/register" element={<Register />} />\
+                <Route path="/rentCar/:voertuigId" element={<RentCar />} /> 
+
             </Routes>
 
             {!noFooterPaths.includes(location.pathname) && <Footer />}
