@@ -14,7 +14,7 @@ const AccountSection = () => {
     useEffect(() => {
         fetchUserData()
             .then(data => setUserDetails(data))
-            .catch(error => console.error('Error fetching user data:', error));
+            .catch(error => console.error('Fout met het ophalen van gebruikergegevens: ', error));
     }, []);
 
     const handleChange = (e) => {
@@ -80,13 +80,13 @@ const AccountSection = () => {
 
     return (
         <div className="account-section">
-            <h2>Account Details</h2>
+            <h2>Account Gegevens</h2>
             {!isEditing ? (
                 <div>
-                    <p><strong>Name:</strong> {userDetails.naam}</p>
-                    {userDetails.telefoonnummer && <p><strong>Address:</strong> {userDetails.adres}</p>}
+                    <p><strong>Naam:</strong> {userDetails.naam}</p>
+                    {userDetails.telefoonnummer && <p><strong>Adres:</strong> {userDetails.adres}</p>}
                     <p><strong>Email:</strong> {userDetails.userName}</p>
-                    {userDetails.telefoonnummer && <p><strong>Phone Number:</strong> {userDetails.telefoonnummer}</p>}
+                    {userDetails.telefoonnummer && <p><strong>Telefoonnummer:</strong> {userDetails.telefoonnummer}</p>}
                     {userDetails.bedrijf && (
                         <>
                             <p><strong>Bedrijf Naam:</strong> {userDetails.bedrijf.naam}</p>
@@ -94,14 +94,21 @@ const AccountSection = () => {
                             <p><strong>KVK:</strong> {userDetails.bedrijf.kvk}</p>
                         </>
                     )}
-                    <button onClick={() => setIsEditing(true)} style={{ marginRight: '10px', marginTop: '10px' }}>
-                        Edit
+                    <button
+                        onClick={() => {
+                            setUpdatedData(userDetails);
+                            setIsEditing(true);
+                        }}
+                        style={{ marginRight: '10px', marginTop: '10px' }}
+                    >
+                        Bewerken
                     </button>
+
                 </div>
             ) : (
                 <div>
                     <div>
-                        <label>Name:</label>
+                        <label>Naam:</label>
                         <input
                             type="text"
                             name="naam"
@@ -111,7 +118,7 @@ const AccountSection = () => {
                     </div>
                     {userDetails.telefoonnummer && (
                         <div>
-                            <label>Address:</label>
+                            <label>Adres:</label>
                             <input
                                 type="text"
                                 name="adres"
@@ -131,7 +138,7 @@ const AccountSection = () => {
                     </div>
                     {userDetails.telefoonnummer && (
                         <div>
-                            <label>Phone Number:</label>
+                            <label>Telefoonnummer:</label>
                             <input
                                 type="text"
                                 name="telefoonnummer"
@@ -172,18 +179,18 @@ const AccountSection = () => {
                         </>
                     )}
                     <button onClick={handleSave} style={{ marginRight: '10px' }}>
-                        Save
+                        Opslaan
                     </button>
                         <button onClick={() => {
                             setUpdatedData(userDetails);
                             setIsEditing(false);
                         }} style={{ backgroundColor: 'lightgray' }}>
-                        Cancel
+                        Annuleren
                     </button>
                 </div>
             )}
             <button onClick={handleDelete} style={{ backgroundColor: 'red' }}>
-                Delete Account Data
+                Account Verwijderen
             </button>
         </div>
     );

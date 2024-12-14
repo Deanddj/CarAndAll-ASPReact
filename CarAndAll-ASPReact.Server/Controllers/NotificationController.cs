@@ -18,6 +18,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
     {
         private readonly CarAndAllDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly NotificationService _notificationService;
 
         private static readonly List<string> AllowedNotificationTypes = new List<string>
     {
@@ -25,10 +26,11 @@ namespace CarAndAll_ASPReact.Server.Controllers
         "BedrijfVerzoek"
     };
 
-        public NotificationController(CarAndAllDbContext context, UserManager<User> userManager)
+        public NotificationController(CarAndAllDbContext context, UserManager<User> userManager, NotificationService notificationService)
         {
             _context = context;
             _userManager = userManager;
+            _notificationService = notificationService;
         }
 
         [HttpGet]
@@ -51,16 +53,20 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 .OrderByDescending(n => n.CreatedAt)
                 .ToListAsync();
 
+            if (notifications == null || notifications.Count == 0)
+            {
+                return NotFound(new { Message = "Geen notificaties gevonden voor deze gebruiker." });
+            }
+
             return Ok(notifications);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> CreateNotification([FromBody] NotificationDto dto)
         {
             if (!AllowedNotificationTypes.Contains(dto.Type))
             {
-                return BadRequest(new { message = "Type moet een van de volgende zijn: " + AllowedNotificationTypes});
+                return BadRequest(new { Message = "Type moet een van de volgende zijn: " + AllowedNotificationTypes});
             }
 
             var existingRequest = await _context.Notificaties
@@ -68,7 +74,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
             if (existingRequest != null)
             {
-                return BadRequest("A invitation has already been sent to this user.");
+                return BadRequest(new { Message = "A invitation has already been sent to this user." });
             }
 
             var notification = new Notification
@@ -95,7 +101,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
             if (notification == null)
             {
-                return NotFound("Notification not found.");
+                return NotFound(new { Message = "Notification not found." });
             }
 
             var bedrijfId = notification.BedrijfId;
@@ -105,10 +111,10 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
             if (user == null)
             {
-                return NotFound("User with the given email not found.");
+                return NotFound(new { Message = "User with the given email not found." });
             }
 
-            var bedrijf = await _context.Bedrijven.FirstOrDefaultAsync(b => b.BedrijfId == bedrijfId);
+            var bedrijf = await _context.Bedrijven.Include(b => b.ZakelijkeBeheerder).FirstOrDefaultAsync(b => b.BedrijfId == bedrijfId);
 
             if (bedrijf == null)
             {
@@ -122,11 +128,25 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 return BadRequest("The user is not a Huurder.");
             }
 
+            if (huurder.BedrijfId != null)
+            {
+                return BadRequest(new { Message = "Gebruiker is al lid van een bedrijf en kan zich niet aansluiten bij een ander bedrijf." });
+            }
+
+            if (bedrijf.Huurders == null)
+            {
+                bedrijf.Huurders = new List<Huurder>();
+            }
+
             huurder.BedrijfId = bedrijfId; 
             huurder.Bedrijf = bedrijf;
             bedrijf.Huurders.Add(huurder);
 
             await _context.SaveChangesAsync();
+
+            await DeleteNotification(notification.NotificationId);
+            await _notificationService.SendNotificationAsync(email, "Bericht", null, "Verzoek geaccepteerd", $"U heeft de uitnodiging van '{bedrijf.Naam}' geaccepteerd.");
+            await _notificationService.SendNotificationAsync(bedrijf.ZakelijkeBeheerder.Email, "Bericht", null, "Verzoek geaccepteerd", $"{huurder.Naam} ({email}) heeft uw bedrijf uitnodiging geaccepteerd.");
 
             return Ok("User successfully added to the Bedrijf.");
         }
@@ -152,7 +172,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 return NotFound("User with the given email not found.");
             }
 
-            var bedrijf = await _context.Bedrijven.FirstOrDefaultAsync(b => b.BedrijfId == bedrijfId);
+            var bedrijf = await _context.Bedrijven.Include(b => b.ZakelijkeBeheerder).FirstOrDefaultAsync(b => b.BedrijfId == bedrijfId);
 
             if (bedrijf == null)
             {
@@ -166,9 +186,10 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 return BadRequest("The user is not a Huurder.");
             }
 
-            //
-            // Logica om verzoek af te keuren
-            //
+            await DeleteNotification(notification.NotificationId);
+            await _notificationService.SendNotificationAsync(email, "Bericht", null, "Verzoek afgewezen", $"U heeft de uitnodiging van '{bedrijf.Naam}' afgewezen.");
+            await _notificationService.SendNotificationAsync(bedrijf.ZakelijkeBeheerder.Email, "Bericht", null, "Verzoek afgewezen",$"{huurder.Naam} ({email}) heeft uw bedrijf uitnodiging afgewezen.");
+
 
             return Ok("User declined the invite.");
         }
@@ -228,6 +249,34 @@ namespace CarAndAll_ASPReact.Server.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(new { Message = "Alle notifications zijn succesvol verwijderd." });
+        }
+
+        [HttpDelete("{id}/delete")]
+        public async Task<IActionResult> DeleteNotification(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound(new { Message = "Gebruiker niet gevonden." });
+            }
+            
+            var notification = await _context.Notificaties.FirstOrDefaultAsync(n => n.NotificationId == id);
+
+            if (notification == null)
+            {
+                return NotFound(new { Message = "Geen notificaties gevonden." });
+            }
+
+            if (!user.UserName.Equals(notification.Email))
+            {
+                return Unauthorized(new { Message = "Gebruiker heeft geen toegang tot deze informatie." });
+            }
+
+            _context.Notificaties.Remove(notification);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "De notificatie is succesvol verwijderd." });
         }
     }
 }

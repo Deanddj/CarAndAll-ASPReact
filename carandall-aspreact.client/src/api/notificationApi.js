@@ -9,9 +9,21 @@ const postNotification = async (email, type, bedrijfId, title, message) => {
             title,
             message,
         });
-        console.log("Notificacite verstuurd:", response.data);
+
+        console.log("Notificatie verstuurd:", response.data);
+        return {
+            success: true,
+            data: response.data,
+        };
     } catch (error) {
-        console.error("Fout met versturen van notificatie:", error);
+        const errorMessage = error.response ? error.response.data : error.message;
+
+        console.error("Fout met versturen van notificatie:", errorMessage);
+
+        return {
+            success: false,
+            message: errorMessage,
+        };
     }
 };
 

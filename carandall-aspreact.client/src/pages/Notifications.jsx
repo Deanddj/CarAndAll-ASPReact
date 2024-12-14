@@ -30,21 +30,21 @@ const Notifications = () => {
 
     useEffect(() => {
         if (userDetails && userDetails.userName) {
-            const fetchNotifications = async () => {
-                try {
-                    const response = await axios.get(`/api/notifications/`);
-                    setNotifications(response.data);
-                } catch (err) {
-                    console.error("Fout met notificatiedata verkijgen:", err);
-                    setError(err.message);
-                } finally {
-                    setLoading(false);
-                }
-            };
-
             fetchNotifications();
         }
     }, [userDetails]);
+
+    const fetchNotifications = async () => {
+        try {
+            const response = await axios.get(`/api/notifications/`);
+            setNotifications(response.data.$values);;
+        } catch (err) {
+            console.error("Fout met notificatiedata verkrijgen:", err);
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const markAsRead = async (notificationId) => {
         try {
@@ -66,9 +66,9 @@ const Notifications = () => {
         try {
             await axios.put(`/api/notifications/${notificationId}/accept`);
             console.log(`Accepted notification ${notificationId}`);
+            await fetchNotifications();
         } catch (err) {
             console.error("Error accepting notification:", err);
-            setError(err.message);
         }
     };
 
@@ -76,9 +76,9 @@ const Notifications = () => {
         try {
             await axios.put(`/api/notifications/${notificationId}/decline`);
             console.log(`Declined notification ${notificationId}`);
+            await fetchNotifications();
         } catch (err) {
             console.error("Error declining notification:", err);
-            setError(err.message);
         }
     };
 

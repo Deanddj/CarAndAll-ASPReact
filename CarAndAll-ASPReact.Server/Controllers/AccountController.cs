@@ -204,7 +204,9 @@ namespace CarAndAll_ASPReact.Server.Controllers
                     Bedrijf = huurder.Bedrijf != null ? new
                     {
                         huurder.BedrijfId,
-                        huurder.Bedrijf.Kvk
+                        huurder.Bedrijf.Kvk,
+                        huurder.Bedrijf.Adres,
+                        huurder.Bedrijf.Naam
                     } : null
                 });
             }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/CarList.css'; // Zorg ervoor dat je je aangepaste CSS hebt geïmporteerd
 import '../index.css';
@@ -19,8 +19,10 @@ const CarList = () => {
                     throw new Error('Failed to fetch vehicles');
                 }
                 const data = await response.json();
-                setCars(data); // Alle voertuigen opslaan
-                setFilteredCars(data); // Beginnen met alle voertuigen zichtbaar
+
+                const cars = data.$values || [];
+                setCars(cars);
+                setFilteredCars(cars);
             } catch (error) {
                 console.error(error.message);
             }

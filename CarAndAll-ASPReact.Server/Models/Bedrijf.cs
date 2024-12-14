@@ -7,8 +7,8 @@
         public string Adres { get; set; }
         public string Kvk { get; set; }
         public string? Abonnementstype { get; set; }
-        public ICollection<Huurder> Huurders { get; set; } = [];
+        public ICollection<Huurder> Huurders { get; set; }
         public ZakelijkeBeheerder ZakelijkeBeheerder { get; set; }
-        public ICollection<Abonnement> Abonnementen { get; set; } = [];
+        public ICollection<Abonnement> Abonnementen { get; set; }
     }
 }

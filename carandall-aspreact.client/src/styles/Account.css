@@ -1,8 +1,14 @@
 .account-section {
-    padding: 1rem;
-    background-color: #f4f4f4;
+    margin: auto;
+    border: 1px solid #ccc;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    background-color: #f9f9f9;
+    max-width: 700px;
+    width: 100%;
 }
+
 
     .account-section h2 {
         margin-bottom: 1rem;
