@@ -7,6 +7,8 @@ namespace CarAndAll_ASPReact.Server.Models
     {
         [Key]
         public int NotificationId { get; set; }
+        public string Type { get; set; }
+        public int? BedrijfId { get; set; }
         public string Email { get; set; }
         public string Title { get; set; }
         public string Message { get; set; }

@@ -126,7 +126,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
             if (userResult.Succeeded)
             {
-                await _notificationService.SendNotificationAsync(user.Email, "Account registratie", "Uw account is succesvol geregistreerd!");
+                await _notificationService.SendNotificationAsync(user.Email, "Bericht", null, "Account registratie", "Uw account is succesvol geregistreerd!");
                 return Ok(new { Message = "Gebruiker succesvol geregistreerd." });
             }
 
@@ -150,7 +150,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
             if (string.IsNullOrEmpty(userId))
             {
-                return NotFound(new { Message = "User ID komt niet voor in claims." });
+                return NotFound(new { Message = "Gebruiker ID komt niet voor in claims, of gebruiker is niet ingelogd." });
             }
 
             var user = await _userManager.Users
@@ -167,6 +167,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
             {
                 return Ok(new
                 {
+                    zakelijkeBeheerder.Id,
                     Type = nameof(ZakelijkeBeheerder),
                     zakelijkeBeheerder.UserName,
                     zakelijkeBeheerder.Naam,
@@ -183,6 +184,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
             {
                 return Ok(new
                 {
+                    medewerker.Id,
                     Type = nameof(Medewerker),
                     medewerker.UserName,
                     medewerker.Naam,
@@ -193,6 +195,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
             {
                 return Ok(new
                 {
+                    huurder.Id,
                     Type = nameof(Huurder),
                     huurder.UserName,
                     huurder.Naam,
@@ -209,6 +212,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
             {
                 return Ok(new
                 {
+                    user.Id,
                     Type = nameof(User),
                     user.UserName,
                     user.Naam,

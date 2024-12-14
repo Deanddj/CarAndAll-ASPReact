@@ -4,12 +4,15 @@ import CarList from './CarList';
 import '../styles/Dashboard.css';
 import { FaUserCircle } from 'react-icons/fa';
 import Account from './Account.jsx';
+import Bedrijf from './Bedrijf.jsx'
 import Notifications from './Notifications.jsx';
 import axios from 'axios';
+import fetchUserData from '../api/userDataApi';
 
 const Dashboard = () => {
     const location = useLocation();
     const [activeSection, setActiveSection] = useState('home');
+    const [userDetails, setUserDetails] = useState(null);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -19,6 +22,12 @@ const Dashboard = () => {
         }
     }, [location]);
 
+    useEffect(() => {
+        fetchUserData()
+            .then(data => setUserDetails(data))
+            .catch(error => console.error('Error fetching user data:', error));
+    }, []);
+
     const renderSection = () => {
         switch (activeSection) {
             case 'home':
@@ -27,6 +36,8 @@ const Dashboard = () => {
                 return <Notifications />;
             case 'account':
                 return <Account />;
+            case 'bedrijf':
+                return <Bedrijf userDetails={userDetails} />;
             default:
                 return <div className="section">Welcome to the Dashboard!</div>;
         }
@@ -60,7 +71,6 @@ const Dashboard = () => {
                     <a className="navbar-logout" onClick={handleLogout}>Log uit</a>
                     <FaUserCircle className="account-icon" />
                 </div>
-
             </nav>
 
             <aside className="dashboard-sidebar">
@@ -73,6 +83,11 @@ const Dashboard = () => {
                 <button onClick={() => setActiveSection('account')} className={activeSection === 'account' ? 'active' : ''}>
                     Account
                 </button>
+                {userDetails && userDetails.type === 'ZakelijkeBeheerder' && (
+                    <button onClick={() => setActiveSection('bedrijf')} className={activeSection === 'bedrijf' ? 'active' : ''}>
+                        Bedrijf
+                    </button>
+                )}
             </aside>
 
             <main className="dashboard-content">{renderSection()}</main>

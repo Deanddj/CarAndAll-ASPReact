@@ -1,4 +1,4 @@
-using System;
+using CarAndAll_ASPReact.Server.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace CarAndAll_ASPReact.Server.DTOs
@@ -10,11 +10,17 @@ namespace CarAndAll_ASPReact.Server.DTOs
         public string Email { get; set; }
 
         [Required]
-        [MaxLength(100)] // Example: max length constraint for the title
+        [MaxLength(20)]
+        public string Type { get; set; }
+
+        public int? BedrijfId { get; set; }
+
+        [Required]
+        [MaxLength(100)]
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(500)] // Example: max length constraint for the message
+        [MaxLength(500)]
         public string Message { get; set; }
     }
 }

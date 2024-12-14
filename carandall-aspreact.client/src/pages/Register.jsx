@@ -3,18 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Register.css';
 import '../index.css';
 import axios from 'axios';
-import postNotification from "../api/notificationApi.js";
 
 const Register = () => {
     const [email, setEmail] = useState('');
-    const [naam, setNaam] = useState(''); // Added Naam field for User
+    const [naam, setNaam] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [kvk, setKVK] = useState('');
-    const [companyName, setCompanyName] = useState(''); // For ZakelijkeBeheerder
-    const [companyAddress, setCompanyAddress] = useState(''); // For ZakelijkeBeheerder
+    const [companyName, setCompanyName] = useState('');
+    const [companyAddress, setCompanyAddress] = useState('');
     const [accountType, setAccountType] = useState('particulier');
     const navigate = useNavigate();        
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import fetchUserData from '../api/userDataApi';
 import '../styles/Account.css';
 
 axios.defaults.baseURL = 'https://localhost:7159';
@@ -9,24 +10,11 @@ const AccountSection = () => {
     const [userDetails, setUserDetails] = useState(null);
     const [updatedData, setUpdatedData] = useState({});
     const [isEditing, setIsEditing] = useState(false);
-
+    
     useEffect(() => {
-        axios.get('/api/account/isAuthenticated')
-            .then(() => {
-                return axios.get('/api/account/get', { withCredentials: true });
-            })
-            .then(response => {
-                setUserDetails(response.data);
-                setUpdatedData(response.data);
-            })
-            .catch(error => {
-                if (error.response && error.response.status === 401) {
-                    alert('Je moet zijn ingelogd voor deze pagina.');
-                    window.location.href = '/login';
-                } else {
-                    console.error('Fout met het verkrijgen van gebruikersdata:', error);
-                }
-            });
+        fetchUserData()
+            .then(data => setUserDetails(data))
+            .catch(error => console.error('Error fetching user data:', error));
     }, []);
 
     const handleChange = (e) => {

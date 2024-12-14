@@ -4,6 +4,7 @@ using Humanizer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -17,6 +18,12 @@ namespace CarAndAll_ASPReact.Server.Controllers
     {
         private readonly CarAndAllDbContext _context;
         private readonly UserManager<User> _userManager;
+
+        private static readonly List<string> AllowedNotificationTypes = new List<string>
+    {
+        "Bericht",
+        "BedrijfVerzoek"
+    };
 
         public NotificationController(CarAndAllDbContext context, UserManager<User> userManager)
         {
@@ -51,9 +58,24 @@ namespace CarAndAll_ASPReact.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNotification([FromBody] NotificationDto dto)
         {
+            if (!AllowedNotificationTypes.Contains(dto.Type))
+            {
+                return BadRequest(new { message = "Type moet een van de volgende zijn: " + AllowedNotificationTypes});
+            }
+
+            var existingRequest = await _context.Notificaties
+        .FirstOrDefaultAsync(n => n.Type == "BedrijfVerzoek" && n.Email == dto.Email);
+
+            if (existingRequest != null)
+            {
+                return BadRequest("A invitation has already been sent to this user.");
+            }
+
             var notification = new Notification
             {
                 Email = dto.Email,
+                Type = dto.Type,
+                BedrijfId = dto.BedrijfId,
                 Title = dto.Title,
                 Message = dto.Message,
                 IsRead = false,
@@ -64,6 +86,93 @@ namespace CarAndAll_ASPReact.Server.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetNotifications), new { email = notification.Email }, notification);
         }
+
+        [HttpPut("{id}/accept")]
+        public async Task<IActionResult> AcceptInvitation(int id)
+        {
+            var notification = await _context.Notificaties
+                .FirstOrDefaultAsync(n => n.NotificationId == id);
+
+            if (notification == null)
+            {
+                return NotFound("Notification not found.");
+            }
+
+            var bedrijfId = notification.BedrijfId;
+            var email = notification.Email;
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return NotFound("User with the given email not found.");
+            }
+
+            var bedrijf = await _context.Bedrijven.FirstOrDefaultAsync(b => b.BedrijfId == bedrijfId);
+
+            if (bedrijf == null)
+            {
+                return NotFound("Bedrijf not found.");
+            }
+
+            var huurder = user as Huurder;
+
+            if (huurder == null)
+            {
+                return BadRequest("The user is not a Huurder.");
+            }
+
+            huurder.BedrijfId = bedrijfId; 
+            huurder.Bedrijf = bedrijf;
+            bedrijf.Huurders.Add(huurder);
+
+            await _context.SaveChangesAsync();
+
+            return Ok("User successfully added to the Bedrijf.");
+        }
+
+        [HttpPut("{id}/decline")]
+        public async Task<IActionResult> DeclineInvitation(int id)
+        {
+            var notification = await _context.Notificaties
+                .FirstOrDefaultAsync(n => n.NotificationId == id);
+
+            if (notification == null)
+            {
+                return NotFound("Notification not found.");
+            }
+
+            var bedrijfId = notification.BedrijfId;
+            var email = notification.Email;
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return NotFound("User with the given email not found.");
+            }
+
+            var bedrijf = await _context.Bedrijven.FirstOrDefaultAsync(b => b.BedrijfId == bedrijfId);
+
+            if (bedrijf == null)
+            {
+                return NotFound("Bedrijf not found.");
+            }
+
+            var huurder = user as Huurder;
+
+            if (huurder == null)
+            {
+                return BadRequest("The user is not a Huurder.");
+            }
+
+            //
+            // Logica om verzoek af te keuren
+            //
+
+            return Ok("User declined the invite.");
+        }
+
 
         [HttpPut("{id}/mark-read")]
         public async Task<IActionResult> MarkNotificationAsRead(int id)

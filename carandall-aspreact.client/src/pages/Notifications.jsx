@@ -10,6 +10,7 @@ const Notifications = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [userDetails, setUserDetails] = useState(null);
+    const [openNotificationId, setOpenNotificationId] = useState(null);
 
     useEffect(() => {
         axios.get('/api/account/get', { withCredentials: true })
@@ -61,6 +62,33 @@ const Notifications = () => {
         }
     };
 
+    const handleAccept = async (notificationId) => {
+        try {
+            await axios.put(`/api/notifications/${notificationId}/accept`);
+            console.log(`Accepted notification ${notificationId}`);
+        } catch (err) {
+            console.error("Error accepting notification:", err);
+            setError(err.message);
+        }
+    };
+
+    const handleDecline = async (notificationId) => {
+        try {
+            await axios.put(`/api/notifications/${notificationId}/decline`);
+            console.log(`Declined notification ${notificationId}`);
+        } catch (err) {
+            console.error("Error declining notification:", err);
+            setError(err.message);
+        }
+    };
+
+    const handleToggleNotification = (notificationId) => {
+        setOpenNotificationId(prev => (prev === notificationId ? null : notificationId));
+        if (openNotificationId !== notificationId) {
+            markAsRead(notificationId);
+        }
+    };
+
     if (loading) {
         return <p>Loading notifications...</p>;
     }
@@ -81,12 +109,39 @@ const Notifications = () => {
                     <li
                         key={notification.notificationId}
                         className={`notification-item ${notification.isRead ? 'read' : 'unread'}`}
-                        onClick={() => !notification.isRead && markAsRead(notification.notificationId)}
+                        onClick={() => handleToggleNotification(notification.notificationId)}
                     >
                         <h3 className={notification.isRead ? 'read-title' : 'unread-title'}>
                             {notification.title}
                         </h3>
-                        {notification.isRead && <p>{notification.message}</p>}
+                        {notification.isRead && openNotificationId === notification.notificationId && notification.type === "Bericht" && (
+                            <p>{notification.message}</p>
+                        )}
+                        {notification.isRead && openNotificationId === notification.notificationId && notification.type === "BedrijfVerzoek" && (
+                            <div>
+                                <p>{notification.message}</p>
+                                <div className="buttons-container">
+                                    <button
+                                        className="accept-button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAccept(notification.notificationId);
+                                        }}
+                                    >
+                                        Accept
+                                    </button>
+                                    <button
+                                        className="decline-button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDecline(notification.notificationId);
+                                        }}
+                                    >
+                                        Decline
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                         <small>{new Date(notification.createdAt).toLocaleString()}</small>
                     </li>
                 ))}

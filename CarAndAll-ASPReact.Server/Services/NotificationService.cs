@@ -12,11 +12,13 @@ public class NotificationService
         _httpClient = httpClient;
     }
 
-    public async Task SendNotificationAsync(string email, string title, string message)
+    public async Task SendNotificationAsync(string email, string type, int? bedrijf, string title, string message)
     {
         var payload = new
         {
             email,
+            type,
+            bedrijf,
             title,
             message
         };
