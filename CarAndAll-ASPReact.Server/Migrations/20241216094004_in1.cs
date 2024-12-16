@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class in1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,6 +47,8 @@ namespace CarAndAll_ASPReact.Server.Migrations
                 {
                     NotificationId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Type = table.Column<string>(type: "TEXT", nullable: false),
+                    BedrijfId = table.Column<int>(type: "INTEGER", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: false),
                     Message = table.Column<string>(type: "TEXT", nullable: false),
@@ -58,24 +60,24 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     table.PrimaryKey("PK_Notificaties", x => x.NotificationId);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Voertuigen",
-                columns: table => new
-                {
-                    VoertuigId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Soort = table.Column<string>(type: "TEXT", nullable: false),
-                    Merk = table.Column<string>(type: "TEXT", nullable: false),
-                    Type = table.Column<string>(type: "TEXT", nullable: false),
-                    Kenteken = table.Column<string>(type: "TEXT", nullable: false),
-                    Kleur = table.Column<string>(type: "TEXT", nullable: false),
-                    Aanschafjaar = table.Column<int>(type: "INTEGER", nullable: true),
-                    Status = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Voertuigen", x => x.VoertuigId);
-                });
+            //migrationBuilder.CreateTable(
+            //    name: "Voertuigen",
+            //    columns: table => new
+            //    {
+            //        VoertuigId = table.Column<int>(type: "INTEGER", nullable: false)
+            //            .Annotation("Sqlite:Autoincrement", true),
+            //        Soort = table.Column<string>(type: "TEXT", nullable: false),
+            //        Merk = table.Column<string>(type: "TEXT", nullable: false),
+            //        Type = table.Column<string>(type: "TEXT", nullable: false),
+            //        Kenteken = table.Column<string>(type: "TEXT", nullable: false),
+            //        Kleur = table.Column<string>(type: "TEXT", nullable: false),
+            //        Aanschafjaar = table.Column<int>(type: "INTEGER", nullable: true),
+            //        Status = table.Column<string>(type: "TEXT", nullable: false)
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_Voertuigen", x => x.VoertuigId);
+            //    });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -247,34 +249,34 @@ namespace CarAndAll_ASPReact.Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Verhuuraanvragen",
-                columns: table => new
-                {
-                    VerhuuraanvraagId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Startdatum = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Einddatum = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Status = table.Column<string>(type: "TEXT", nullable: false),
-                    HuurderId = table.Column<string>(type: "TEXT", nullable: false),
-                    VoertuigId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Verhuuraanvragen", x => x.VerhuuraanvraagId);
-                    table.ForeignKey(
-                        name: "FK_Verhuuraanvragen_AspNetUsers_HuurderId",
-                        column: x => x.HuurderId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Verhuuraanvragen_Voertuigen_VoertuigId",
-                        column: x => x.VoertuigId,
-                        principalTable: "Voertuigen",
-                        principalColumn: "VoertuigId",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            //migrationBuilder.CreateTable(
+            //    name: "Verhuuraanvragen",
+            //    columns: table => new
+            //    {
+            //        VerhuuraanvraagId = table.Column<int>(type: "INTEGER", nullable: false)
+            //            .Annotation("Sqlite:Autoincrement", true),
+            //        Startdatum = table.Column<DateTime>(type: "TEXT", nullable: false),
+            //        Einddatum = table.Column<DateTime>(type: "TEXT", nullable: false),
+            //        Status = table.Column<string>(type: "TEXT", nullable: false),
+            //        HuurderId = table.Column<string>(type: "TEXT", nullable: false),
+            //        VoertuigId = table.Column<int>(type: "INTEGER", nullable: false)
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_Verhuuraanvragen", x => x.VerhuuraanvraagId);
+            //        table.ForeignKey(
+            //            name: "FK_Verhuuraanvragen_AspNetUsers_HuurderId",
+            //            column: x => x.HuurderId,
+            //            principalTable: "AspNetUsers",
+            //            principalColumn: "Id",
+            //            onDelete: ReferentialAction.Cascade);
+            //        table.ForeignKey(
+            //            name: "FK_Verhuuraanvragen_Voertuigen_VoertuigId",
+            //            column: x => x.VoertuigId,
+            //            principalTable: "Voertuigen",
+            //            principalColumn: "VoertuigId",
+            //            onDelete: ReferentialAction.Cascade);
+            //    });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Abonnementen_BedrijfId",
@@ -329,15 +331,15 @@ namespace CarAndAll_ASPReact.Server.Migrations
                 column: "NormalizedUserName",
                 unique: true);
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Verhuuraanvragen_HuurderId",
-                table: "Verhuuraanvragen",
-                column: "HuurderId");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_Verhuuraanvragen_HuurderId",
+            //    table: "Verhuuraanvragen",
+            //    column: "HuurderId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Verhuuraanvragen_VoertuigId",
-                table: "Verhuuraanvragen",
-                column: "VoertuigId");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_Verhuuraanvragen_VoertuigId",
+            //    table: "Verhuuraanvragen",
+            //    column: "VoertuigId");
         }
 
         /// <inheritdoc />

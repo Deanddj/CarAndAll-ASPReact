@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.CodeAnalysis.Editing;
+using NuGet.Protocol;
 
 namespace CarAndAll_ASPReact.Server.Controllers
 {
@@ -130,7 +131,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 return Ok(new { Message = "Gebruiker succesvol geregistreerd." });
             }
 
-            return BadRequest(userResult.Errors);
+            return BadRequest(userResult.ToJson());
         }
 
 
