@@ -1,6 +1,3 @@
-/* RentCar.css */
-
-/* Algemene container voor de RentCar-pagina */
 .rent-car-container {
     width: 90%;
     max-width: 1200px;
@@ -11,21 +8,12 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-    /* Titel styling */
     .rent-car-container h2 {
         font-size: 24px;
         color: #333;
         margin-bottom: 20px;
     }
 
-/* Sectie layout */
-.rent-car-sections {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-/* Specifieke styling voor voertuiginformatie */
 .vehicle-info {
     flex: 1;
     background-color: #fff;
@@ -34,19 +22,13 @@
     border-radius: 8px;
 }
 
-    .vehicle-info h3 {
-        margin-top: 0;
-        color: #555;
-    }
-
     .vehicle-info p {
         margin: 10px 0;
         font-size: 16px;
         color: #666;
     }
 
-/* Overzicht van gehuurde periodes */
-.rental-periods {
+.rental-overview {
     background-color: #fff;
     padding: 20px;
     border: 1px solid #ddd;
@@ -54,21 +36,28 @@
     margin-top: 20px;
 }
 
-    .rental-periods h3 {
+    .rental-overview h3 {
         color: #555;
+        margin-bottom: 15px;
     }
 
-    .rental-periods ul {
-        list-style-type: none;
+    .rental-overview ul {
+        list-style: none;
         padding: 0;
+        margin: 0;
     }
 
-    .rental-periods li {
+    .rental-overview li {
         font-size: 16px;
         color: #666;
+        padding: 8px 0;
+        border-bottom: 1px solid #ddd;
     }
 
-/* Formuliervelden styling */
+        .rental-overview li:last-child {
+            border-bottom: none;
+        }
+
 .rental-form {
     margin-top: 20px;
 }
@@ -102,9 +91,8 @@
             background-color: #f78d47;
         }
 
-/* Mobielvriendelijke layout */
 @media (max-width: 768px) {
-    .rent-car-sections {
-        flex-direction: column;
+    .rent-car-container {
+        padding: 15px;
     }
 }

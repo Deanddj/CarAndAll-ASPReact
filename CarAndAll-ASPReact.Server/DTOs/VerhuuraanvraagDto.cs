@@ -6,4 +6,5 @@
         public DateTime Einddatum { get; set; }
         public int VoertuigId { get; set; }
     }
+
 }

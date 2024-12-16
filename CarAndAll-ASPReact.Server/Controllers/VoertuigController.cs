@@ -36,7 +36,6 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
             if (voertuig == null)
             {
-                // Return een lege object om te voorkomen dat de client een fout krijgt
                 return NotFound(new { message = "Voertuig niet gevonden" });
             }
 

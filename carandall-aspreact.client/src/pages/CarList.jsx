@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/CarList.css'; // Zorg ervoor dat je je aangepaste CSS hebt geïmporteerd
+import '../styles/CarList.css';
 import '../index.css';
 
 const CarList = () => {
-    const [cars, setCars] = useState([]); // Opslag voor alle auto's
-    const [filteredCars, setFilteredCars] = useState([]); // Opslag voor gefilterde auto's
-    const [statusFilter, setStatusFilter] = useState('All'); // Huidige status filterwaarde
-    const [typeFilter, setTypeFilter] = useState('All'); // Huidige soort filterwaarde
+    const [cars, setCars] = useState([]);
+    const [filteredCars, setFilteredCars] = useState([]);
+    const [statusFilter, setStatusFilter] = useState('All');
+    const [typeFilter, setTypeFilter] = useState('All');
     const navigate = useNavigate();
 
-    // Fetch voertuigen van de server
     useEffect(() => {
         const fetchCars = async () => {
             try {
-                const response = await fetch('https://localhost:7159/api/voertuig');
+                const response = await fetch('https://localhost:7159/api/verhuuraanvragen/voertuigen/met-aanvragen');
                 if (!response.ok) {
-                    throw new Error('Failed to fetch vehicles');
+                    throw new Error('Failed to fetch vehicles with rental data');
                 }
                 const data = await response.json();
-                setCars(data); // Alle voertuigen opslaan
-                setFilteredCars(data); // Beginnen met alle voertuigen zichtbaar
+                setCars(data);
+                setFilteredCars(data);
             } catch (error) {
                 console.error(error.message);
             }
@@ -29,10 +28,14 @@ const CarList = () => {
         fetchCars();
     }, []);
 
-    // Functie om filters te verwerken
     const handleFilterChange = () => {
         const filtered = cars.filter((car) => {
-            const matchesStatus = statusFilter === 'All' || car.status === statusFilter;
+            const matchesStatus =
+                statusFilter === 'All' ||
+                (statusFilter === 'Verhuurd' && car.heeftGoedgekeurdeAanvraag) ||
+                (statusFilter === 'Beschikbaar' && !car.heeftGoedgekeurdeAanvraag && car.status === 'Beschikbaar') ||
+                (statusFilter === car.status);
+
             const matchesType = typeFilter === 'All' || car.soort === typeFilter;
 
             return matchesStatus && matchesType;
@@ -49,7 +52,6 @@ const CarList = () => {
         setTypeFilter(event.target.value);
     };
 
-    // Pas de filters toe bij elke wijziging
     useEffect(() => {
         handleFilterChange();
     }, [statusFilter, typeFilter]);
@@ -58,9 +60,7 @@ const CarList = () => {
         <div className="car-list">
             <h2>Voertuigen Te Huur</h2>
 
-            {/* Container voor de filters */}
             <div className="filter-container">
-                {/* Status filter */}
                 <div>
                     <label htmlFor="status-filter">Filter Op Status:</label>
                     <select id="status-filter" value={statusFilter} onChange={handleStatusFilterChange}>
@@ -71,7 +71,6 @@ const CarList = () => {
                     </select>
                 </div>
 
-                {/* Soort filter */}
                 <div>
                     <label htmlFor="type-filter">Filter Op Type Voertuig:</label>
                     <select id="type-filter" value={typeFilter} onChange={handleTypeFilterChange}>
@@ -83,19 +82,18 @@ const CarList = () => {
                 </div>
             </div>
 
-            {/* Gefilterde lijst van auto's */}
             <div className="car-items">
                 {filteredCars.map((car) => (
                     <div key={car.voertuigId} className="car-item">
                         <h3>{car.merk} {car.type}</h3>
                         <p>Kleur: {car.kleur}</p>
                         <p>Kenteken: {car.kenteken}</p>
-                        <p>Status: {car.status}</p>
+                        <p>Status: {car.heeftGoedgekeurdeAanvraag ? 'Verhuurd' : car.status}</p>
                         {car.aanschafjaar && <p>Aanschafjaar: {car.aanschafjaar}</p>}
                         <p>Soort: {car.soort}</p>
                         <button
                             onClick={() => {
-                                console.log("Navigating to ID:", car.voertuigId); // Controleer de waarde
+                                console.log("Navigating to ID:", car.voertuigId);
                                 navigate(`/rentCar/${car.voertuigId}`);
                             }}
                         >
