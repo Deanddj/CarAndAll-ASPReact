@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using CarAndAll_ASPReact.Server.DTOs;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -22,11 +24,18 @@ public class VerhuuraanvragenController : ControllerBase
     public IActionResult GetVerhuurAanvragenVoorVoertuig(int voertuigId)
     {
         var verhuuraanvragen = _context.Verhuuraanvragen
-            .Where(va => va.VoertuigId == voertuigId && va.Status == "Goedgekeurd")
+            .Where(va => va.VoertuigId == voertuigId && va.Status == "Goedgekeurd") //HANDMATIG NAAR GOEDGEKEURD IN DATBASE ZETTEN
             .Select(va => new { va.Startdatum, va.Einddatum })
             .ToList();
 
-        return Ok(verhuuraanvragen);
+        if (verhuuraanvragen.Any())
+        {
+            Console.WriteLine("Diddy loves you");
+        }
+        else {
+            Console.WriteLine("Diddy not love you");
+        }
+     return Ok(verhuuraanvragen);
     }
 
     [HttpGet("voertuigen/met-aanvragen")]
@@ -44,6 +53,7 @@ public class VerhuuraanvragenController : ControllerBase
                 v.Kleur,
                 v.Aanschafjaar,
                 v.Status,
+                v.Prijs,
                 HeeftGoedgekeurdeAanvraag = v.Verhuuraanvragen.Any(va => va.Status == "Goedgekeurd")
             })
             .ToList();
@@ -59,10 +69,10 @@ public class VerhuuraanvragenController : ControllerBase
         Console.WriteLine("Diddy joined the party");
         try
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            //var huurderId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "fe00217b-090c-4cf6-81cf-d0b1f56c1fc9";
-/*            Console.WriteLine("Hardcoded: fe00217b-090c-4cf6-81cf-d0b1f56c1fc9");
-            Console.WriteLine($"Huurderid is: {huurderId}");*/
+            //var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "da0f3284-095e-4ef9-9772-1e98837b4361";
+            /*            Console.WriteLine("Hardcoded: fe00217b-090c-4cf6-81cf-d0b1f56c1fc9");
+                        Console.WriteLine($"Huurderid is: {huurderId}");*/
 
 
             Console.WriteLine("Ontvangen VerhuuraanvraagDto:");

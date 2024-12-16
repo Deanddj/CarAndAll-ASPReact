@@ -1,60 +1,60 @@
-﻿Merk: Toyota, Type: Corolla, Kenteken: AB-123-CD, Kleur: Rood, Aanschafjaar: 2018, Soort: Auto
-Merk: Ford, Type: Focus, Kenteken: EF-456-GH, Kleur: Blauw, Aanschafjaar: 2019, Soort: Auto
-Merk: Volkswagen, Type: Golf, Kenteken: IJ-789-KL, Kleur: Zwart, Aanschafjaar: 2020, Soort: Auto
-Merk: Honda, Type: Civic, Kenteken: MN-012-OP, Kleur: Wit, Aanschafjaar: 2017, Soort: Auto
-Merk: BMW, Type: 3 Serie, Kenteken: QR-345-ST, Kleur: Grijs, Aanschafjaar: 2021, Soort: Auto
-Merk: Audi, Type: A4, Kenteken: UV-678-WX, Kleur: Zilver, Aanschafjaar: 2016, Soort: Auto
-Merk: Mercedes, Type: C-Klasse, Kenteken: YZ-901-AB, Kleur: Blauw, Aanschafjaar: 2022, Soort: Auto
-Merk: Nissan, Type: Qashqai, Kenteken: CD-234-EF, Kleur: Groen, Aanschafjaar: 2015, Soort: Auto
-Merk: Peugeot, Type: 208, Kenteken: GH-567-IJ, Kleur: Rood, Aanschafjaar: 2021, Soort: Auto
-Merk: Renault, Type: Clio, Kenteken: KL-890-MN, Kleur: Zwart, Aanschafjaar: 2018, Soort: Auto
-Merk: Hobby, Type: De Luxe, Kenteken: OP-123-QR, Kleur: Wit, Aanschafjaar: 2017, Soort: Auto
-Merk: Fendt, Type: Bianco, Kenteken: ST-456-UV, Kleur: Grijs, Aanschafjaar: 2018, Soort: Auto
-Merk: Knaus, Type: Sport, Kenteken: WX-789-YZ, Kleur: Blauw, Aanschafjaar: 2019, Soort: Auto
-Merk: Dethleffs, Type: Camper, Kenteken: AB-012-CD, Kleur: Groen, Aanschafjaar: 2016, Soort: Auto
-Merk: Adria, Type: Altea, Kenteken: EF-345-GH, Kleur: Zilver, Aanschafjaar: 2020, Soort: Auto
-Merk: Eriba, Type: Touring, Kenteken: IJ-678-KL, Kleur: Rood, Aanschafjaar: 2015, Soort: Auto
-Merk: Tabbert, Type: Puccini, Kenteken: MN-901-OP, Kleur: Zwart, Aanschafjaar: 2021, Soort: Auto
-Merk: Burstner, Type: Premio, Kenteken: QR-234-ST, Kleur: Wit, Aanschafjaar: 2019, Soort: Auto
-Merk: LMC, Type: Musica, Kenteken: UV-567-WX, Kleur: Blauw, Aanschafjaar: 2018, Soort: Auto
-Merk: Sprite, Type: Cruzer, Kenteken: YZ-890-AB, Kleur: Grijs, Aanschafjaar: 2022, Soort: Auto
-Merk: Hobby, Type: De Luxe, Kenteken: AB-123-CD, Kleur: Wit, Aanschafjaar: 2018, Soort: Caravan
-Merk: Fendt, Type: Bianco, Kenteken: EF-456-GH, Kleur: Grijs, Aanschafjaar: 2019, Soort: Caravan
-Merk: Knaus, Type: Sport, Kenteken: IJ-789-KL, Kleur: Blauw, Aanschafjaar: 2020, Soort: Caravan
-Merk: Adria, Type: Altea, Kenteken: MN-012-OP, Kleur: Zilver, Aanschafjaar: 2017, Soort: Caravan
-Merk: Dethleffs, Type: Camper, Kenteken: QR-345-ST, Kleur: Groen, Aanschafjaar: 2021, Soort: Caravan
-Merk: Tabbert, Type: Puccini, Kenteken: UV-678-WX, Kleur: Zwart, Aanschafjaar: 2016, Soort: Caravan
-Merk: Burstner, Type: Premio, Kenteken: YZ-901-AB, Kleur: Wit, Aanschafjaar: 2022, Soort: Caravan
-Merk: LMC, Type: Musica, Kenteken: CD-234-EF, Kleur: Blauw, Aanschafjaar: 2015, Soort: Caravan
-Merk: Sprite, Type: Cruzer, Kenteken: GH-567-IJ, Kleur: Rood, Aanschafjaar: 2021, Soort: Caravan
-Merk: Bailey, Type: Unicorn, Kenteken: KL-890-MN, Kleur: Grijs, Aanschafjaar: 2018, Soort: Caravan
-Merk: Lunar, Type: Clubman, Kenteken: OP-123-QR, Kleur: Zilver, Aanschafjaar: 2017, Soort: Caravan
-Merk: SwiŌ, Type: Conqueror, Kenteken: ST-456-UV, Kleur: Blauw, Aanschafjaar: 2019, Soort: Caravan
-Merk: Compass, Type: Casita, Kenteken: WX-789-YZ, Kleur: Groen, Aanschafjaar: 2020, Soort: Caravan
-Merk: Coachman, Type: VIP, Kenteken: AB-012-CD, Kleur: Rood, Aanschafjaar: 2016, Soort: Caravan
-Merk: Buccaneer, Type: Commodore, Kenteken: EF-345-GH, Kleur: Zwart, Aanschafjaar: 2018, Soort: Caravan
-Merk: Caravelair, Type: Allegra, Kenteken: IJ-678-KL, Kleur: Wit, Aanschafjaar: 2021, Soort: Caravan
-Merk: Sterckeman, Type: Starlet, Kenteken: MN-901-OP, Kleur: Zilver, Aanschafjaar: 2020, Soort: Caravan
-Merk: Tab, Type: 320, Kenteken: QR-234-ST, Kleur: Blauw, Aanschafjaar: 2019, Soort: Caravan
-Merk: Eriba, Type: Touring, Kenteken: UV-567-WX, Kleur: Grijs, Aanschafjaar: 2022, Soort: Caravan
-Merk: Adria, Type: Action, Kenteken: YZ-890-AB, Kleur: Rood, Aanschafjaar: 2017, Soort: Caravan
-Merk: Volkswagen, Type: California, Kenteken: AB-123-CD, Kleur: Rood, Aanschafjaar: 2018, Soort: Camper
-Merk: Mercedes, Type: Marco Polo, Kenteken: EF-456-GH, Kleur: Zilver, Aanschafjaar: 2019, Soort: Camper
-Merk: Ford, Type: Transit Custom, Kenteken: IJ-789-KL, Kleur: Blauw, Aanschafjaar: 2020, Soort: Camper
-Merk: Fiat, Type: Ducato, Kenteken: MN-012-OP, Kleur: Wit, Aanschafjaar: 2017, Soort: Camper
-Merk: Citroën, Type: Jumper, Kenteken: QR-345-ST, Kleur: Grijs, Aanschafjaar: 2021, Soort: Camper
-Merk: Peugeot, Type: Boxer, Kenteken: UV-678-WX, Kleur: Zwart, Aanschafjaar: 2016, Soort: Camper
-Merk: Renault, Type: Master, Kenteken: YZ-901-AB, Kleur: Groen, Aanschafjaar: 2022, Soort: Camper
-Merk: Nissan, Type: NV400, Kenteken: CD-234-EF, Kleur: Blauw, Aanschafjaar: 2015, Soort: Camper
-Merk: Opel, Type: Movano, Kenteken: GH-567-IJ, Kleur: Zilver, Aanschafjaar: 2021, Soort: Camper
-Merk: Iveco, Type: Daily, Kenteken: KL-890-MN, Kleur: Rood, Aanschafjaar: 2018, Soort: Camper
-Merk: Volkswagen, Type: Grand California, Kenteken: OP-123-QR, Kleur: Wit, Aanschafjaar: 2017, Soort: Camper
-Merk: Mercedes, Type: Sprinter, Kenteken: ST-456-UV, Kleur: Blauw, Aanschafjaar: 2019, Soort: Camper
-Merk: Ford, Type: Nugget, Kenteken: WX-789-YZ, Kleur: Zwart, Aanschafjaar: 2020, Soort: Camper
-Merk: Fiat, Type: Talento, Kenteken: AB-012-CD, Kleur: Groen, Aanschafjaar: 2016, Soort: Camper
-Merk: Citroën, Type: SpaceTourer, Kenteken: EF-345-GH, Kleur: Rood, Aanschafjaar: 2018, Soort: Camper
-Merk: Peugeot, Type: Traveller, Kenteken: IJ-678-KL, Kleur: Zwart, Aanschafjaar: 2021, Soort: Camper
-Merk: Renault, Type: Trafic, Kenteken: MN-901-OP, Kleur: Wit, Aanschafjaar: 2020, Soort: Camper
-Merk: Nissan, Type: Primastar, Kenteken: QR-234-ST, Kleur: Zilver, Aanschafjaar: 2019, Soort: Camper
-Merk: Opel, Type: Vivaro, Kenteken: UV-567-WX, Kleur: Grijs, Aanschafjaar: 2022, Soort: Camper
-Merk: Iveco, Type: Eurocargo, Kenteken: YZ-890-AB, Kleur: Zwart, Aanschafjaar: 2017, Soort: Camper
+﻿Merk: Toyota, Type: Corolla, Kenteken: AB-123-CD, Kleur: Rood, Aanschafjaar: 2018, Soort: Auto, Prijs: 50.00
+Merk: Ford, Type: Focus, Kenteken: EF-456-GH, Kleur: Blauw, Aanschafjaar: 2019, Soort: Auto, Prijs: 50.00
+Merk: Volkswagen, Type: Golf, Kenteken: IJ-789-KL, Kleur: Zwart, Aanschafjaar: 2020, Soort: Auto, Prijs: 50.00
+Merk: Honda, Type: Civic, Kenteken: MN-012-OP, Kleur: Wit, Aanschafjaar: 2017, Soort: Auto, Prijs: 50.00
+Merk: BMW, Type: 3 Serie, Kenteken: QR-345-ST, Kleur: Grijs, Aanschafjaar: 2021, Soort: Auto, Prijs: 50.00
+Merk: Audi, Type: A4, Kenteken: UV-678-WX, Kleur: Zilver, Aanschafjaar: 2016, Soort: Auto, Prijs: 50.00
+Merk: Mercedes, Type: C-Klasse, Kenteken: YZ-901-AB, Kleur: Blauw, Aanschafjaar: 2022, Soort: Auto, Prijs: 50.00
+Merk: Nissan, Type: Qashqai, Kenteken: CD-234-EF, Kleur: Groen, Aanschafjaar: 2015, Soort: Auto, Prijs: 50.00
+Merk: Peugeot, Type: 208, Kenteken: GH-567-IJ, Kleur: Rood, Aanschafjaar: 2021, Soort: Auto, Prijs: 50.00
+Merk: Renault, Type: Clio, Kenteken: KL-890-MN, Kleur: Zwart, Aanschafjaar: 2018, Soort: Auto, Prijs: 50.00
+Merk: Hobby, Type: De Luxe, Kenteken: OP-123-QR, Kleur: Wit, Aanschafjaar: 2017, Soort: Auto, Prijs: 50.00
+Merk: Fendt, Type: Bianco, Kenteken: ST-456-UV, Kleur: Grijs, Aanschafjaar: 2018, Soort: Auto, Prijs: 50.00
+Merk: Knaus, Type: Sport, Kenteken: WX-789-YZ, Kleur: Blauw, Aanschafjaar: 2019, Soort: Auto, Prijs: 50.00
+Merk: Dethleffs, Type: Camper, Kenteken: AB-012-CD, Kleur: Groen, Aanschafjaar: 2016, Soort: Auto, Prijs: 50.00
+Merk: Adria, Type: Altea, Kenteken: EF-345-GH, Kleur: Zilver, Aanschafjaar: 2020, Soort: Auto, Prijs: 50.00
+Merk: Eriba, Type: Touring, Kenteken: IJ-678-KL, Kleur: Rood, Aanschafjaar: 2015, Soort: Auto, Prijs: 50.00
+Merk: Tabbert, Type: Puccini, Kenteken: MN-901-OP, Kleur: Zwart, Aanschafjaar: 2021, Soort: Auto, Prijs: 50.00
+Merk: Burstner, Type: Premio, Kenteken: QR-234-ST, Kleur: Wit, Aanschafjaar: 2019, Soort: Auto, Prijs: 50.00
+Merk: LMC, Type: Musica, Kenteken: UV-567-WX, Kleur: Blauw, Aanschafjaar: 2018, Soort: Auto, Prijs: 50.00
+Merk: Sprite, Type: Cruzer, Kenteken: YZ-890-AB, Kleur: Grijs, Aanschafjaar: 2022, Soort: Auto, Prijs: 50.00
+Merk: Hobby, Type: De Luxe, Kenteken: AB-123-CD, Kleur: Wit, Aanschafjaar: 2018, Soort: Caravan, Prijs: 40.00
+Merk: Fendt, Type: Bianco, Kenteken: EF-456-GH, Kleur: Grijs, Aanschafjaar: 2019, Soort: Caravan, Prijs: 40.00
+Merk: Knaus, Type: Sport, Kenteken: IJ-789-KL, Kleur: Blauw, Aanschafjaar: 2020, Soort: Caravan, Prijs: 40.00
+Merk: Adria, Type: Altea, Kenteken: MN-012-OP, Kleur: Zilver, Aanschafjaar: 2017, Soort: Caravan, Prijs: 40.00
+Merk: Dethleffs, Type: Camper, Kenteken: QR-345-ST, Kleur: Groen, Aanschafjaar: 2021, Soort: Caravan, Prijs: 40.00
+Merk: Tabbert, Type: Puccini, Kenteken: UV-678-WX, Kleur: Zwart, Aanschafjaar: 2016, Soort: Caravan, Prijs: 40.00
+Merk: Burstner, Type: Premio, Kenteken: YZ-901-AB, Kleur: Wit, Aanschafjaar: 2022, Soort: Caravan, Prijs: 40.00
+Merk: LMC, Type: Musica, Kenteken: CD-234-EF, Kleur: Blauw, Aanschafjaar: 2015, Soort: Caravan, Prijs: 40.00
+Merk: Sprite, Type: Cruzer, Kenteken: GH-567-IJ, Kleur: Rood, Aanschafjaar: 2021, Soort: Caravan, Prijs: 40.00
+Merk: Bailey, Type: Unicorn, Kenteken: KL-890-MN, Kleur: Grijs, Aanschafjaar: 2018, Soort: Caravan, Prijs: 40.00
+Merk: Lunar, Type: Clubman, Kenteken: OP-123-QR, Kleur: Zilver, Aanschafjaar: 2017, Soort: Caravan, Prijs: 40.00
+Merk: SwiŌ, Type: Conqueror, Kenteken: ST-456-UV, Kleur: Blauw, Aanschafjaar: 2019, Soort: Caravan, Prijs: 40.00
+Merk: Compass, Type: Casita, Kenteken: WX-789-YZ, Kleur: Groen, Aanschafjaar: 2020, Soort: Caravan, Prijs: 40.00
+Merk: Coachman, Type: VIP, Kenteken: AB-012-CD, Kleur: Rood, Aanschafjaar: 2016, Soort: Caravan, Prijs: 40.00
+Merk: Buccaneer, Type: Commodore, Kenteken: EF-345-GH, Kleur: Zwart, Aanschafjaar: 2018, Soort: Caravan, Prijs: 40.00
+Merk: Caravelair, Type: Allegra, Kenteken: IJ-678-KL, Kleur: Wit, Aanschafjaar: 2021, Soort: Caravan, Prijs: 40.00
+Merk: Sterckeman, Type: Starlet, Kenteken: MN-901-OP, Kleur: Zilver, Aanschafjaar: 2020, Soort: Caravan, Prijs: 40.00
+Merk: Tab, Type: 320, Kenteken: QR-234-ST, Kleur: Blauw, Aanschafjaar: 2019, Soort: Caravan, Prijs: 40.00
+Merk: Eriba, Type: Touring, Kenteken: UV-567-WX, Kleur: Grijs, Aanschafjaar: 2022, Soort: Caravan, Prijs: 40.00
+Merk: Adria, Type: Action, Kenteken: YZ-890-AB, Kleur: Rood, Aanschafjaar: 2017, Soort: Caravan, Prijs: 40.00
+Merk: Volkswagen, Type: California, Kenteken: AB-123-CD, Kleur: Rood, Aanschafjaar: 2018, Soort: Camper, Prijs: 85.00
+Merk: Mercedes, Type: Marco Polo, Kenteken: EF-456-GH, Kleur: Zilver, Aanschafjaar: 2019, Soort: Camper, Prijs: 85.00
+Merk: Ford, Type: Transit Custom, Kenteken: IJ-789-KL, Kleur: Blauw, Aanschafjaar: 2020, Soort: Camper, Prijs: 85.00
+Merk: Fiat, Type: Ducato, Kenteken: MN-012-OP, Kleur: Wit, Aanschafjaar: 2017, Soort: Camper, Prijs: 85.00
+Merk: Citroën, Type: Jumper, Kenteken: QR-345-ST, Kleur: Grijs, Aanschafjaar: 2021, Soort: Camper, Prijs: 85.00
+Merk: Peugeot, Type: Boxer, Kenteken: UV-678-WX, Kleur: Zwart, Aanschafjaar: 2016, Soort: Camper, Prijs: 85.00
+Merk: Renault, Type: Master, Kenteken: YZ-901-AB, Kleur: Groen, Aanschafjaar: 2022, Soort: Camper, Prijs: 85.00
+Merk: Nissan, Type: NV400, Kenteken: CD-234-EF, Kleur: Blauw, Aanschafjaar: 2015, Soort: Camper, Prijs: 85.00
+Merk: Opel, Type: Movano, Kenteken: GH-567-IJ, Kleur: Zilver, Aanschafjaar: 2021, Soort: Camper, Prijs: 85.00
+Merk: Iveco, Type: Daily, Kenteken: KL-890-MN, Kleur: Rood, Aanschafjaar: 2018, Soort: Camper, Prijs: 85.00
+Merk: Volkswagen, Type: Grand California, Kenteken: OP-123-QR, Kleur: Wit, Aanschafjaar: 2017, Soort: Camper, Prijs: 85.00
+Merk: Mercedes, Type: Sprinter, Kenteken: ST-456-UV, Kleur: Blauw, Aanschafjaar: 2019, Soort: Camper, Prijs: 85.00
+Merk: Ford, Type: Nugget, Kenteken: WX-789-YZ, Kleur: Zwart, Aanschafjaar: 2020, Soort: Camper, Prijs: 85.00
+Merk: Fiat, Type: Talento, Kenteken: AB-012-CD, Kleur: Groen, Aanschafjaar: 2016, Soort: Camper, Prijs: 85.00
+Merk: Citroën, Type: SpaceTourer, Kenteken: EF-345-GH, Kleur: Rood, Aanschafjaar: 2018, Soort: Camper, Prijs: 85.00
+Merk: Peugeot, Type: Traveller, Kenteken: IJ-678-KL, Kleur: Zwart, Aanschafjaar: 2021, Soort: Camper, Prijs: 85.00
+Merk: Renault, Type: Trafic, Kenteken: MN-901-OP, Kleur: Wit, Aanschafjaar: 2020, Soort: Camper, Prijs: 85.00
+Merk: Nissan, Type: Primastar, Kenteken: QR-234-ST, Kleur: Zilver, Aanschafjaar: 2019, Soort: Camper, Prijs: 85.00
+Merk: Opel, Type: Vivaro, Kenteken: UV-567-WX, Kleur: Grijs, Aanschafjaar: 2022, Soort: Camper, Prijs: 85.00
+Merk: Iveco, Type: Eurocargo, Kenteken: YZ-890-AB, Kleur: Zwart, Aanschafjaar: 2017, Soort: Camper, Prijs: 85.00

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     [DbContext(typeof(CarAndAllDbContext))]
-    [Migration("20241216094004_in1")]
-    partial class in1
+    [Migration("20241216132012_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -237,6 +237,9 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Property<string>("Merk")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<double>("Prijs")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Soort")
                         .IsRequired()

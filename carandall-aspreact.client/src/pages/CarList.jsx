@@ -6,11 +6,13 @@ import '../index.css';
 const CarList = () => {
     const [cars, setCars] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
-    const [statusFilter, setStatusFilter] = useState('All');
-    const [typeFilter, setTypeFilter] = useState('All');
+    const [statusFilter, setStatusFilter] = useState('Alles');
+    const [typeFilter, setTypeFilter] = useState('Alles');
+    const [orderPrice, setOrderPrice] = useState('Default')
     const navigate = useNavigate();
 
     useEffect(() => {
+
         const fetchCars = async () => {
             try {
                 const response = await fetch('https://localhost:7159/api/verhuuraanvragen/voertuigen/met-aanvragen');
@@ -22,28 +24,45 @@ const CarList = () => {
                 const cars = data.$values || [];
                 setCars(cars);
                 setFilteredCars(cars);
+
+
             } catch (error) {
                 console.error(error.message);
             }
         };
-
+        handleFilterChange();
         fetchCars();
     }, []);
 
     const handleFilterChange = () => {
-        const filtered = cars.filter((car) => {
+        const filtered = cars.filter((car) =>
+        {
             const matchesStatus =
-                statusFilter === 'All' ||
+                statusFilter === 'Alles' ||
                 (statusFilter === 'Verhuurd' && car.heeftGoedgekeurdeAanvraag) ||
                 (statusFilter === 'Beschikbaar' && !car.heeftGoedgekeurdeAanvraag && car.status === 'Beschikbaar') ||
                 (statusFilter === car.status);
 
-            const matchesType = typeFilter === 'All' || car.soort === typeFilter;
+            const matchesType = typeFilter === 'Alles' || car.soort === typeFilter;
 
             return matchesStatus && matchesType;
         });
+        console.log("OrderPrice is: " + orderPrice);
 
-        setFilteredCars(filtered);
+        if (orderPrice == 'LnH') {
+            setFilteredCars(filtered.sort
+                ((a, b) => a.prijs - b.prijs))
+        }
+        else if (orderPrice == 'HnL') {
+            setFilteredCars(filtered.sort
+                ((a, b) => b.prijs - a.prijs))
+        }
+        else {
+            setFilteredCars(filtered);
+        }
+
+        console.log(filtered);
+        
     };
 
     const handleStatusFilterChange = (event) => {
@@ -54,9 +73,13 @@ const CarList = () => {
         setTypeFilter(event.target.value);
     };
 
+    const handleOrderPriceChange= (event) => {
+        setOrderPrice(event.target.value);
+    };
+
     useEffect(() => {
         handleFilterChange();
-    }, [statusFilter, typeFilter]);
+    }, [statusFilter, typeFilter, orderPrice]);
 
     return (
         <div className="car-list">
@@ -64,9 +87,9 @@ const CarList = () => {
 
             <div className="filter-container">
                 <div>
-                    <label htmlFor="status-filter">Filter Op Status:</label>
-                    <select id="status-filter" value={statusFilter} onChange={handleStatusFilterChange}>
-                        <option value="All">All</option>
+                    <label>Filter Op Status:</label>
+                    <select value={statusFilter} onChange={handleStatusFilterChange}>
+                        <option value="Alles">Alles</option>
                         <option value="Beschikbaar">Beschikbaar</option>
                         <option value="In reparatie">In reparatie</option>
                         <option value="Verhuurd">Verhuurd</option>
@@ -74,12 +97,22 @@ const CarList = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="type-filter">Filter Op Type Voertuig:</label>
-                    <select id="type-filter" value={typeFilter} onChange={handleTypeFilterChange}>
-                        <option value="All">All</option>
+                    <label>Filter Op Type Voertuig:</label>
+                    <select value={typeFilter} onChange={handleTypeFilterChange}>
+                        <option value="Alles">Alles</option>
                         <option value="Auto">Auto</option>
                         <option value="Camper">Camper</option>
                         <option value="Caravan">Caravan</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Orden Op Prijs:</label>
+                    <select value={orderPrice} onChange={handleOrderPriceChange}>
+                        <option value="Default">Default</option>
+                        <option value="LnH">Laag naar hoog</option>
+                        <option value="HnL">Hoog naar laag</option>
+
                     </select>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/RentCar.css';
 
@@ -14,7 +14,10 @@ const RentCar = () => {
             try {
                 const response = await fetch(`https://localhost:7159/api/voertuig/${voertuigId}`);
                 if (!response.ok) throw new Error('Failed to fetch vehicle data');
-                const data = await response.json();
+
+                const cars = await response.json();
+                const data = cars;
+
                 setVehicle(data);
             } catch (error) {
                 console.error(error);
@@ -25,8 +28,11 @@ const RentCar = () => {
             try {
                 const response = await fetch(`https://localhost:7159/api/verhuuraanvragen/voertuigen/${voertuigId}`);
                 if (!response.ok) throw new Error('Failed to fetch rental periods');
-                const data = await response.json();
-                setRentalPeriods(data.map(request => `Gehuurd van ${request.startdatum} tot ${request.einddatum}`));
+                const cars = await response.json();
+                const data = cars.$values || [];
+                console.log(data);
+
+                setRentalPeriods(data); // Ruwe data opslaan
             } catch (error) {
                 console.error(error);
             }
@@ -62,7 +68,6 @@ const RentCar = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(rentData),
-                credentials: 'include',
             });
 
             if (response.ok) {
@@ -77,6 +82,11 @@ const RentCar = () => {
             alert('Er is iets mis gegaan bij het indienen van het huurverzoek.');
             console.error(error);
         }
+    };
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('nl-NL', options);
     };
 
     if (!voertuig) {
@@ -100,7 +110,9 @@ const RentCar = () => {
                 <ul>
                     {rentalPeriods.length > 0 ? (
                         rentalPeriods.map((period, index) => (
-                            <li key={index}>{period}</li>
+                            <li key={index}>
+                                Gehuurd van {formatDate(period.startdatum)} t/m {formatDate(period.einddatum)}
+                            </li>
                         ))
                     ) : (
                         <p>Er zijn geen verhuurperiodes voor dit voertuig.</p>
