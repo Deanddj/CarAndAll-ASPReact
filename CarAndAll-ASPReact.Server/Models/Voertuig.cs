@@ -11,5 +11,7 @@
         public int? Aanschafjaar {  get; set; }
         public string Status { get; set; } // bv: "Beschikbaar", "In reparatie" of "Verhuurd"
         public ICollection<Verhuuraanvraag> Verhuuraanvragen { get; set; }
+
+
     }
 }

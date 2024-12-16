@@ -312,6 +312,8 @@ namespace CarAndAll_ASPReact.Server.Controllers
     }
 }
 
+//[HttpGet("account/{Id}")]
+
 public class LoginModel
 {
     public string Email { get; set; }

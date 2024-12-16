@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/RentCar.css';
-import '../index.css';
 
 const RentCar = () => {
-    const { voertuigId } = useParams(); // Haal de voertuigId uit de URL
+    const { voertuigId } = useParams();
     const [voertuig, setVehicle] = useState(null);
-    const [rentalRequests, setRentalRequests] = useState([]);
+    const [rentalPeriods, setRentalPeriods] = useState([]);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
 
@@ -22,19 +21,19 @@ const RentCar = () => {
             }
         };
 
-        const fetchRentalRequests = async () => {
+        const fetchRentalPeriods = async () => {
             try {
                 const response = await fetch(`https://localhost:7159/api/verhuuraanvragen/voertuigen/${voertuigId}`);
-                if (!response.ok) throw new Error('Failed to fetch rental requests');
+                if (!response.ok) throw new Error('Failed to fetch rental periods');
                 const data = await response.json();
-                setRentalRequests(data);
+                setRentalPeriods(data.map(request => `Gehuurd van ${request.startdatum} tot ${request.einddatum}`));
             } catch (error) {
                 console.error(error);
             }
         };
 
         fetchVehicle();
-        fetchRentalRequests();
+        fetchRentalPeriods();
     }, [voertuigId]);
 
     const handleRent = async () => {
@@ -43,27 +42,36 @@ const RentCar = () => {
             return;
         }
 
+        if (new Date(startDate) >= new Date(endDate)) {
+            alert('De startdatum moet eerder zijn dan de einddatum.');
+            return;
+        }
+
         const rentData = {
-            voertuigId: voertuigId,
-            startdatum: startDate,
-            einddatum: endDate,
-            status: "In behandeling",
-            huurderId: "USER_ID", // Hier moet je het huurderId dynamisch instellen
+            Startdatum: startDate,
+            Einddatum: endDate,
+            VoertuigId: parseInt(voertuigId, 10),
         };
 
+        console.log('Verstuurde data:', rentData);
+
         try {
-            const response = await fetch('https://localhost:7159/api/verhuuraanvraag', {
+            const response = await fetch('https://localhost:7159/api/verhuuraanvragen', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(rentData),
+                credentials: 'include',
             });
 
             if (response.ok) {
                 alert('Huurverzoek succesvol ingediend!');
+                setStartDate(null);
+                setEndDate(null);
             } else {
-                throw new Error('Failed to submit rental request');
+                const errorData = await response.json();
+                alert(`Er is iets mis gegaan: ${errorData.message || 'Onbekende fout'}`);
             }
         } catch (error) {
             alert('Er is iets mis gegaan bij het indienen van het huurverzoek.');
@@ -74,13 +82,6 @@ const RentCar = () => {
     if (!voertuig) {
         return <p>Loading vehicle data...</p>;
     }
-
-    // Verkrijg de periodes van verhuuraanvragen als strings
-    const rentalPeriods = rentalRequests.map(request => {
-        const start = new Date(request.startdatum).toLocaleDateString();
-        const end = new Date(request.einddatum).toLocaleDateString();
-        return `${start} - ${end}`;
-    });
 
     return (
         <div className="rent-car-container">
@@ -94,28 +95,36 @@ const RentCar = () => {
                 {voertuig.aanschafjaar && <p><strong>Aanschafjaar:</strong> {voertuig.aanschafjaar}</p>}
             </div>
 
-            <div className="rental-periods">
-                <h3>Overzicht Gehuurde Dagen</h3>
-                {rentalPeriods.length > 0 ? (
-                    <ul>
-                        {rentalPeriods.map((period, index) => (
-                            <li key={index}>Gehuurd voor: {period}</li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>Er zijn geen verhuuraanvragen voor dit voertuig.</p>
-                )}
+            <div className="rental-overview">
+                <h3>Overzicht Gehuurde Periodes</h3>
+                <ul>
+                    {rentalPeriods.length > 0 ? (
+                        rentalPeriods.map((period, index) => (
+                            <li key={index}>{period}</li>
+                        ))
+                    ) : (
+                        <p>Er zijn geen verhuurperiodes voor dit voertuig.</p>
+                    )}
+                </ul>
             </div>
 
             <div className="rental-form">
                 <h3>Huur Periode</h3>
                 <label>
                     Startdatum:
-                    <input type="date" onChange={(e) => setStartDate(e.target.value)} />
+                    <input
+                        type="date"
+                        value={startDate || ''}
+                        onChange={(e) => setStartDate(e.target.value)}
+                    />
                 </label>
                 <label>
                     Einddatum:
-                    <input type="date" onChange={(e) => setEndDate(e.target.value)} />
+                    <input
+                        type="date"
+                        value={endDate || ''}
+                        onChange={(e) => setEndDate(e.target.value)}
+                    />
                 </label>
                 <button onClick={handleRent}>Huur Dit Voertuig</button>
             </div>
@@ -124,55 +133,3 @@ const RentCar = () => {
 };
 
 export default RentCar;
-
-
-
-/*
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-
-const RentCar = () => {
-    const {voertuigId} = useParams(); // Haal het voertuigId op uit de URL
-    const [car, setCar] = useState(null); // Opslag voor de specifieke auto
-
-    useEffect(() => {
-        
-        const fetchCarDetails = async () => {
-            console.log('fetch gestart');
-            console.log('carId is:' + voertuigId);
-            try {
-                const response = await fetch(`https://localhost:7159/api/voertuig/${voertuigId}`);
-                console.log(response);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch car details');
-                }
-                const data = await response.json();
-                setCar(data);          
-
-                console.log(data);
-                console.log(data.kleur);
-            } catch (error) {
-                console.error(error.message);
-            }
-        };
-
-        fetchCarDetails();
-    }, [voertuigId]);
-
-    if (!car) {
-        return <p>Loading...</p>;
-    }
-
-    return (
-        <div className="car-details">
-            <h2>{car.merk} {car.type}</h2>
-            <p>Kleur: {car.kleur}</p>
-            <p>Kenteken: {car.kenteken}</p>
-            <p>Status: {car.status}</p>
-            {car.aanschafjaar && <p>Aanschafjaar: {car.aanschafjaar}</p>}
-            <p>Soort: {car.soort}</p>
-        </div>
-    );
-};
-
-export default RentCar;*/
