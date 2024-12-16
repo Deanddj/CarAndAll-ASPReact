@@ -59,7 +59,8 @@ public class VerhuuraanvragenController : ControllerBase
         Console.WriteLine("Diddy joined the party");
         try
         {
-            var huurderId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "fe00217b-090c-4cf6-81cf-d0b1f56c1fc9";
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            //var huurderId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "fe00217b-090c-4cf6-81cf-d0b1f56c1fc9";
 /*            Console.WriteLine("Hardcoded: fe00217b-090c-4cf6-81cf-d0b1f56c1fc9");
             Console.WriteLine($"Huurderid is: {huurderId}");*/
 
@@ -74,12 +75,17 @@ public class VerhuuraanvragenController : ControllerBase
                 return BadRequest(new { message = "De startdatum moet eerder zijn dan de einddatum." });
             }
 
+            if (userId == null)
+            {
+                return BadRequest(new { Message = "UserId mag niet null zijn." });
+            }
+
             var nieuweAanvraag = new Verhuuraanvraag
             {
                 Startdatum = verhuuraanvraagDto.Startdatum,
                 Einddatum = verhuuraanvraagDto.Einddatum,
                 Status = "In behandeling",
-                HuurderId = huurderId,
+                HuurderId = userId,
                 VoertuigId = verhuuraanvraagDto.VoertuigId
             };
 

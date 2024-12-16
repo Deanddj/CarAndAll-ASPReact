@@ -62,6 +62,7 @@ const RentCar = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(rentData),
+                credentials: 'include',
             });
 
             if (response.ok) {
