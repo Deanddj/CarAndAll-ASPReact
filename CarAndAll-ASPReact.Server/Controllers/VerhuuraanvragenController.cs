@@ -42,7 +42,7 @@ public class VerhuuraanvragenController : ControllerBase
     public IActionResult GetVoertuigenMetVerhuurAanvragen()
     {
         var voertuigenMetAanvragen = _context.Voertuigen
-            .Include(v => v.Verhuuraanvragen) 
+            .Include(v => v.Verhuuraanvragen)
             .Select(v => new
             {
                 v.VoertuigId,
@@ -54,13 +54,20 @@ public class VerhuuraanvragenController : ControllerBase
                 v.Aanschafjaar,
                 v.Status,
                 v.Prijs,
-                HeeftGoedgekeurdeAanvraag = v.Verhuuraanvragen.Any(va => va.Status == "Goedgekeurd")
+                HeeftGoedgekeurdeAanvraag = v.Verhuuraanvragen.Any(va => va.Status == "Goedgekeurd"),
+                Verhuuraanvragen = v.Verhuuraanvragen
+                    .Where(va => va.Status == "Goedgekeurd")  // Filter alleen de goedgekeurde verhuuraanvragen
+                    .Select(va => new
+                    {
+                        va.VerhuuraanvraagId,
+                        va.Startdatum,
+                        va.Einddatum
+                    })
+                    .ToList()
             })
             .ToList();
-
         return Ok(voertuigenMetAanvragen);
     }
-
 
 
     [HttpPost]

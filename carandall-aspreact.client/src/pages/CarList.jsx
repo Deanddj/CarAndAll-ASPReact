@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/CarList.css';
 import '../index.css';
+import ArrowImage from '../assets/Pijl wijst naar beneden.png'; // Afbeelding importeren
 
 const CarList = () => {
     const [cars, setCars] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
     const [statusFilter, setStatusFilter] = useState('Alles');
     const [typeFilter, setTypeFilter] = useState('Alles');
-    const [orderPrice, setOrderPrice] = useState('Default')
+    const [OrderBy, setOrderBy] = useState('Prijs'); // Default sorteren op prijs
+    const [orderByAscDesc, setOrderByAscDesc] = useState('asc'); // 'asc' voor oplopend, 'desc' voor aflopend
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-
         const fetchCars = async () => {
             try {
                 const response = await fetch('https://localhost:7159/api/verhuuraanvragen/voertuigen/met-aanvragen');
@@ -24,19 +27,30 @@ const CarList = () => {
                 const cars = data.$values || [];
                 setCars(cars);
                 setFilteredCars(cars);
-
-
             } catch (error) {
                 console.error(error.message);
             }
         };
-        handleFilterChange();
+
         fetchCars();
     }, []);
 
+    const sorters = {
+        'Prijs': (a, b) => a.prijs - b.prijs,
+        'Merk': (a, b) => a.merk.localeCompare(b.merk),
+        'Type': (a, b) => a.type.localeCompare(b.type),
+        'Bouwjaar': (a, b) => a.aanschafjaar - b.aanschafjaar,
+    };
+
     const handleFilterChange = () => {
-        const filtered = cars.filter((car) =>
-        {
+        if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
+            alert("De einddatum mag niet eerder zijn dan de startdatum.");
+            setStartDate(null);
+            setEndDate(null);
+            return;
+        }
+
+        const filtered = cars.filter((car) => {
             const matchesStatus =
                 statusFilter === 'Alles' ||
                 (statusFilter === 'Verhuurd' && car.heeftGoedgekeurdeAanvraag) ||
@@ -45,24 +59,29 @@ const CarList = () => {
 
             const matchesType = typeFilter === 'Alles' || car.soort === typeFilter;
 
-            return matchesStatus && matchesType;
+            const selectedStartDate = new Date(startDate);
+            const selectedEndDate = new Date(endDate);
+
+            const matchesDates = !startDate || !endDate || (Array.isArray(car.verhuuraanvragen.$values) && car.verhuuraanvragen.$values.every((aanvraag) => {
+                const aanvraagStart = new Date(aanvraag.startdatum);
+                const aanvraagEnd = new Date(aanvraag.einddatum);
+                const isOverlap = (selectedStartDate <= aanvraagEnd && selectedEndDate >= aanvraagStart);
+                return !isOverlap;
+            }));
+
+            return matchesStatus && matchesType && matchesDates;
         });
-        console.log("OrderPrice is: " + orderPrice);
 
-        if (orderPrice == 'LnH') {
-            setFilteredCars(filtered.sort
-                ((a, b) => a.prijs - b.prijs))
-        }
-        else if (orderPrice == 'HnL') {
-            setFilteredCars(filtered.sort
-                ((a, b) => b.prijs - a.prijs))
-        }
-        else {
-            setFilteredCars(filtered);
-        }
+        const sorted = filtered.sort((a, b) => { //dit is de gesorteerde lijst voertuigen
+            const sortOp = sorters[OrderBy] || ((a, b) => 0); //dit bepaalt op wat je wilt sorteren zoals prijs of bouwjaar etc
+            if (orderByAscDesc === 'asc') {
+                return sortOp(a, b);
+            } else {
+                return sortOp(b, a);
+            } // dit bepaalt of het oplopend of aflopend is en vervolgens returned de lijst gebasseerd daarop
+        });
 
-        console.log(filtered);
-        
+        setFilteredCars(sorted);
     };
 
     const handleStatusFilterChange = (event) => {
@@ -73,13 +92,25 @@ const CarList = () => {
         setTypeFilter(event.target.value);
     };
 
-    const handleOrderPriceChange= (event) => {
-        setOrderPrice(event.target.value);
+    const handleOrderByChange = (event) => {
+        setOrderBy(event.target.value);
+    };
+
+    const handleOrderByAscDescChange = () => {
+        setOrderByAscDesc((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+    };
+
+    const handleStartDateChange = (event) => {
+        setStartDate(event.target.value);
+    };
+
+    const handleEndDateChange = (event) => {
+        setEndDate(event.target.value);
     };
 
     useEffect(() => {
         handleFilterChange();
-    }, [statusFilter, typeFilter, orderPrice]);
+    }, [statusFilter, typeFilter, OrderBy, orderByAscDesc, startDate, endDate]);
 
     return (
         <div className="car-list">
@@ -87,7 +118,25 @@ const CarList = () => {
 
             <div className="filter-container">
                 <div>
-                    <label>Filter Op Status:</label>
+                    <label>Startdatum:</label>
+                    <input
+                        type="date"
+                        value={startDate || ''}
+                        onChange={handleStartDateChange}
+                    />
+                </div>
+
+                <div>
+                    <label>Einddatum:</label>
+                    <input
+                        type="date"
+                        value={endDate || ''}
+                        onChange={handleEndDateChange}
+                    />
+                </div>
+
+                <div>
+                    <label>Status:</label>
                     <select value={statusFilter} onChange={handleStatusFilterChange}>
                         <option value="Alles">Alles</option>
                         <option value="Beschikbaar">Beschikbaar</option>
@@ -97,7 +146,7 @@ const CarList = () => {
                 </div>
 
                 <div>
-                    <label>Filter Op Type Voertuig:</label>
+                    <label>Voertuig:</label>
                     <select value={typeFilter} onChange={handleTypeFilterChange}>
                         <option value="Alles">Alles</option>
                         <option value="Auto">Auto</option>
@@ -106,14 +155,20 @@ const CarList = () => {
                     </select>
                 </div>
 
-                <div>
-                    <label>Orden Op Prijs:</label>
-                    <select value={orderPrice} onChange={handleOrderPriceChange}>
-                        <option value="Default">Default</option>
-                        <option value="LnH">Laag naar hoog</option>
-                        <option value="HnL">Hoog naar laag</option>
-
-                    </select>
+                <div className="sort-container">
+                    <label>Sorteren Op:</label>
+                    <div className="sort-select-wrapper">
+                        <select value={OrderBy} onChange={handleOrderByChange}>
+                            <option value="Prijs">Prijs</option>
+                            <option value="Bouwjaar">Bouwjaar</option>
+                            <option value="Merk">Merk</option>
+                            <option value="Type">Type</option>
+                        </select>
+                        <button
+                            onClick={handleOrderByAscDescChange}
+                            className={`sort-arrow ${orderByAscDesc}`}
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -126,6 +181,7 @@ const CarList = () => {
                         <p>Status: {car.heeftGoedgekeurdeAanvraag ? 'Verhuurd' : car.status}</p>
                         {car.aanschafjaar && <p>Aanschafjaar: {car.aanschafjaar}</p>}
                         <p>Soort: {car.soort}</p>
+                        <p>Prijs per dag: {car.prijs}</p>
                         <button
                             onClick={() => {
                                 console.log("Navigating to ID:", car.voertuigId);
