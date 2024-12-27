@@ -78,8 +78,6 @@ public class VerhuuraanvragenController : ControllerBase
         {
             //var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "da0f3284-095e-4ef9-9772-1e98837b4361";
-            /*            Console.WriteLine("Hardcoded: fe00217b-090c-4cf6-81cf-d0b1f56c1fc9");
-                        Console.WriteLine($"Huurderid is: {huurderId}");*/
 
 
             Console.WriteLine("Ontvangen VerhuuraanvraagDto:");

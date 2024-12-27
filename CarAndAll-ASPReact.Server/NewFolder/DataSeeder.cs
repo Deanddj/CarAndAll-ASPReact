@@ -15,7 +15,7 @@ namespace CarAndAll_ASPReact.Server.NewFolder
         {
             Console.WriteLine("Start");
 
-            string filePath = @"C:\Users\Gijor\Source\Repos\CarAndAll-ASPReact\CarAndAll-ASPReact.Server\Items\voertuigen.txt";
+            string filePath = @"..\Items\voertuigen.txt";
 
             if (File.Exists(filePath))
             {
