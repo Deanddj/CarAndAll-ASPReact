@@ -3,13 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/CarList.css';
 import '../index.css';
 import ArrowImage from '../assets/Pijl wijst naar beneden.png'; // Afbeelding importeren
+/*import auto from '../assets/car logo.png';
+import caravan from '../assets/Caravan logo.png';
+import camper from '../assets/Camper logo.png';
+import spongebob from '../assets/spongebob dumb stare.gif';*/
+import auto from '../assets/spongebob dumb stare.gif';
+import caravan from '../assets/spongebob dumb stare.gif';
+import camper from '../assets/spongebob dumb stare.gif';
+import spongebob from '../assets/spongebob dumb stare.gif';
 
 const CarList = () => {
     const [cars, setCars] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
     const [statusFilter, setStatusFilter] = useState('Alles');
     const [typeFilter, setTypeFilter] = useState('Alles');
-    const [OrderBy, setOrderBy] = useState('Prijs'); // Default sorteren op prijs
+    const [OrderBy, setOrderBy] = useState('Default'); // Default sorteren op prijs
     const [orderByAscDesc, setOrderByAscDesc] = useState('asc'); // 'asc' voor oplopend, 'desc' voor aflopend
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -36,6 +44,7 @@ const CarList = () => {
     }, []);
 
     const sorters = {
+        'Default': (a, b) => a.voertuigId - b.voertuigId,
         'Prijs': (a, b) => a.prijs - b.prijs,
         'Merk': (a, b) => a.merk.localeCompare(b.merk),
         'Type': (a, b) => a.type.localeCompare(b.type),
@@ -159,6 +168,7 @@ const CarList = () => {
                     <label>Sorteren Op:</label>
                     <div className="sort-select-wrapper">
                         <select value={OrderBy} onChange={handleOrderByChange}>
+                            <option value="Default">Default</option>
                             <option value="Prijs">Prijs</option>
                             <option value="Bouwjaar">Bouwjaar</option>
                             <option value="Merk">Merk</option>
@@ -173,28 +183,55 @@ const CarList = () => {
             </div>
 
             <div className="car-items">
-                {filteredCars.map((car) => (
-                    <div key={car.voertuigId} className="car-item">
-                        <h3>{car.merk} {car.type}</h3>
-                        <p>Kleur: {car.kleur}</p>
-                        <p>Kenteken: {car.kenteken}</p>
-                        <p>Status: {car.heeftGoedgekeurdeAanvraag ? 'Verhuurd' : car.status}</p>
-                        {car.aanschafjaar && <p>Aanschafjaar: {car.aanschafjaar}</p>}
-                        <p>Soort: {car.soort}</p>
-                        <p>Prijs per dag: {car.prijs}</p>
-                        <button
-                            onClick={() => {
-                                console.log("Navigating to ID:", car.voertuigId);
-                                navigate(`/rentCar/${car.voertuigId}`);
-                            }}
-                        >
-                            Huren
-                        </button>
-                    </div>
-                ))}
+                {filteredCars.map((car) => {
+                    // Kies de juiste foto op basis van het soort voertuig
+                    let foto;
+                    switch (car.soort) {
+                        case 'Auto':
+                            foto = auto; // Zet hier het pad naar de afbeelding van een auto
+                            break;
+                        case 'Camper':
+                            foto = camper; // Zet hier het pad naar de afbeelding van een camper
+                            break;
+                        case 'Caravan':
+                            foto = caravan; // Zet hier het pad naar de afbeelding van een caravan
+                            break;
+                        default:
+                            foto = spongebob; // Zet hier een standaard afbeelding in geval van een onbekende soort
+                    }
+
+                    return (
+                        <div key={car.voertuigId} className="car-item">
+                            <div className="title-div">
+                                <h3 className="Car-title">
+                                    {car.merk} {car.type}
+                                </h3>
+                            </div>
+                            <p>Kleur: {car.kleur}</p>
+                            <p>Kenteken: {car.kenteken}</p>
+                            <p>Status: {car.heeftGoedgekeurdeAanvraag ? 'Verhuurd' : car.status}</p>
+                            {car.aanschafjaar && <p>Aanschafjaar: {car.aanschafjaar}</p>}
+                            <p>Prijs per dag: {car.prijs}</p>
+                            <p>
+                                <div className="vehicle-icon">
+                                    <img src={foto} alt={`${car.soort} icoon`} className="car-icon" />
+                                </div>
+                            </p>
+                            <button
+                                onClick={() => {
+                                    console.log("Navigating to ID:", car.voertuigId);
+                                    navigate(`/rentCar/${car.voertuigId}`);
+                                }}
+                            >
+                                Huren
+                            </button>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
+
 };
 
 export default CarList;

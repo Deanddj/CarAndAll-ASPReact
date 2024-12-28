@@ -1,4 +1,27 @@
-/* Filter Container */
+.car-title {
+    color: white; /* Witte tekst */
+    display: flex;
+    align-items: center; /* Zorgt ervoor dat tekst en plaatje horizontaal gecentreerd zijn */
+    gap: 8px; /* Ruimte tussen tekst en plaatje */
+}
+
+.title-div {
+    background-color: #ff6a0033; /* Oranje achtergrond */
+    padding: 10px; /* Ruimte binnen de titel-div */
+    width: 100%; /* Zorg dat de breedte volledig gevuld is */
+    margin: 0; /* Verwijder standaard marges */
+    box-sizing: border-box; /* Inclusief padding in breedteberekening */
+    position: relative; /* Houd de positie stabiel */
+    top: 0; /* Zet bovenaan */
+    left: 0; /* Start vanaf de linkerkant */
+    border-radius: 7px; /* Maak de randen smooth */
+    height: 70px;
+}
+.car-icon {
+    width: 80px; /* Pas de grootte aan van het plaatje */
+    height: auto; /* Houd de originele verhoudingen */
+}
+
 .filter-container {
     display: flex;
     gap: 20px;
