@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using CarAndAll_ASPReact.Server.NewFolder;
 using System.Text.Json.Serialization;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddConsole();
@@ -15,6 +14,7 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
     });
+
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddEndpointsApiExplorer();

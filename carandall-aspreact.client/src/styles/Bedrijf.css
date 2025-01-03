@@ -9,7 +9,7 @@
 }
 
     .bedrijf-page h2, .bedrijf-page h3 {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
         text-align: center;
     }
 
@@ -100,3 +100,55 @@
     .delete-button:hover {
         opacity: 0.8;
     }
+
+.subscription-section {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.subscription-options {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.subscription-option {
+    flex: 1;
+    max-width: 250px;
+    padding: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+    .subscription-option h3 {
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .subscription-option p {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .subscription-option:hover {
+        transform: scale(1.05);
+        border-color: #E35A00;
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+    }
+
+    .subscription-option.selected {
+        border-color: #E35A00;
+        background-color: rgba(227, 90, 0, 0.05);
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+        transform: scale(1.1);
+    }
+
+        .subscription-option.selected h3 {
+            color: #E35A00;
+        }

@@ -68,9 +68,13 @@ const AccountSection = () => {
 
 
     const handleDelete = () => {
+        axios.delete('/api/notifications/deleteAll')
+            .then(() => {
+                window.location.href = '/';
+            })
+            .catch(error => console.error('Fout met verwijderen van notificaties:', error));
         axios.delete('/api/account/delete')
             .then(() => {
-                alert('Account data deleted');
                 window.location.href = '/';
             })
             .catch(error => console.error('Fout met verwijderen van gebruiker data:', error));

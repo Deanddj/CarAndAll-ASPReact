@@ -45,7 +45,7 @@ const Register = () => {
                 navigate('/login');
             } catch (error) {
                 console.log((error.response?.data && error.message))
-                alert('Registration mislukt: ' + (error.response?.data || error.message));
+                alert('Registratie mislukt: ' + (error.response?.data || error.message));
             }
         };
 

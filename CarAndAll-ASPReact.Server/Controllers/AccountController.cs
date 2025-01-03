@@ -177,7 +177,8 @@ namespace CarAndAll_ASPReact.Server.Controllers
                         zakelijkeBeheerder.BedrijfId,
                         zakelijkeBeheerder.Bedrijf.Kvk,
                         zakelijkeBeheerder.Bedrijf.Adres,
-                        zakelijkeBeheerder.Bedrijf.Naam
+                        zakelijkeBeheerder.Bedrijf.Naam,
+                        zakelijkeBeheerder.Bedrijf.Abonnementstype
                     }
                 });
             }
@@ -301,19 +302,36 @@ namespace CarAndAll_ASPReact.Server.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync("Identity.Application");
 
+            var zakelijkeBeheerder = user as ZakelijkeBeheerder;
 
-            var result = await _userManager.DeleteAsync(user);
-            if (result.Succeeded)
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                return Ok(new { Message = "Account verwijderd." });
-            }
+                if (zakelijkeBeheerder?.Bedrijf != null)
+                {
+                    _context.Bedrijven.Remove(zakelijkeBeheerder.Bedrijf);
+                    await _context.SaveChangesAsync();
+                }
 
-            return BadRequest(new { Message = "Account kon niet worden verwijderd.", Errors = result.Errors });
+                var result = await _userManager.DeleteAsync(user);
+
+                if (result.Succeeded)
+                {
+                    await transaction.CommitAsync();
+                    return Ok(new { Message = "Account verwijderd." });
+                }
+
+                await transaction.RollbackAsync();
+                return BadRequest(new { Message = "Account kon niet worden verwijderd.", Errors = result.Errors });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return StatusCode(500, new { Message = "Er is een fout opgetreden tijdens het verwijderen.", Error = ex.Message });
+            }
         }
     }
 }
-
-//[HttpGet("account/{Id}")]
 
 public class LoginModel
 {

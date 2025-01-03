@@ -5,7 +5,7 @@
     justify-content: center;
     padding: 20px;
     background-color: #f4f4f4;
-    height: 85vh;
+    height: 110vh;
 }
 
 h2 {
@@ -173,7 +173,6 @@ input:checked + .slider {
     }
 
     .login-link a {
-        color: #007bff;
         text-decoration: none;
     }
 

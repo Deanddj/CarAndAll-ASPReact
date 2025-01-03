@@ -12,6 +12,11 @@ const BedrijfPage = ({ userDetails }) => {
     const [isInviting, setIsInviting] = useState(false);
     const [users, setUsers] = useState([]);
     const [loadingUsers, setLoadingUsers] = useState(false);
+    const [subscriptionType, setSubscriptionType] = useState('');
+
+    //const handleSubscriptionChange = (e) => {
+    //    setSubscriptionType(e.target.value);
+    //};
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -59,7 +64,7 @@ const BedrijfPage = ({ userDetails }) => {
         setLoadingUsers(true);
         try {
             const response = await axios.get(`/api/bedrijf/get/${userDetails?.bedrijf?.bedrijfId}`);
-            const huurders = response.data.huurders?.$values || []; 
+            const huurders = response.data.huurders?.$values || [];
             setUsers(huurders);
         } catch (error) {
             console.error('Fout met het ophalen van gebruikers:', error);
@@ -67,7 +72,6 @@ const BedrijfPage = ({ userDetails }) => {
             setLoadingUsers(false);
         }
     };
-
 
     const handleDeleteUser = async (userId) => {
         try {
@@ -82,10 +86,33 @@ const BedrijfPage = ({ userDetails }) => {
         if (userDetails?.bedrijf?.bedrijfId) {
             fetchUsers();
         }
+        //setSubscriptionType(userDetails?.bedrijf);
     }, [userDetails]);
+
+
 
     return (
         <div className="bedrijf-page">
+            <div className="subscription-section">
+                <h2>Selecteer Abonnementstype</h2>
+                <div className="subscription-options">
+                    <div
+                        className={`subscription-option ${subscriptionType === 'prepaid' ? 'selected' : ''}`}
+                        onClick={() => setSubscriptionType('prepaid')}
+                    >
+                        <h3>Prepaid</h3>
+                        <p>Betaal vooraf en krijg volledige controle over uw uitgaven.</p>
+                    </div>
+                    <div
+                        className={`subscription-option ${subscriptionType === 'pay-as-you-go' ? 'selected' : ''}`}
+                        onClick={() => setSubscriptionType('pay-as-you-go')}
+                    >
+                        <h3>Pay-as-you-go</h3>
+                        <p>Betaal alleen voor wat u gebruikt, zonder verplichtingen.</p>
+                    </div>
+                </div>
+            </div>
+
             <div className="section-box">
                 <h2>Nodig medewerkers uit voor uw Bedrijf</h2>
                 <div className="invite-form">

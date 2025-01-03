@@ -13,11 +13,13 @@ namespace CarAndAll_ASPReact.Server.Controllers
     {
         private readonly CarAndAllDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly NotificationService _notificationService;
 
-        public BedrijfController(CarAndAllDbContext context, UserManager<User> userManager)
+        public BedrijfController(CarAndAllDbContext context, UserManager<User> userManager, NotificationService notificationService)
         {
             _context = context;
             _userManager = userManager;
+            _notificationService = notificationService;
         }
 
         [HttpDelete("remove-user/{id}")]
@@ -41,7 +43,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
             if (bedrijfId == null)
             {
-                return NotFound("Company not found.");
+                return NotFound("Bedrijf niet gevonden.");
             }
 
             var bedrijf = await _context.Bedrijven
@@ -50,14 +52,14 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
             if (bedrijf == null)
             {
-                return NotFound("Company not found.");
+                return NotFound("Bedrijf niet gevonden.");
             }
 
             var huurderToRemove = bedrijf.Huurders.FirstOrDefault(h => h.Id == id);
 
             if (huurderToRemove == null)
             {
-                return NotFound("User not found.");
+                return NotFound("Gebruiker niet gevonden.");
             }
 
             bedrijf.Huurders.Remove(huurderToRemove);
@@ -67,7 +69,9 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok("User removed from the company.");
+            await _notificationService.SendNotificationAsync(huurderToRemove.Email, "Bericht", null, "Bedrijf verlaten", $"U heeft het bedrijf '{bedrijf.Naam}' verlaten.");
+            await _notificationService.SendNotificationAsync(zakelijkeBeheerder.Email, "Bericht", null, "Medewerker verwijderd", $"{huurderToRemove.Naam} ({huurderToRemove.Email}) is verwijderd uit het bedrijf.");
+            return Ok("Gebruiker verwijderd van het bedrijf.");
         }
 
         [HttpGet("get/{id}")]

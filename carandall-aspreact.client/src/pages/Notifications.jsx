@@ -65,10 +65,10 @@ const Notifications = () => {
     const handleAccept = async (notificationId) => {
         try {
             await axios.put(`/api/notifications/${notificationId}/accept`);
-            console.log(`Accepted notification ${notificationId}`);
+            console.log(`Notificatie ${notificationId} geaccepteerd`);
             await fetchNotifications();
         } catch (err) {
-            console.error("Error accepting notification:", err);
+            console.error("Fout met verkrijgen van notificatie:", err);
         }
     };
 
@@ -90,20 +90,20 @@ const Notifications = () => {
     };
 
     if (loading) {
-        return <p>Loading notifications...</p>;
+        return <p>Notificaties laden...</p>;
     }
 
     if (error) {
-        return <p>Error fetching notifications: {error}</p>;
+        return <p>Error verkrijgen van notificaties: {error}</p>;
     }
 
     if (!notifications.length) {
-        return <p>No notifications found.</p>;
+        return <p>Geen notificaties gevonden.</p>;
     }
 
     return (
         <div className="notifications-container">
-            <h2>Notifications</h2>
+            <h2>Notificaties</h2>
             <ul className="notifications-list">
                 {notifications.map((notification) => (
                     <li
@@ -128,7 +128,7 @@ const Notifications = () => {
                                             handleAccept(notification.notificationId);
                                         }}
                                     >
-                                        Accept
+                                        Accepteer
                                     </button>
                                     <button
                                         className="decline-button"
@@ -137,7 +137,7 @@ const Notifications = () => {
                                             handleDecline(notification.notificationId);
                                         }}
                                     >
-                                        Decline
+                                        Weiger
                                     </button>
                                 </div>
                             </div>
