@@ -15,7 +15,7 @@ namespace CarAndAll_ASPReact.Server.NewFolder
         {
             Console.WriteLine("Start");
 
-            string filePath = @"C:\Users\aliha\Source\Repos\CarAndAll-ASPReact\CarAndAll-ASPReact.Server\Items\voertuigen.txt";
+            string filePath = @"C:\Users\Gijori Atmopawiro\Source\Repos\CarAndAll-ASPReact\CarAndAll-ASPReact.Server\Items\voertuigen.txt";
 
             if (File.Exists(filePath))
             {
@@ -36,7 +36,8 @@ namespace CarAndAll_ASPReact.Server.NewFolder
                         Kleur = GetValue(parts, "Kleur:"),
                         Aanschafjaar = ConvertToInt(GetValue(parts, "Aanschafjaar")),
                         Soort = GetValue(parts, "Soort:"),
-                        Status = "Beschikbaar"
+                        Status = "Beschikbaar",
+                        Prijs = ConvertToDouble(GetValue(parts, "Prijs"))
                     };
 
                     voertuigen.Add(voertuig);
@@ -90,5 +91,25 @@ namespace CarAndAll_ASPReact.Server.NewFolder
 
             return 0; // Or another default value if the conversion fails
         }
+        static double ConvertToDouble(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return 0.0; // Default value if the value is empty
+            }
+
+            value = value.Replace(": ", "").Trim(); // Remove ": " and any surrounding spaces
+
+            // Console.WriteLine($"Value string after stripping: '{value}'"); // Debugging: Check the stripped value
+
+            double result = 0.0; // Default value if the conversion fails
+            if (double.TryParse(value, out result))
+            {
+                return Math.Round(result, 2); // Round the result to 2 decimal places
+            }
+
+            return 0.0; // Or another default value if the conversion fails
+        }
+
     }
 }

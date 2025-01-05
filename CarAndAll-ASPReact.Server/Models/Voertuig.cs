@@ -10,6 +10,7 @@
         public string Kleur {  get; set; }
         public int? Aanschafjaar {  get; set; }
         public string Status { get; set; } // bv: "Beschikbaar", "In reparatie" of "Verhuurd"
+        public double Prijs { get; set; }
         public ICollection<Verhuuraanvraag> Verhuuraanvragen { get; set; }
 
 

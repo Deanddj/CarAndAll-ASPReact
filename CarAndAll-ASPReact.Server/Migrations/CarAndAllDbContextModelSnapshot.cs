@@ -235,6 +235,9 @@ namespace CarAndAll_ASPReact.Server.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("Prijs")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("Soort")
                         .IsRequired()
                         .HasColumnType("TEXT");
