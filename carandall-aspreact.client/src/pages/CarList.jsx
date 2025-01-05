@@ -3,13 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/CarList.css';
 import '../index.css';
 import ArrowImage from '../assets/Pijl wijst naar beneden.png'; // Afbeelding importeren
-/*import auto from '../assets/car logo.png';
+import auto from '../assets/car logo.png';
 import caravan from '../assets/Caravan logo.png';
 import camper from '../assets/Camper logo.png';
-import spongebob from '../assets/spongebob dumb stare.gif';*/
-import auto from '../assets/spongebob dumb stare.gif';
-import caravan from '../assets/spongebob dumb stare.gif';
-import camper from '../assets/spongebob dumb stare.gif';
 import spongebob from '../assets/spongebob dumb stare.gif';
 
 const CarList = () => {

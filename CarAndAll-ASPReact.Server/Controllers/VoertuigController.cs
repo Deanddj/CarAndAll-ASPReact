@@ -100,7 +100,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                 Console.WriteLine($"De userId met de lijn van Dean is: {userId}");
 
-                var user = await _context.Users
+/*                var user = await _context.Users
                     .Where(u => u.Id == userId)
                     .Select(u => new { u.Discriminator, u.BedrijfId })
                     .FirstOrDefaultAsync();
@@ -108,7 +108,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 if (user != null)
                 {
                     Console.WriteLine(user.Discriminator, user.BedrijfId);
-                }
+                }*/
 
 
 
