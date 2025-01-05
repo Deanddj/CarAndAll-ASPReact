@@ -26,7 +26,7 @@ const CarList = () => {
     useEffect(() => {
         const fetchCars = async () => {
             try {
-                const response = await fetch('https://localhost:7159/api/verhuuraanvragen/voertuigen/met-aanvragen');
+                const response = await fetch('https://localhost:7159/api/voertuig/voertuigen/met-aanvragen');
                 if (!response.ok) {
                     throw new Error('Failed to fetch vehicles with rental data');
                 }
