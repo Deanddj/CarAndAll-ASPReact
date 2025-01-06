@@ -17,18 +17,47 @@ const CarList = () => {
     const [orderByAscDesc, setOrderByAscDesc] = useState('asc'); // 'asc' voor oplopend, 'desc' voor aflopend
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [userDetails, setUserDetails] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
+        const fetchUserDetails = async () => {
+            try {
+                const response = await fetch('https://localhost:7159/api/account/get', {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        alert('Je moet zijn ingelogd voor deze pagina.');
+                        window.location.href = '/login';
+                    } else {
+                        throw new Error('Fout met gebruikersdata verkrijgen');
+                    }
+                }
+
+                const data = await response.json();
+                console.log(data);
+                setUserDetails(data);
+            } catch (error) {
+                console.error('Fout:', error.message);
+            }
+        };
+
         const fetchCars = async () => {
             try {
-                const response = await fetch('https://localhost:7159/api/voertuig/voertuigen/met-aanvragen');
+                const response = await fetch('https://localhost:7159/api/voertuig/voertuigen/met-aanvragen', {
+                    method: 'GET',
+                    credentials: 'include',
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch vehicles with rental data');
                 }
                 const data = await response.json();
 
                 const cars = data.$values || [];
+
                 setCars(cars);
                 setFilteredCars(cars);
             } catch (error) {
@@ -36,6 +65,7 @@ const CarList = () => {
             }
         };
 
+        fetchUserDetails();
         fetchCars();
     }, []);
 
@@ -153,10 +183,16 @@ const CarList = () => {
                 <div>
                     <label>Voertuig:</label>
                     <select value={typeFilter} onChange={handleTypeFilterChange}>
-                        <option value="Alles">Alles</option>
-                        <option value="Auto">Auto</option>
-                        <option value="Camper">Camper</option>
-                        <option value="Caravan">Caravan</option>
+                        {userDetails && userDetails.bedrijf ? (
+                            <option value="Auto">Auto</option>
+                        ) : (
+                            <>
+                                <option value="Alles">Alles</option>
+                                <option value="Auto">Auto</option>
+                                <option value="Camper">Camper</option>
+                                <option value="Caravan">Caravan</option>
+                            </>
+                        )}
                     </select>
                 </div>
 
