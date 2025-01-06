@@ -189,7 +189,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
         }
 
         //Voertuig in de database toevoegen
-        [HttpPost]
+        [HttpPost("voertuig/database/add")]
         public IActionResult AddVoertuig([FromBody] Voertuig voertuig)
         {
             if (_context.Voertuigen.Any(v => v.Kenteken == voertuig.Kenteken))
