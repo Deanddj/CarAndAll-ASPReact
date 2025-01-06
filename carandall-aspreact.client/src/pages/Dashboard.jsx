@@ -5,7 +5,8 @@ import RentCar from './RentCar';
 import '../styles/Dashboard.css';
 import { FaUserCircle } from 'react-icons/fa';
 import Account from './Account.jsx';
-import Bedrijf from './Bedrijf.jsx'
+import Bedrijf from './Bedrijf.jsx';
+import Status from './Status.jsx';
 import Notifications from './Notifications.jsx';
 import axios from 'axios';
 import fetchUserData from '../api/userDataApi';
@@ -31,8 +32,10 @@ const Dashboard = () => {
 
     const renderSection = () => {
         switch (activeSection) {
-            case 'home':
+            case 'huren':
                 return <CarList />;
+            case 'status':
+                return <Status/>
             case 'notifications':
                 return <Notifications />;
             case 'account':
@@ -75,11 +78,18 @@ const Dashboard = () => {
             </nav>
 
             <aside className="dashboard-sidebar">
-                <button onClick={() => setActiveSection('home')} className={activeSection === 'home' ? 'active' : ''}>
-                    Home
-                </button>
+                {userDetails && userDetails.type === 'Huurder' && (
+                    <button onClick={() => setActiveSection('huren')} className={activeSection === 'huren' ? 'active' : ''}>
+                        Huren
+                    </button>
+                )}
+                {userDetails && userDetails.type === 'Mederwerker' && (
+                    <button onClick={() => setActiveSection('status')} className={activeSection === 'status' ? 'active' : ''}>
+                        Status
+                    </button>
+                )}
                 <button onClick={() => setActiveSection('notifications')} className={activeSection === 'notifications' ? 'active' : ''}>
-                    Notifications
+                    Notificaties
                 </button>
                 <button onClick={() => setActiveSection('account')} className={activeSection === 'account' ? 'active' : ''}>
                     Account

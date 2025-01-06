@@ -118,6 +118,16 @@ namespace CarAndAll_ASPReact.Server.Controllers
                     }
                 };
             }
+            else if (model.AccountType == "medewerker")
+            {
+                user = new Medewerker
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Naam = model.Naam,
+                    Rol = model.Rol,
+                };
+            }
             else
             {
                 return BadRequest("Ongeldig account type.");
@@ -344,11 +354,12 @@ public class RegisterUserModel
     public string Naam { get; set; }
     public string Email { get; set; }
     public string Wachtwoord { get; set; }
-    public string Adres { get; set; }
+    public string? Adres { get; set; }
     public string? Telefoonnummer { get; set; }
     public string? Kvk { get; set; }
     public string? BedrijfNaam { get; set; }
     public string? BedrijfAdres { get; set; }
+    public string? Rol { get; set; }
     public string AccountType { get; set; }
 }
 public class UpdateUserModel

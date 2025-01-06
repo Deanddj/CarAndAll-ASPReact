@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     [DbContext(typeof(CarAndAllDbContext))]
-    [Migration("20250105195734_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250106105740_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
