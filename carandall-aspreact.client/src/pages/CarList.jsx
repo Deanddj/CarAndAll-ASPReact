@@ -7,7 +7,7 @@ import caravan from '../assets/Caravan logo.png';
 import camper from '../assets/Camper logo.png';
 import spongebob from '../assets/spongebob dumb stare.gif';
 
-const CarList = () => {
+const CarList = ({ onChangeSection }) => {
     const [cars, setCars] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
     const [statusFilter, setStatusFilter] = useState('Alles');
@@ -117,6 +117,10 @@ const CarList = () => {
 
         setFilteredCars(sorted);
     };
+
+    const handleNavigateToRentCar = (voertuigId) => {
+        onChangeSection(`rentcar/${voertuigId}`);
+    }
 
     const handleStatusFilterChange = (event) => {
         setStatusFilter(event.target.value);
@@ -251,7 +255,8 @@ const CarList = () => {
                             <button
                                 onClick={() => {
                                     console.log("Navigating to ID:", car.voertuigId);
-                                    navigate(`/rentCar/${car.voertuigId}`);
+                                    handleNavigateToRentCar(car.voertuigId);
+                                    //navigate(`/rentCar/${car.voertuigId}`);
                                 }}
                             >
                                 Huren
