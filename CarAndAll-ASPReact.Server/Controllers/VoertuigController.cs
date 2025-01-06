@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 using System;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace CarAndAll_ASPReact.Server.Controllers
 {
@@ -14,12 +15,15 @@ namespace CarAndAll_ASPReact.Server.Controllers
     public class VoertuigController : ControllerBase
     {
         private readonly CarAndAllDbContext _context;
+        private readonly NotificationService _notificationService;
         private readonly UserManager<User> _userManager;
 
-        public VoertuigController(CarAndAllDbContext context, UserManager<User> userManager)
+        public VoertuigController(CarAndAllDbContext context, NotificationService notificationService, UserManager<User> userManager)
         {
             _userManager = userManager;
             _context = context;
+            _notificationService = notificationService;
+            _userManager = userManager;
         }
 
         //Gegevens van 1 auto opvragen, met bijbehorende verhuuraanvragen erbij
@@ -119,18 +123,20 @@ namespace CarAndAll_ASPReact.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVerhuuraanvraag([FromBody] VerhuuraanvraagDto verhuuraanvraagDto)
         {
-
+            var requestBody = JsonSerializer.Serialize(verhuuraanvraagDto);
+            Console.WriteLine($"Inkomende JSON: {requestBody}");
             try
             {
                 var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                 Console.WriteLine($"De userId met de lijn van Dean is: {userId}");
 
-
-
                 Console.WriteLine("Ontvangen VerhuuraanvraagDto:");
                 Console.WriteLine($"Startdatum: {verhuuraanvraagDto.Startdatum}");
                 Console.WriteLine($"Einddatum: {verhuuraanvraagDto.Einddatum}");
                 Console.WriteLine($"VoertuigId: {verhuuraanvraagDto.VoertuigId}");
+
+                var StartDatum = verhuuraanvraagDto.Startdatum;
+                var EindDatum = verhuuraanvraagDto.Einddatum;
 
                 if (verhuuraanvraagDto.Startdatum >= verhuuraanvraagDto.Einddatum)
                 {
@@ -144,8 +150,8 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
                 var nieuweAanvraag = new Verhuuraanvraag
                 {
-                    Startdatum = verhuuraanvraagDto.Startdatum,
-                    Einddatum = verhuuraanvraagDto.Einddatum,
+                    Startdatum = StartDatum,
+                    Einddatum = EindDatum,
                     Status = "In behandeling",
                     HuurderId = userId,
                     VoertuigId = verhuuraanvraagDto.VoertuigId
@@ -153,8 +159,18 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
                 try
                 {
+
+                    Console.WriteLine("Hij probeert te saven");
                     _context.Verhuuraanvragen.Add(nieuweAanvraag);
                     await _context.SaveChangesAsync();
+
+                    string _voertuigMerk = verhuuraanvraagDto.VoertuigMerk;
+                    string _voertuigType = verhuuraanvraagDto.VoertuigType;
+                    double _voertuigPrijs = verhuuraanvraagDto.VoertuigPrijs;
+                    string message = $"Uw verhuurverzoek voor: {_voertuigMerk} {_voertuigType} van {StartDatum} t/m {EindDatum} is verzonden en wordt spoedig behandeld door een medewerker. Wanneer deze wordt geaccepteerd bedraagt de huurprijs per dag: {_voertuigPrijs}";
+
+                    Console.WriteLine(message);
+                    await _notificationService.SendNotificationAsync(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value, "Bericht", null, "Verhuurzoek Inzending", message);
                 }
 
                 catch (Exception e)

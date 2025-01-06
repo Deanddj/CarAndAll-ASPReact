@@ -56,6 +56,9 @@ const RentCar = () => {
             Startdatum: startDate,
             Einddatum: endDate,
             VoertuigId: parseInt(voertuigId, 10),
+            VoertuigMerk: voertuig.merk,
+            VoertuigType: voertuig.type,
+            VoertuigPrijs: voertuig.prijs,
         };
 
         console.log('Verstuurde data:', rentData);
@@ -69,6 +72,8 @@ const RentCar = () => {
                 body: JSON.stringify(rentData),
                 credentials: 'include',
             });
+
+
 
             if (response.ok) {
                 alert('Huurverzoek succesvol ingediend!');
@@ -103,6 +108,8 @@ const RentCar = () => {
                 <p><strong>Soort:</strong> {voertuig.soort}</p>
                 <p><strong>Status:</strong> {voertuig.status}</p>
                 {voertuig.aanschafjaar && <p><strong>Aanschafjaar:</strong> {voertuig.aanschafjaar}</p>}
+                <p><strong>Prijs:</strong> &euro; {voertuig.prijs}</p>
+
             </div>
 
             <div className="rental-overview">
