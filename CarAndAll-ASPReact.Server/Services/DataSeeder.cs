@@ -15,7 +15,8 @@ namespace CarAndAll_ASPReact.Server.Services
         {
             Console.WriteLine("Start Initial Seed");
 
-            string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)
+                                   .Parent.Parent.Parent.FullName;
             string relativePath = Path.Combine(projectDirectory, "Items", "voertuigen.txt");
 
             if (File.Exists(relativePath))
