@@ -144,7 +144,6 @@ namespace CarAndAll_ASPReact.Server.Controllers
             return BadRequest(userResult.ToJson());
         }
 
-
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {

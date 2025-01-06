@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using System.Text.Json.Serialization;
 using CarAndAll_ASPReact.Server.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddConsole();
@@ -20,7 +19,6 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<DataSeeder>();
-
 
 builder.Services.AddDbContext<CarAndAllDbContext>();
 
