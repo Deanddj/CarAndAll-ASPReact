@@ -82,7 +82,7 @@ const CarList = () => {
             setStartDate(null);
             setEndDate(null);
             return;
-        }
+        }   
 
         const filtered = cars.filter((car) => {
             const matchesStatus =

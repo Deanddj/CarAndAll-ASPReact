@@ -16,7 +16,6 @@ const RentCar = () => {
                 if (!response.ok) throw new Error('Failed to fetch vehicle data');
 
                 const data = await response.json();
-
                 setVoertuig(data);
             } catch (error) {
                 console.error(error);
@@ -27,6 +26,7 @@ const RentCar = () => {
             try {
                 const response = await fetch(`https://localhost:7159/api/voertuig/voertuigAanvragen/${voertuigId}`);
                 if (!response.ok) throw new Error('Failed to fetch rental periods');
+
                 const cars = await response.json();
                 const data = cars.$values || [];
                 console.log(data);
@@ -51,6 +51,21 @@ const RentCar = () => {
             alert('De startdatum moet eerder zijn dan de einddatum.');
             return;
         }
+        
+        const selectedStartDate = new Date(startDate);
+        const selectedEndDate = new Date(endDate);
+
+        const isOverlap = rentalPeriods.some((period) => {
+            const periodStart = new Date(period.startdatum);
+            const periodEnd = new Date(period.einddatum);
+
+            return (selectedStartDate <= periodEnd && selectedEndDate >= periodStart);
+        });
+
+        if (isOverlap) {
+            alert('De geselecteerde periode overlapt met een bestaande huurperiode. Kies een andere periode.');
+            return;
+        }
 
         const rentData = {
             Startdatum: startDate,
@@ -63,29 +78,30 @@ const RentCar = () => {
 
         console.log('Verstuurde data:', rentData);
 
-        try {
-            const response = await fetch('https://localhost:7159/api/voertuig', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(rentData),
-                credentials: 'include',
-            });
+        if (!isOverlap) {
+            try {
+                const response = await fetch('https://localhost:7159/api/voertuig', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(rentData),
+                    credentials: 'include',
+                })
 
 
-
-            if (response.ok) {
-                alert('Huurverzoek succesvol ingediend!');
-                setStartDate(null);
-                setEndDate(null);
-            } else {
-                const errorData = await response.json();
-                alert(`Er is iets mis gegaan: ${errorData.message || 'Onbekende fout'}`);
+                if (response.ok) {
+                    alert('Huurverzoek succesvol ingediend!');
+                    setStartDate(null);
+                    setEndDate(null);
+                } else {
+                    const errorData = await response.json();
+                    alert(`Er is iets mis gegaan: ${errorData.message || 'Onbekende fout'}`);
+                }
+            } catch (error) {
+                alert('Er is iets mis gegaan bij het indienen van het huurverzoek.');
+                console.error(error);
             }
-        } catch (error) {
-            alert('Er is iets mis gegaan bij het indienen van het huurverzoek.');
-            console.error(error);
         }
     };
 
