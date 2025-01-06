@@ -3,6 +3,7 @@ using System;
 using CarAndAll_ASPReact.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     [DbContext(typeof(CarAndAllDbContext))]
-    partial class CarAndAllDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250106133755_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -394,29 +397,13 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Property<int?>("BedrijfId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BedrijfId1")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Telefoonnummer")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasIndex("BedrijfId");
 
-                    b.HasIndex("BedrijfId1");
-
                     b.HasDiscriminator().HasValue("Huurder");
-                });
-
-            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Medewerker", b =>
-                {
-                    b.HasBaseType("CarAndAll_ASPReact.Server.Models.User");
-
-                    b.Property<string>("Rol")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasDiscriminator().HasValue("Medewerker");
                 });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", b =>
@@ -426,21 +413,13 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Property<int>("BedrijfId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BedrijfId1")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("BedrijfId");
-
-                    b.HasIndex("BedrijfId1")
+                    b.HasIndex("BedrijfId")
                         .IsUnique();
 
                     b.ToTable("AspNetUsers", t =>
                         {
                             t.Property("BedrijfId")
                                 .HasColumnName("ZakelijkeBeheerder_BedrijfId");
-
-                            t.Property("BedrijfId1")
-                                .HasColumnName("ZakelijkeBeheerder_BedrijfId1");
                         });
 
                     b.HasDiscriminator().HasValue("ZakelijkeBeheerder");
@@ -530,12 +509,8 @@ namespace CarAndAll_ASPReact.Server.Migrations
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Huurder", b =>
                 {
                     b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
-                        .WithMany()
-                        .HasForeignKey("BedrijfId");
-
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", null)
                         .WithMany("Huurders")
-                        .HasForeignKey("BedrijfId1");
+                        .HasForeignKey("BedrijfId");
 
                     b.Navigation("Bedrijf");
                 });
@@ -543,14 +518,10 @@ namespace CarAndAll_ASPReact.Server.Migrations
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", b =>
                 {
                     b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
-                        .WithMany()
-                        .HasForeignKey("BedrijfId")
+                        .WithOne("ZakelijkeBeheerder")
+                        .HasForeignKey("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", "BedrijfId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", null)
-                        .WithOne("ZakelijkeBeheerder")
-                        .HasForeignKey("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", "BedrijfId1");
 
                     b.Navigation("Bedrijf");
                 });

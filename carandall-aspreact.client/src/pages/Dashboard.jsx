@@ -16,7 +16,7 @@ import fetchUserData from '../api/userDataApi';
 const Dashboard = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [activeSection, setActiveSection] = useState('home');
+    const [activeSection, setActiveSection] = useState('huren');
     const [userDetails, setUserDetails] = useState(null);
 
     useEffect(() => {
@@ -104,11 +104,8 @@ const Dashboard = () => {
                         </button>
                     </>
                 )}
-                {userDetails && userDetails.type === 'Mederwerker' && (
-                    <button
-                        onClick={() => handleSectionChange('status')}
-                        className={activeSection === 'status' ? 'active' : ''}
-                    >
+                {userDetails && userDetails.type === 'Medewerker' && (
+                    <button onClick={() => setActiveSection('status')} className={activeSection === 'status' ? 'active' : ''}>
                         Status
                     </button>
                 )}

@@ -12,7 +12,13 @@ namespace CarAndAll_ASPReact.Server
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseSqlite("Data Source=CarAndAll.db");
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
 
+            builder.Entity<Medewerker>()
+                .HasBaseType<User>();
+        }
         public DbSet<Bedrijf> Bedrijven { get; set; }
         public DbSet<Abonnement> Abonnementen { get; set; }
         public DbSet<Voertuig> Voertuigen { get; set; }
