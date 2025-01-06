@@ -56,7 +56,6 @@ namespace CarAndAll_ASPReact.Server.Controllers
         public async Task<IActionResult> GetVoertuigenMetVerhuurAanvragen()
         {
             Console.WriteLine("hallo");
-            // Haal de userId op uit de claims
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))
@@ -64,8 +63,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 Console.WriteLine("gebruiker niet gevonden");
                 return Unauthorized(new { message = "Gebruiker niet ingelogd." });
             }
-
-            // Haal de user op inclusief bedrijfsinformatie
+            
             var user = await _userManager.Users
                 .Include(u => (u as ZakelijkeBeheerder).Bedrijf)
                 .Include(u => (u as Huurder).Bedrijf)
@@ -77,14 +75,12 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 return NotFound(new { message = "Gebruiker niet gevonden." });
             }
 
-            // Controleer of de gebruiker een bedrijf heeft
             var heeftBedrijf = (user as Huurder)?.Bedrijf != null;
             Console.WriteLine(heeftBedrijf);
 
-            // Filter voertuigen afhankelijk van of de gebruiker een bedrijf heeft
             var voertuigenMetAanvragen = _context.Voertuigen
                 .Include(v => v.Verhuuraanvragen)
-                .Where(v => !heeftBedrijf || v.Soort == "Auto") // Alleen voertuigen met type 'Auto' als de gebruiker een bedrijf heeft
+                .Where(v => !heeftBedrijf || v.Soort == "Auto") 
                 .Select(v => new
                 {
                     v.VoertuigId,
@@ -98,7 +94,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                     v.Prijs,
                     HeeftGoedgekeurdeAanvraag = v.Verhuuraanvragen.Any(va => va.Status == "Goedgekeurd"),
                     Verhuuraanvragen = v.Verhuuraanvragen
-                        .Where(va => va.Status == "Goedgekeurd") // Filter alleen de goedgekeurde verhuuraanvragen
+                        .Where(va => va.Status == "Goedgekeurd") 
                         .Select(va => new
                         {
                             va.VerhuuraanvraagId,
@@ -175,6 +171,64 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 return StatusCode(500, new { message = "Er is iets misgegaan bij het verwerken van de aanvraag." });
             }
         }
+
+        //Voertuig in de database toevoegen
+        [HttpPost]
+        public IActionResult AddVoertuig([FromBody] Voertuig voertuig)
+        {
+            if (_context.Voertuigen.Any(v => v.Kenteken == voertuig.Kenteken))
+            {
+                return BadRequest("Een voertuig met dit kenteken bestaat al.");
+            }
+
+            _context.Voertuigen.Add(voertuig);
+            _context.SaveChanges();
+
+            return Ok("Voertuig toegevoegd.");
+        }
+
+        //Voertuig uit de database verwijderen
+        [HttpDelete("{id}")]
+        public IActionResult DeleteVoertuig(int id)
+        {
+            var voertuig = _context.Voertuigen.Find(id);
+            if (voertuig == null)
+            {
+                return NotFound("Voertuig niet gevonden.");
+            }
+
+            _context.Voertuigen.Remove(voertuig);
+            _context.SaveChanges();
+
+            return Ok("Voertuig verwijderd.");
+        }
+
+        //Status veranderen van voertuig in database
+        [HttpPatch("{id}/status")]
+        public IActionResult UpdateStatus(int id, [FromBody] string nieuweStatus)
+        {
+            var geldigeStatussen = new[] { "Beschikbaar", "In reparatie", "Verhuurd" };
+
+            if (!geldigeStatussen.Contains(nieuweStatus))
+            {
+                return BadRequest("Ongeldige status. Geldige statussen zijn: Beschikbaar, In reparatie, Verhuurd.");
+            }
+
+            var voertuig = _context.Voertuigen.Find(id);
+            if (voertuig == null)
+            {
+                return NotFound($"Voertuig met ID {id} niet gevonden.");
+            }
+
+            voertuig.Status = nieuweStatus;
+            _context.SaveChanges();
+
+            return Ok($"De status van voertuig met ID {id} is gewijzigd naar '{nieuweStatus}'.");
+        }
+
+
+
+
 
     }
 }

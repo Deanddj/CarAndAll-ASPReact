@@ -1,6 +1,6 @@
 ﻿using CarAndAll_ASPReact.Server.Models;
 
-namespace CarAndAll_ASPReact.Server.NewFolder
+namespace CarAndAll_ASPReact.Server.Services
 {
     public class DataSeeder
     {
@@ -13,14 +13,15 @@ namespace CarAndAll_ASPReact.Server.NewFolder
 
         public void SeedData()
         {
-            Console.WriteLine("Start");
+            Console.WriteLine("Start Initial Seed");
 
-            string filePath = @"C:\Users\Gijori Atmopawiro\Source\Repos\CarAndAll-ASPReact\CarAndAll-ASPReact.Server\Items\voertuigen.txt";
+            string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string relativePath = Path.Combine(projectDirectory, "Items", "voertuigen.txt");
 
-            if (File.Exists(filePath))
+            if (File.Exists(relativePath))
             {
-                string[] lines = File.ReadAllLines(filePath);
-                List<Voertuig> voertuigen = new List<Voertuig>();
+                string[] lines = File.ReadAllLines(relativePath);
+                List<Voertuig> nieuweVoertuigen = new List<Voertuig>();
 
                 foreach (string line in lines)
                 {
@@ -40,25 +41,32 @@ namespace CarAndAll_ASPReact.Server.NewFolder
                         Prijs = ConvertToDouble(GetValue(parts, "Prijs"))
                     };
 
-                    voertuigen.Add(voertuig);
+                    bool bestaatAl = _context.Voertuigen.Any(v => v.Kenteken == voertuig.Kenteken);
+
+                    if (!bestaatAl)
+                    {
+                        nieuweVoertuigen.Add(voertuig);
+                    }
                 }
 
-                if (!_context.Voertuigen.Any()) // Check if the table is empty
+                if (nieuweVoertuigen.Any())
                 {
-                    _context.Voertuigen.AddRange(voertuigen);
+                    _context.Voertuigen.AddRange(nieuweVoertuigen);
                     _context.SaveChanges();
-                    Console.WriteLine("Database seeded with voertuigen data.");
+                    Console.WriteLine($"{nieuweVoertuigen.Count} nieuwe voertuigen toegevoegd.");
                 }
                 else
                 {
-                    Console.WriteLine("Database already contains data. Skipping seed.");
+                    Console.WriteLine("Geen nieuwe voertuigen om toe te voegen.");
                 }
             }
             else
             {
-                Console.WriteLine("File not found: " + filePath);
+                Console.WriteLine("Bestand niet gevonden: " + relativePath);
             }
         }
+
+
 
         static string GetValue(string[] parts, string key)
         {

@@ -3,8 +3,9 @@ using CarAndAll_ASPReact.Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
-using CarAndAll_ASPReact.Server.NewFolder;
 using System.Text.Json.Serialization;
+using CarAndAll_ASPReact.Server.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,6 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
     });
-
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddEndpointsApiExplorer();
