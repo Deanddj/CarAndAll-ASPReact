@@ -190,13 +190,25 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
         //Voertuig in de database toevoegen
         [HttpPost("voertuig/database/add")]
-        public IActionResult AddVoertuig([FromBody] Voertuig voertuig)
+        public IActionResult AddVoertuig([FromBody] AddVoertuigModel voertuigModel)
         {
-            if (_context.Voertuigen.Any(v => v.Kenteken == voertuig.Kenteken))
+            if (_context.Voertuigen.Any(v => v.Kenteken == voertuigModel.Kenteken))
             {
                 return BadRequest("Een voertuig met dit kenteken bestaat al.");
             }
 
+            Voertuig voertuig = new Voertuig
+            {
+                Soort = voertuigModel.Soort,
+                Merk = voertuigModel.Merk,
+                Type = voertuigModel.Type,
+                Kenteken = voertuigModel.Kenteken,
+                Kleur = voertuigModel.Kleur,
+                Aanschafjaar = voertuigModel.Aanschafjaar,
+                Status = "Beschikbaar",
+                Prijs = voertuigModel.Prijs
+            };
+            
             _context.Voertuigen.Add(voertuig);
             _context.SaveChanges();
 
@@ -242,8 +254,16 @@ namespace CarAndAll_ASPReact.Server.Controllers
             return Ok($"De status van voertuig met ID {id} is gewijzigd naar '{nieuweStatus}'.");
         }
 
-
-
+        public class AddVoertuigModel
+        {
+            public string Soort { get; set; }
+            public string Merk { get; set; }
+            public string Type { get; set; }
+            public string Kenteken { get; set; }
+            public string Kleur { get; set; }
+            public int Aanschafjaar { get; set; }
+            public int Prijs { get; set; }
+        }
 
 
     }

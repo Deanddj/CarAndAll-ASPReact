@@ -8,6 +8,7 @@ import Account from './Account.jsx';
 import Bedrijf from './Bedrijf.jsx';
 import Status from './Status.jsx';
 import Notifications from './Notifications.jsx';
+import VehicleOverview from './VehicleOverview.jsx'
 import HuurgeschiedenisHuurder from './HuurgeschiedenisHuurder.jsx';
 import HuurgeschiedenisBeheerder from './HuurgeschiedenisBeheerder.jsx';
 import axios from 'axios';
@@ -42,8 +43,10 @@ const Dashboard = () => {
         switch (activeSection) {
             case 'huren':
                 return <CarList />;
-            case 'status':
+            case 'voertuigStatus':
                 return <Status />;
+            case 'editVoertuigen':
+                return <VehicleOverview />;
             case 'notifications':
                 return <Notifications />;
             case 'account':
@@ -105,9 +108,20 @@ const Dashboard = () => {
                     </>
                 )}
                 {userDetails && userDetails.type === 'Medewerker' && (
-                    <button onClick={() => setActiveSection('status')} className={activeSection === 'status' ? 'active' : ''}>
-                        Status
-                    </button>
+                    <>
+                        <button
+                            onClick={() => handleSectionChange('voertuigStatus')}
+                            className={activeSection === 'voertuigStatus' ? 'active' : ''}
+                        >
+                            Status
+                        </button>
+                        <button
+                            onClick={() => handleSectionChange('editVoertuigen')}
+                            className={activeSection === 'editVoertuigen' ? 'active' : ''}
+                        >
+                            Voertuigen
+                        </button>
+                    </>
                 )}
                 <button
                     onClick={() => handleSectionChange('notifications')}

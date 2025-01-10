@@ -32,7 +32,7 @@ const CarList = () => {
                         alert('Je moet zijn ingelogd voor deze pagina.');
                         window.location.href = '/login';
                     } else {
-                        throw new Error('Fout met gebruikersdata verkrijgen');
+                        throw new Error('Fout met gebruikersdata verkrijgen.');
                     }
                 }
 
@@ -51,7 +51,7 @@ const CarList = () => {
                     credentials: 'include',
                 });
                 if (!response.ok) {
-                    throw new Error('Failed to fetch vehicles with rental data');
+                    throw new Error('Fout met voertuigen verkrijgen.');
                 }
                 const data = await response.json();
 

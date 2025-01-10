@@ -15,10 +15,6 @@ a {
     text-decoration: inherit;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
 button {
     background-color: #ff7615;
     font-weight: 600;
@@ -27,5 +23,5 @@ button {
 }
 
 button:hover {
-    background-color: #f78d47;
+    opacity: 0.8;
 }
