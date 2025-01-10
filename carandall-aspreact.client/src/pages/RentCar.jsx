@@ -1,20 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import '../styles/RentCar.css';
 
 const RentCar = () => {
-    const { voertuigId } = useParams();
+    const location = useLocation();
+    const [voertuigId, setVoertuigId] = useState(null);
     const [voertuig, setVoertuig] = useState(null);
     const [rentalPeriods, setRentalPeriods] = useState([]);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
 
     useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const section = params.get('section');
+        if (section && section.startsWith('rentcar/')) {
+            const id = section.split('/')[1];  // Splits 'rentcar/61' en haal '61' eruit
+            setVoertuigId(id);
+        }
+    }, [location]);
+
+
+    useEffect(() => {
+        if (!voertuigId) return;  // Als voertuigId nog niet is ingesteld, doe niks
+
         const fetchVehicle = async () => {
             try {
                 const response = await fetch(`https://localhost:7159/api/voertuig/${voertuigId}`);
                 if (!response.ok) throw new Error('Failed to fetch vehicle data');
-
                 const data = await response.json();
                 setVoertuig(data);
             } catch (error) {

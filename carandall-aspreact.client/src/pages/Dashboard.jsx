@@ -19,12 +19,17 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState('huren');
     const [userDetails, setUserDetails] = useState(null);
+    const [vehicleId, setVehicleId] = useState(null);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const section = params.get('section');
         if (section) {
             setActiveSection(section);
+            if (section.startsWith('rentcar/')) {
+                const id = section.split('/')[1];  // Extract vehicle ID (61)
+                setVehicleId(id);
+            }
         }
     }, [location]);
 
@@ -40,9 +45,14 @@ const Dashboard = () => {
     };
 
     const renderSection = () => {
+
+        if (activeSection.startsWith('rentcar') && vehicleId) {
+            return <RentCar voertuigId={vehicleId} />;
+        }
+
         switch (activeSection) {
             case 'huren':
-                return <CarList />;
+                return <CarList onChangeSection={handleSectionChange} />;
             case 'voertuigStatus':
                 return <Status />;
             case 'editVoertuigen':
