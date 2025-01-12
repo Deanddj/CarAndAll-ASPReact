@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../styles/VehicleOverview.css';
+import { useMessage } from '../context/MessageProvider';
 
 const VehicleOverview = () => {
     const [vehicles, setVehicles] = useState([]);
@@ -24,25 +25,7 @@ const VehicleOverview = () => {
     });
     const [searchQuery, setSearchQuery] = useState('');
     const [showAddPopup, setShowAddPopup] = useState(false);
-    const [message, setMessage] = useState({ text: '', type: '' });
-
-    const showMessage = (text, type) => {
-        setMessage({ text, type });
-        setTimeout(() => {
-            const dashboardContent = document.querySelector('.dashboard-content');
-            if (dashboardContent) {
-                dashboardContent.scrollTo({
-                    top: 0,
-                    behavior: 'smooth',
-                    block: 'start',
-                });
-            }
-        }, 0);
-    };
-
-    const closeMessage = () => {
-        setMessage({ text: '', type: '' });
-    };
+    const { showMessage } = useMessage();
 
     const fetchCars = async () => {
         try {
@@ -233,38 +216,6 @@ const VehicleOverview = () => {
 
     return (
         <>
-            <div className="message-box">
-                {message.text && (
-                    <div
-                        style={{
-                            padding: '10px',
-                            marginBottom: '15px',
-                            color: message.type === 'success' ? 'green' : 'red',
-                            border: `2px solid ${message.type === 'success' ? 'green' : 'red'}`,
-                            borderRadius: '5px',
-                            position: 'relative',
-                            backgroundColor: message.type === 'success' ? 'rgba(0, 255, 0, 0.1)' : 'rgba(255, 0, 0, 0.1)',
-                        }}
-                    >
-                        {message.text}
-                        <button
-                            onClick={closeMessage}
-                            style={{
-                                position: 'absolute',
-                                top: '5px',
-                                right: '10px',
-                                background: 'transparent',
-                                border: 'none',
-                                color: message.type === 'success' ? 'green' : 'red',
-                                fontSize: '20px',
-                                cursor: 'pointer',
-                            }}
-                        >
-                            &times;
-                        </button>
-                    </div>
-                )}
-            </div>
             <div className="search-container">
                 <div className="search-bar">
                     <input

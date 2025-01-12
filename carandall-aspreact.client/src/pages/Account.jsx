@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useMessage } from '../context/MessageProvider'
 import axios from 'axios';
 import fetchUserData from '../api/userDataApi';
 import '../styles/Account.css';
@@ -10,26 +11,7 @@ const AccountSection = () => {
     const [userDetails, setUserDetails] = useState(null);
     const [updatedData, setUpdatedData] = useState({});
     const [isEditing, setIsEditing] = useState(false);
-    const [message, setMessage] = useState({ text: '', type: '' });
-
-    const showMessage = (text, type) => {
-        setMessage({ text, type });
-
-        setTimeout(() => {
-            const dashboardContent = document.querySelector('.dashboard-content');
-            if (dashboardContent) {
-                dashboardContent.scrollTo({
-                    top: 0,
-                    behavior: 'smooth',
-                    block: 'start',
-                });
-            }
-        }, 0);
-    };
-
-    const closeMessage = () => {
-        setMessage({ text: '', type: '' });
-    };
+    const { showMessage } = useMessage();
     
     useEffect(() => {
         fetchUserData()
@@ -83,9 +65,7 @@ const AccountSection = () => {
                 console.error('Foout met bijwerken van gebruiker data:', error);
                 showMessage("Gebruikers data bijwerken mislukt.", "error");
             });
-
     };
-
 
     const handleDelete = () => {
         axios.delete('/api/notifications/deleteAll')
@@ -104,38 +84,6 @@ const AccountSection = () => {
 
     return (
         <>
-            <div className="message-box">
-                {message.text && (
-                    <div
-                        style={{
-                            padding: '10px',
-                            marginBottom: '15px',
-                            color: message.type === 'success' ? 'green' : 'red',
-                            border: `2px solid ${message.type === 'success' ? 'green' : 'red'}`,
-                            borderRadius: '5px',
-                            position: 'relative',
-                            backgroundColor: message.type === 'success' ? 'rgba(0, 255, 0, 0.1)' : 'rgba(255, 0, 0, 0.1)',
-                        }}
-                    >
-                        {message.text}
-                        <button
-                            onClick={closeMessage}
-                            style={{
-                                position: 'absolute',
-                                top: '5px',
-                                right: '10px',
-                                background: 'transparent',
-                                border: 'none',
-                                color: message.type === 'success' ? 'green' : 'red',
-                                fontSize: '20px',
-                                cursor: 'pointer',
-                            }}
-                        >
-                            &times;
-                        </button>
-                    </div>
-                )}
-            </div>
             <div className="account-section">
                 <h2>Account Gegevens</h2>
                 {!isEditing ? (

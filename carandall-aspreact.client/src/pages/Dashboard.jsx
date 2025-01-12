@@ -7,18 +7,22 @@ import { FaUserCircle } from 'react-icons/fa';
 import Account from './Account.jsx';
 import Bedrijf from './Bedrijf.jsx';
 import Notifications from './Notifications.jsx';
-import VehicleOverview from './VehicleOverview.jsx'
+import VehicleOverview from './VehicleOverview.jsx';
 import HuurgeschiedenisHuurder from './HuurgeschiedenisHuurder.jsx';
 import HuurgeschiedenisBeheerder from './HuurgeschiedenisBeheerder.jsx';
 import axios from 'axios';
 import fetchUserData from '../api/userDataApi';
+import { MessageProvider, useMessage } from '../context/MessageProvider'; // Adjust path
+import { MessageBox } from '../components/MessageBox/MessageBox'; // Adjust path
 
-const Dashboard = () => {
+const DashboardContent = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState('huren');
     const [userDetails, setUserDetails] = useState(null);
     const [vehicleId, setVehicleId] = useState(null);
+
+    const { showMessage, closeMessage } = useMessage(); // Access showMessage and closeMessage from context
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -35,16 +39,46 @@ const Dashboard = () => {
     useEffect(() => {
         fetchUserData()
             .then(data => setUserDetails(data))
-            .catch(error => console.error('Error fetching user data:', error));
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+                showMessage('Failed to fetch user details', 'error'); // Example usage
+            });
     }, []);
 
+    // Clear message when activeSection changes to a new section (not the same section)
+    const [previousSection, setPreviousSection] = useState(activeSection);
+
+    useEffect(() => {
+        if (previousSection !== activeSection) {
+            closeMessage();
+            setPreviousSection(activeSection);
+        }
+    }, [activeSection, previousSection, closeMessage]);
+
     const handleSectionChange = (section) => {
-        setActiveSection(section);
-        navigate(`?section=${section}`);
+        if (section !== activeSection) {
+            setActiveSection(section);
+            navigate(`?section=${section}`);
+        }
+    };
+
+    const handleLogout = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(
+                'https://localhost:7159/api/account/logout',
+                {},
+                { withCredentials: true }
+            );
+            showMessage('Logout successful', 'success'); // Example usage
+            window.location.reload();
+        } catch (error) {
+            console.error('Logout failed: ', error);
+            showMessage('Logout failed. Please try again.', 'error'); // Example usage
+        }
     };
 
     const renderSection = () => {
-
         if (activeSection.startsWith('rentcar') && vehicleId) {
             return <RentCar voertuigId={vehicleId} />;
         }
@@ -64,24 +98,8 @@ const Dashboard = () => {
                 return <HuurgeschiedenisHuurder userDetails={userDetails} />;
             case 'huurgeschiedenisBeheerder':
                 return <HuurgeschiedenisBeheerder userDetails={userDetails} />;
-
             default:
                 return <div className="section">Welcome to the Dashboard!</div>;
-        }
-    };
-
-    const handleLogout = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post(
-                'https://localhost:7159/api/account/logout',
-                {},
-                { withCredentials: true }
-            );
-            window.location.reload();
-            console.log(response.data.message);
-        } catch (error) {
-            console.error('Uitloggen mislukt: ', error);
         }
     };
 
@@ -92,7 +110,9 @@ const Dashboard = () => {
                     <h2>CarAndAll</h2>
                 </a>
                 <div className="navbar-right-section">
-                    <a className="navbar-logout" onClick={handleLogout}>Log uit</a>
+                    <a className="navbar-logout" onClick={handleLogout}>
+                        Log uit
+                    </a>
                     <FaUserCircle className="account-icon" />
                 </div>
             </nav>
@@ -138,28 +158,34 @@ const Dashboard = () => {
                 </button>
                 {userDetails && userDetails.type === 'ZakelijkeBeheerder' && (
                     <>
-                       <button
-                        onClick={() => handleSectionChange('bedrijf')}
-                        className={activeSection === 'bedrijf' ? 'active' : ''}
-                    >
-                        Bedrijf
-                    </button>
+                        <button
+                            onClick={() => handleSectionChange('bedrijf')}
+                            className={activeSection === 'bedrijf' ? 'active' : ''}
+                        >
+                            Bedrijf
+                        </button>
                         <button
                             onClick={() => handleSectionChange('huurgeschiedenisBeheerder')}
                             className={activeSection === 'huurgeschiedenisBeheerder' ? 'active' : ''}
                         >
-                            HuurgeschiedenisBeheeerder
+                            HuurgeschiedenisBeheerder
                         </button>
                     </>
                 )}
             </aside>
 
             <main className="dashboard-content">
+                <MessageBox />
                 {renderSection()}
             </main>
-
         </div>
     );
 };
+
+const Dashboard = () => (
+    <MessageProvider>
+        <DashboardContent />
+    </MessageProvider>
+);
 
 export default Dashboard;

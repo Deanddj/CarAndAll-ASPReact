@@ -12,6 +12,9 @@
     <None Include=".vscode\launch.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="src\components\NewFolder\" />
+    <Folder Include="src\NewFolder1\" />
+    <Folder Include="src\NewFolder2\" />
     <Folder Include="src\NewFolder\" />
   </ItemGroup>
 </Project>

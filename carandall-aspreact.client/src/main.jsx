@@ -9,7 +9,6 @@ import Dashboard from './pages/Dashboard.jsx';
 import Register from './pages/Register.jsx';
 import ProtectedRoute from './pages/ProtectedRoute';
 import RentCar from './pages/RentCar';
-import CarList from './pages/CarList';
 
 const AppWithFooter = () => {
     const location = useLocation();
