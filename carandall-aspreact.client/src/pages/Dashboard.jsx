@@ -6,7 +6,6 @@ import '../styles/Dashboard.css';
 import { FaUserCircle } from 'react-icons/fa';
 import Account from './Account.jsx';
 import Bedrijf from './Bedrijf.jsx';
-import Status from './Status.jsx';
 import Notifications from './Notifications.jsx';
 import VehicleOverview from './VehicleOverview.jsx'
 import HuurgeschiedenisHuurder from './HuurgeschiedenisHuurder.jsx';
@@ -27,7 +26,7 @@ const Dashboard = () => {
         if (section) {
             setActiveSection(section);
             if (section.startsWith('rentcar/')) {
-                const id = section.split('/')[1];  // Extract vehicle ID (61)
+                const id = section.split('/')[1];
                 setVehicleId(id);
             }
         }
@@ -53,8 +52,6 @@ const Dashboard = () => {
         switch (activeSection) {
             case 'huren':
                 return <CarList onChangeSection={handleSectionChange} />;
-            case 'voertuigStatus':
-                return <Status />;
             case 'editVoertuigen':
                 return <VehicleOverview />;
             case 'notifications':
@@ -120,12 +117,6 @@ const Dashboard = () => {
                 {userDetails && userDetails.type === 'Medewerker' && (
                     <>
                         <button
-                            onClick={() => handleSectionChange('voertuigStatus')}
-                            className={activeSection === 'voertuigStatus' ? 'active' : ''}
-                        >
-                            Status
-                        </button>
-                        <button
                             onClick={() => handleSectionChange('editVoertuigen')}
                             className={activeSection === 'editVoertuigen' ? 'active' : ''}
                         >
@@ -163,7 +154,10 @@ const Dashboard = () => {
                 )}
             </aside>
 
-            <main className="dashboard-content">{renderSection()}</main>
+            <main className="dashboard-content">
+                {renderSection()}
+            </main>
+
         </div>
     );
 };

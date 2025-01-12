@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Security.Claims;
 using System.Text.Json;
+using static CarAndAll_ASPReact.Server.Controllers.VoertuigController;
 
 namespace CarAndAll_ASPReact.Server.Controllers
 {
@@ -188,25 +189,67 @@ namespace CarAndAll_ASPReact.Server.Controllers
             }
         }
 
-        //Voertuig in de database toevoegen
-        [HttpPost("voertuig/database/add")]
-        public IActionResult AddVoertuig([FromBody] AddVoertuigModel voertuigModel)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] VehicleModel vehicleModel)
         {
-            if (_context.Voertuigen.Any(v => v.Kenteken == voertuigModel.Kenteken))
+            if (vehicleModel == null)
+            {
+                return BadRequest(new { Message = "Ongeldige info." });
+            }
+
+            var user = await _userManager.Users
+                .FirstOrDefaultAsync(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (user == null)
+            {
+                return NotFound(new { Message = "Gebruiker niet gevonden." });
+            }
+
+            switch (user)
+            {
+                case Medewerker medewerker:
+                    var existingVehicle = await _context.Voertuigen.FirstOrDefaultAsync(v => v.VoertuigId == id);
+                    if (existingVehicle == null)
+                    {
+                        return NotFound(new { Message = "Voertuig niet gevonden." });
+                    }
+
+                    existingVehicle.Soort = vehicleModel.Soort;
+                    existingVehicle.Merk = vehicleModel.Merk;
+                    existingVehicle.Type = vehicleModel.Type;
+                    existingVehicle.Kenteken = vehicleModel.Kenteken;
+                    existingVehicle.Kleur = vehicleModel.Kleur;
+                    existingVehicle.Aanschafjaar = vehicleModel.Aanschafjaar;
+                    existingVehicle.Status = vehicleModel.Status ?? existingVehicle.Status;
+                    existingVehicle.Prijs = vehicleModel.Prijs;
+
+                    _context.Voertuigen.Update(existingVehicle);
+                    await _context.SaveChangesAsync();
+
+                    return Ok(new { Message = "Voertuig succesvol bijgewerkt." });
+
+                default:
+                    return Unauthorized("Niet geauthoriseerd.");
+            }
+        }
+
+        [HttpPost("voertuig/database/add")]
+        public IActionResult AddVoertuig([FromBody] VehicleModel vehicleModel)
+        {
+            if (_context.Voertuigen.Any(v => v.Kenteken == vehicleModel.Kenteken))
             {
                 return BadRequest("Een voertuig met dit kenteken bestaat al.");
             }
 
             Voertuig voertuig = new Voertuig
             {
-                Soort = voertuigModel.Soort,
-                Merk = voertuigModel.Merk,
-                Type = voertuigModel.Type,
-                Kenteken = voertuigModel.Kenteken,
-                Kleur = voertuigModel.Kleur,
-                Aanschafjaar = voertuigModel.Aanschafjaar,
+                Soort = vehicleModel.Soort,
+                Merk = vehicleModel.Merk,
+                Type = vehicleModel.Type,
+                Kenteken = vehicleModel.Kenteken,
+                Kleur = vehicleModel.Kleur,
+                Aanschafjaar = vehicleModel.Aanschafjaar,
                 Status = "Beschikbaar",
-                Prijs = voertuigModel.Prijs
+                Prijs = vehicleModel.Prijs
             };
             
             _context.Voertuigen.Add(voertuig);
@@ -254,17 +297,16 @@ namespace CarAndAll_ASPReact.Server.Controllers
             return Ok($"De status van voertuig met ID {id} is gewijzigd naar '{nieuweStatus}'.");
         }
 
-        public class AddVoertuigModel
+        public class VehicleModel
         {
             public string Soort { get; set; }
             public string Merk { get; set; }
             public string Type { get; set; }
             public string Kenteken { get; set; }
+            public string? Status { get; set; }
             public string Kleur { get; set; }
             public int Aanschafjaar { get; set; }
             public int Prijs { get; set; }
         }
-
-
     }
 }

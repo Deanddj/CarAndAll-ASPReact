@@ -24,6 +24,25 @@ const VehicleOverview = () => {
     });
     const [searchQuery, setSearchQuery] = useState('');
     const [showAddPopup, setShowAddPopup] = useState(false);
+    const [message, setMessage] = useState({ text: '', type: '' });
+
+    const showMessage = (text, type) => {
+        setMessage({ text, type });
+        setTimeout(() => {
+            const dashboardContent = document.querySelector('.dashboard-content');
+            if (dashboardContent) {
+                dashboardContent.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            }
+        }, 0);
+    };
+
+    const closeMessage = () => {
+        setMessage({ text: '', type: '' });
+    };
 
     const fetchCars = async () => {
         try {
@@ -90,7 +109,7 @@ const VehicleOverview = () => {
                 prijs: vehicleData.prijs,
             };
 
-            const response = await fetch(`https://localhost:7159/api/voertuig/${editVehicleId}`, {
+            const response = await fetch(`https://localhost:7159/api/Voertuig/update/${editVehicleId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -105,10 +124,10 @@ const VehicleOverview = () => {
 
             fetchCars();
             setEditVehicleId(null);
-            alert('Voertuigen zijn succesvol geupdate.');
+            showMessage("Voertuig is succesvol geupdate.", "success");
         } catch (error) {
             console.error(error.message);
-            alert('Fout met updaten van voertuigen.');
+            showMessage("Fout met updaten van voertuig.", "error");
         }
     };
 
@@ -123,7 +142,10 @@ const VehicleOverview = () => {
                 },
             });
             if (!response.ok) {
+                showMessage("Fout met toevoegen van voertuig", "error");
                 throw new Error('Fout met toevoegen van voertuig.');
+            } else {
+                showMessage("Voertuig is succesvol toegevoegd.", "success");
             }
             fetchCars();
             setShowAddPopup(false);
@@ -166,10 +188,10 @@ const VehicleOverview = () => {
             }
 
             fetchCars();
-            alert('Voertuig succesvol verwijderd.');
+            showMessage("Voertuig succesvol verwijderd.", "success");
         } catch (error) {
             console.error(error.message);
-            alert('Fout met verwijderen van voertuig.');
+            showMessage("Fout met verwijderen van voertuig", "error");
         }
     };
 
@@ -181,8 +203,68 @@ const VehicleOverview = () => {
         }));
     };
 
+    const handleStatusChange = async (vehicleId, status) => {
+        try {
+            const response = await fetch(`https://localhost:7159/api/Voertuig/${vehicleId}/status`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(status),
+                credentials: 'include',
+            });
+
+            if (!response.ok) {
+                throw new Error('Fout met bijwerken van de status.');
+            }
+
+            setVehicles((prevVehicles) =>
+                prevVehicles.map((vehicle) =>
+                    vehicle.voertuigId === vehicleId ? { ...vehicle, status } : vehicle
+                )
+            );
+
+            showMessage("Status succesvol geupdate.", "success");
+        } catch (error) {
+            console.error(error.message);
+            showMessage("Fout met bijwerken van de status.", "error");
+        }
+    };
+
     return (
         <>
+            <div className="message-box">
+                {message.text && (
+                    <div
+                        style={{
+                            padding: '10px',
+                            marginBottom: '15px',
+                            color: message.type === 'success' ? 'green' : 'red',
+                            border: `2px solid ${message.type === 'success' ? 'green' : 'red'}`,
+                            borderRadius: '5px',
+                            position: 'relative',
+                            backgroundColor: message.type === 'success' ? 'rgba(0, 255, 0, 0.1)' : 'rgba(255, 0, 0, 0.1)',
+                        }}
+                    >
+                        {message.text}
+                        <button
+                            onClick={closeMessage}
+                            style={{
+                                position: 'absolute',
+                                top: '5px',
+                                right: '10px',
+                                background: 'transparent',
+                                border: 'none',
+                                color: message.type === 'success' ? 'green' : 'red',
+                                fontSize: '20px',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            &times;
+                        </button>
+                    </div>
+                )}
+            </div>
             <div className="search-container">
                 <div className="search-bar">
                     <input
@@ -283,6 +365,15 @@ const VehicleOverview = () => {
                         <div className="vehicle-info">
                             <p>{vehicle.merk} {vehicle.type}</p>
                             <div className="vehicle-actions">
+                                <select
+                                    value={vehicle.status || 'N/A'}
+                                    onChange={(e) => handleStatusChange(vehicle.voertuigId, e.target.value)}
+                                    className="status-dropdown"
+                                >
+                                    <option value="Beschikbaar">Beschikbaar</option>
+                                    <option value="In reparatie">In reparatie</option>
+                                    <option value="Verhuurd">Verhuurd</option>
+                                </select>
                                 <button
                                     className="edit-button"
                                     onClick={() => handleEditClick(vehicle.voertuigId, vehicle)}
@@ -357,12 +448,7 @@ const VehicleOverview = () => {
                             </div>
                             <div>
                                 <button onClick={handleSave}>Opslaan</button>
-                                <button
-                                    onClick={() => setEditVehicleId(null)}
-                                    style={{
-                                        backgroundColor: '#8A8989'
-                                    }}
-                                >
+                                <button onClick={() => setEditVehicleId(null)} style={{ backgroundColor: '#8A8989' }}>
                                     Annuleren
                                 </button>
                             </div>

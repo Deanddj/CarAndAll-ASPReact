@@ -10,6 +10,26 @@ const AccountSection = () => {
     const [userDetails, setUserDetails] = useState(null);
     const [updatedData, setUpdatedData] = useState({});
     const [isEditing, setIsEditing] = useState(false);
+    const [message, setMessage] = useState({ text: '', type: '' });
+
+    const showMessage = (text, type) => {
+        setMessage({ text, type });
+
+        setTimeout(() => {
+            const dashboardContent = document.querySelector('.dashboard-content');
+            if (dashboardContent) {
+                dashboardContent.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            }
+        }, 0);
+    };
+
+    const closeMessage = () => {
+        setMessage({ text: '', type: '' });
+    };
     
     useEffect(() => {
         fetchUserData()
@@ -51,7 +71,7 @@ const AccountSection = () => {
 
         axios.put('/api/account/update', payload)
             .then(() => {
-                alert('Gebruiker data succesvol bijgewerkt.');
+                showMessage("Gebruiker data succesvol bijgewerkt.", "success");
 
                 return axios.get('/api/account/get');
             })
@@ -61,7 +81,7 @@ const AccountSection = () => {
             })
             .catch(error => {
                 console.error('Foout met bijwerken van gebruiker data:', error);
-                alert('Gebruikers data bijwerken mislukt.');
+                showMessage("Gebruikers data bijwerken mislukt.", "error");
             });
 
     };
@@ -83,120 +103,154 @@ const AccountSection = () => {
     if (!userDetails) return <div>Loading...</div>;
 
     return (
-        <div className="account-section">
-            <h2>Account Gegevens</h2>
-            {!isEditing ? (
-                <div>
-                    <p><strong>Naam:</strong> {userDetails.naam}</p>
-                    {userDetails.telefoonnummer && <p><strong>Adres:</strong> {userDetails.adres}</p>}
-                    <p><strong>Email:</strong> {userDetails.userName}</p>
-                    {userDetails.telefoonnummer && <p><strong>Telefoonnummer:</strong> {userDetails.telefoonnummer}</p>}
-                    {userDetails.bedrijf && (
-                        <>
-                            <p><strong>Bedrijf Naam:</strong> {userDetails.bedrijf.naam}</p>
-                            <p><strong>Bedrijf Adres:</strong> {userDetails.bedrijf.adres}</p>
-                            <p><strong>KVK:</strong> {userDetails.bedrijf.kvk}</p>
-                        </>
-                    )}
-                    <button
-                        onClick={() => {
-                            setUpdatedData(userDetails);
-                            setIsEditing(true);
+        <>
+            <div className="message-box">
+                {message.text && (
+                    <div
+                        style={{
+                            padding: '10px',
+                            marginBottom: '15px',
+                            color: message.type === 'success' ? 'green' : 'red',
+                            border: `2px solid ${message.type === 'success' ? 'green' : 'red'}`,
+                            borderRadius: '5px',
+                            position: 'relative',
+                            backgroundColor: message.type === 'success' ? 'rgba(0, 255, 0, 0.1)' : 'rgba(255, 0, 0, 0.1)',
                         }}
-                        style={{ marginRight: '10px', marginTop: '10px' }}
                     >
-                        Bewerken
-                    </button>
+                        {message.text}
+                        <button
+                            onClick={closeMessage}
+                            style={{
+                                position: 'absolute',
+                                top: '5px',
+                                right: '10px',
+                                background: 'transparent',
+                                border: 'none',
+                                color: message.type === 'success' ? 'green' : 'red',
+                                fontSize: '20px',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            &times;
+                        </button>
+                    </div>
+                )}
+            </div>
+            <div className="account-section">
+                <h2>Account Gegevens</h2>
+                {!isEditing ? (
+                    <div>
+                        <p><strong>Naam:</strong> {userDetails.naam}</p>
+                        {userDetails.telefoonnummer && <p><strong>Adres:</strong> {userDetails.adres}</p>}
+                        <p><strong>Email:</strong> {userDetails.userName}</p>
+                        {userDetails.telefoonnummer && <p><strong>Telefoonnummer:</strong> {userDetails.telefoonnummer}</p>}
+                        {userDetails.bedrijf && (
+                            <>
+                                <p><strong>Bedrijf Naam:</strong> {userDetails.bedrijf.naam}</p>
+                                <p><strong>Bedrijf Adres:</strong> {userDetails.bedrijf.adres}</p>
+                                <p><strong>KVK:</strong> {userDetails.bedrijf.kvk}</p>
+                            </>
+                        )}
+                        <button
+                            onClick={() => {
+                                setUpdatedData(userDetails);
+                                setIsEditing(true);
+                            }}
+                            style={{ marginRight: '1px', marginTop: '10px' }}
+                        >
+                            Bewerken
+                        </button>
 
-                </div>
-            ) : (
-                <div>
-                    <div>
-                        <label>Naam:</label>
-                        <input
-                            type="text"
-                            name="naam"
-                            value={updatedData.naam || ''}
-                            onChange={handleChange}
-                        />
                     </div>
-                    {userDetails.telefoonnummer && (
+                ) : (
+                    <div>
                         <div>
-                            <label>Adres:</label>
+                            <label>Naam:</label>
                             <input
                                 type="text"
-                                name="adres"
-                                value={updatedData.adres || ''}
+                                name="naam"
+                                value={updatedData.naam || ''}
                                 onChange={handleChange}
                             />
                         </div>
-                    )}
-                    <div>
-                        <label>Email:</label>
-                        <input
-                            type="email"
-                            name="userName"
-                            value={updatedData.userName || ''}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    {userDetails.telefoonnummer && (
+                        {userDetails.telefoonnummer && (
+                            <div>
+                                <label>Adres:</label>
+                                <input
+                                    type="text"
+                                    name="adres"
+                                    value={updatedData.adres || ''}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        )}
                         <div>
-                            <label>Telefoonnummer:</label>
+                            <label>Email:</label>
                             <input
-                                type="text"
-                                name="telefoonnummer"
-                                value={updatedData.telefoonnummer || ''}
+                                type="email"
+                                name="userName"
+                                value={updatedData.userName || ''}
                                 onChange={handleChange}
                             />
                         </div>
-                    )}
-                    {userDetails.bedrijf && (
-                        <>
+                        {userDetails.telefoonnummer && (
                             <div>
-                                <label>Bedrijf Naam:</label>
+                                <label>Telefoonnummer:</label>
                                 <input
                                     type="text"
-                                    name="bedrijf.naam"
-                                    value={updatedData.bedrijf?.naam || ''}
+                                    name="telefoonnummer"
+                                    value={updatedData.telefoonnummer || ''}
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div>
-                                <label>Bedrijf Adres:</label>
-                                <input
-                                    type="text"
-                                    name="bedrijf.adres"
-                                    value={updatedData.bedrijf?.adres || ''}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div>
-                                <label>KVK:</label>
-                                <input
-                                    type="text"
-                                    name="bedrijf.kvk"
-                                    value={updatedData.bedrijf?.kvk || ''}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </>
-                    )}
-                    <button onClick={handleSave} style={{ marginRight: '10px' }}>
-                        Opslaan
-                    </button>
-                        <button onClick={() => {
-                            setUpdatedData(userDetails);
-                            setIsEditing(false);
-                        }} style={{ backgroundColor: 'lightgray' }}>
-                        Annuleren
-                    </button>
-                </div>
-            )}
-            <button onClick={handleDelete} style={{ backgroundColor: 'red' }}>
-                Account Verwijderen
-            </button>
-        </div>
+                        )}
+                        {userDetails.bedrijf && (
+                            <>
+                                <div>
+                                    <label>Bedrijf Naam:</label>
+                                    <input
+                                        type="text"
+                                        name="bedrijf.naam"
+                                        value={updatedData.bedrijf?.naam || ''}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div>
+                                    <label>Bedrijf Adres:</label>
+                                    <input
+                                        type="text"
+                                        name="bedrijf.adres"
+                                        value={updatedData.bedrijf?.adres || ''}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div>
+                                    <label>KVK:</label>
+                                    <input
+                                        type="text"
+                                        name="bedrijf.kvk"
+                                        value={updatedData.bedrijf?.kvk || ''}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </>
+                        )}
+                            <button onClick={handleSave} style={{ marginRight: '6px', backgroundColor: '#4CAF50'}}>
+                            Opslaan
+                        </button>
+                            <button onClick={() => {
+                                setUpdatedData(userDetails);
+                                setIsEditing(false);
+                            }} style={{ backgroundColor: '#8A8989' }}>
+                            Annuleren
+                        </button>
+                    </div>
+                )}
+                <button onClick={handleDelete} style={{ backgroundColor: 'red' }}>
+                    Account Verwijderen
+                </button>
+            </div>
+        </>
     );
 };
 

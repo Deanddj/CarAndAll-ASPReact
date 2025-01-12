@@ -28,14 +28,14 @@
 }
 
     .vehicle-info p {
-        font-weight: 650;
+        font-weight: 550;
         color: #333;
-        font-size: 18px;
+        font-size: 16px;
     }
 
 .vehicle-actions {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
 .edit-button, .delete-button {
@@ -254,4 +254,22 @@
         .popup-form button {
             padding: 6px;
         }
+}
+
+.vehicle-actions {
+    display: flex;
+    align-items: center;
+}
+
+.status-dropdown {
+    margin-right: 10px;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.status-dropdown option {
+    font-size: 14px;
 }
