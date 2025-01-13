@@ -10,6 +10,7 @@ import Notifications from './Notifications.jsx';
 import VehicleOverview from './VehicleOverview.jsx';
 import HuurgeschiedenisHuurder from './HuurgeschiedenisHuurder.jsx';
 import HuurgeschiedenisBeheerder from './HuurgeschiedenisBeheerder.jsx';
+import Verhuuraanvragen from './Verhuuraanvragen.jsx';
 import axios from 'axios';
 import fetchUserData from '../api/userDataApi';
 import { MessageProvider, useMessage } from '../context/MessageProvider';
@@ -95,6 +96,8 @@ const DashboardContent = () => {
                 return <HuurgeschiedenisHuurder userDetails={userDetails} />;
             case 'huurgeschiedenisBeheerder':
                 return <HuurgeschiedenisBeheerder userDetails={userDetails} />;
+            case 'verhuuraanvragen':
+                return <Verhuuraanvragen />;
             default:
                 return <div className="section">Welcome to the Dashboard!</div>;
         }
@@ -138,6 +141,12 @@ const DashboardContent = () => {
                             className={activeSection === 'editVoertuigen' ? 'active' : ''}
                         >
                             Voertuigen
+                        </button>
+                        <button
+                            onClick={() => handleSectionChange('verhuuraanvragen')}
+                            className={activeSection === 'verhuuraanvragen' ? 'active' : ''}
+                        >
+                            Verhuuraanvragen
                         </button>
                     </>
                 )}
