@@ -117,6 +117,14 @@ const VehicleOverview = () => {
 
     const handleSaveNewVehicle = async () => {
         try {
+            for (let key in vehicleData) {
+                if (vehicleData[key] === '' || vehicleData[key] === 0 || vehicleData[key] === null) {
+                    showMessage("Vul alle velden in voordat u verdergaat.", "error")
+                    setShowAddPopup(false);
+                    return;
+                }
+            }
+
             const response = await fetch('https://localhost:7159/api/Voertuig/voertuig/database/add', {
                 method: 'POST',
                 body: JSON.stringify(newVehicleData),
