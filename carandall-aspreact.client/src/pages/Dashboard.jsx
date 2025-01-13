@@ -18,7 +18,7 @@ import { MessageBox } from '../components/MessageBox/MessageBox';
 const DashboardContent = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [activeSection, setActiveSection] = useState('huren');
+    const [activeSection, setActiveSection] = useState('');
     const [userDetails, setUserDetails] = useState(null);
     const [vehicleId, setVehicleId] = useState(null);
     const { showMessage, closeMessage } = useMessage();
@@ -96,7 +96,7 @@ const DashboardContent = () => {
             case 'huurgeschiedenisBeheerder':
                 return <HuurgeschiedenisBeheerder userDetails={userDetails} />;
             default:
-                return <div className="section">Welcome to the Dashboard!</div>;
+                return <div className="section">Welkom bj de dashboard!</div>;
         }
     };
 

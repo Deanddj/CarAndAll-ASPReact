@@ -123,7 +123,13 @@ const RentCar = () => {
     };
 
     if (!voertuig) {
-        return <p>Loading vehicle data...</p>;
+        return (
+            <div className="dashboard-container">
+                <div className="loading-dots">
+                    Voertuigen laden<span className="dot"></span><span className="dot"></span><span className="dot"></span>
+                </div>
+            </div>
+        );
     }
 
     return (

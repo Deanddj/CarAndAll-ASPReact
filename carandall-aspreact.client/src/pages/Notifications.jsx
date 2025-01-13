@@ -90,7 +90,13 @@ const Notifications = () => {
     };
 
     if (loading) {
-        return <p>Notificaties laden...</p>;
+        return (
+            <div className="dashboard-container">
+                <div className="loading-dots">
+                    Laden<span className="dot"></span><span className="dot"></span><span className="dot"></span>
+                </div>
+            </div>
+        );
     }
 
     if (error) {

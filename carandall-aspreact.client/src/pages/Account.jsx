@@ -80,7 +80,15 @@ const AccountSection = () => {
             .catch(error => console.error('Fout met verwijderen van gebruiker data:', error));
     };
 
-    if (!userDetails) return <div>Loading...</div>;
+    if (!userDetails) {
+        return (
+            <div className="dashboard-container">
+                <div className="loading-dots">
+                    Laden<span className="dot"></span><span className="dot"></span><span className="dot"></span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>

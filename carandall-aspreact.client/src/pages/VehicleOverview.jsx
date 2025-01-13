@@ -55,7 +55,8 @@ const VehicleOverview = () => {
     const filteredVehicles = vehicles.filter(vehicle => {
         return (
             vehicle.merk.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            vehicle.type.toLowerCase().includes(searchQuery.toLowerCase())
+            vehicle.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            vehicle.kenteken.toLowerCase().includes(searchQuery.toLowerCase())
         );
     });
 
@@ -309,12 +310,11 @@ const VehicleOverview = () => {
                     </div>
                 </div>
             )}
-
             <div className="vehicle-container">
                 {filteredVehicles.map((vehicle) => (
                     <div key={vehicle.voertuigId} className="vehicle-card">
                         <div className="vehicle-info">
-                            <p>{vehicle.merk} {vehicle.type}</p>
+                            <p>{vehicle.merk} {vehicle.type} <span className="kenteken">({vehicle.kenteken})</span></p>
                             <div className="vehicle-actions">
                                 <select
                                     value={vehicle.status || 'N/A'}
