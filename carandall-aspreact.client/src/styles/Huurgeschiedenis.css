@@ -1,26 +1,4 @@
-.car-title {
-    color: white; /* Witte tekst */
-    display: flex;
-    align-items: center; /* Zorgt ervoor dat tekst en plaatje horizontaal gecentreerd zijn */
-    gap: 8px; /* Ruimte tussen tekst en plaatje */
-}
-
-.title-div {
-    background-color: #ff6a0033; /* Oranje achtergrond */
-    padding: 10px; /* Ruimte binnen de titel-div */
-    width: 100%; /* Zorg dat de breedte volledig gevuld is */
-    margin: 0; /* Verwijder standaard marges */
-    box-sizing: border-box; /* Inclusief padding in breedteberekening */
-    position: relative; /* Houd de positie stabiel */
-    top: 0; /* Zet bovenaan */
-    left: 0; /* Start vanaf de linkerkant */
-    border-radius: 7px; /* Maak de randen smooth */
-    height: 70px;
-}
-.car-icon {
-    width: 80px; /* Pas de grootte aan van het plaatje */
-    height: auto; /* Houd de originele verhoudingen */
-}
+﻿/* Huurgeschiedenis.css */
 
 .filter-container {
     display: flex;
@@ -117,57 +95,80 @@
     }
 }
 
-.car-list {
-    text-align: center;
-    padding: 2rem;
+/* Main card styling */
+.huur-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.car-items {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
-}
-
-.car-item {
+.huur-item {
+    position: relative; /* Zorg dat de knop een position context heeft */
+    background-color: #fff;
     border: 1px solid #ccc;
-    padding: 0;
-    margin: 0;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    min-height: 400px;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-    .car-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    .huur-item:hover {
+        background-color: #f6951d66;
     }
 
-    .car-item h3 {
-        margin: 0;
-        font-size: 18px;
-        color: #333;
-        text-align: center;
+.dropdown-arrow-right {
+    position: absolute;
+    right: 10px;
+    top: 15px; /* Gesloten status: vaste pixelwaarde */
+    transform: rotate(0deg);
+    transition: transform 0.3s ease, top 0.3s ease;
+    width: 20px;
+    height: auto;
+    pointer-events: none;
+}
+
+    .dropdown-arrow-right.open {
+        transform: rotate(180deg); /* Draai 180 graden */
+        top: 5px; /* Geopende status: vaste pixelwaarde */
     }
 
-    .car-item p {
+.huur-item-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.car-image-placeholder {
+    width: 60px;
+    height: 60px;
+    background-color: #eaeaea;
+    border-radius: 5px;
+}
+
+.car-title {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0;
+    color: #000; /* Zwarte tekstkleur voor leesbaarheid */
+}
+
+.car-dates {
+    font-size: 22px;
+    color: #666; /* Grijze tekstkleur */
+}
+
+/* Details sectie styling */
+.huur-item-details {
+    margin-top: 10px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .huur-item-details p {
+        margin: 5px 0;
         font-size: 14px;
-        color: #555;
-        margin: 0.5rem 0;
-        text-align: center;
-    }
-
-    .car-item button {
-        display: block;
-        margin: 1rem auto 0;
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 16px;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
+        color: #333; /* Donkergrijze tekstkleur */
     }
