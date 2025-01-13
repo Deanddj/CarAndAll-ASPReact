@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard.jsx';
 import Register from './pages/Register.jsx';
 import ProtectedRoute from './pages/ProtectedRoute';
 import RentCar from './pages/RentCar';
+import PrivacyBeleid from './pages/PrivacyBeleid';
 
 const AppWithFooter = () => {
     const location = useLocation();
@@ -29,7 +30,8 @@ const AppWithFooter = () => {
                 />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />\
-                <Route path="/rentCar/:voertuigId" element={<RentCar />} /> 
+                <Route path="/rentCar/:voertuigId" element={<RentCar />} />
+                <Route path="/privacybeleid" element={<PrivacyBeleid />} />
 
             </Routes>
 

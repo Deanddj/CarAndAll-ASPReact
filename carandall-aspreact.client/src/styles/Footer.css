@@ -8,15 +8,22 @@
     height: 15vh;
 }
 
-
-.footer-content a {
-    text-decoration: none;
-    margin: 0 10px;
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
-    .footer-content a:hover {
-        text-decoration: underline;
+    .footer-content a {
+        text-decoration: none;
+        margin: 0 10px;
     }
+
+        .footer-content a:hover {
+            text-decoration: underline;
+        }
 
 .footer p {
     margin: 5px 0;
