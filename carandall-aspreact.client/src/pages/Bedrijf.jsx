@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useMessage } from '../context/MessageProvider'
 import axios from 'axios';
 import '../styles/Bedrijf.css';
 import sendNotification from '../api/notificationApi';
@@ -8,11 +9,12 @@ axios.defaults.withCredentials = true;
 
 const BedrijfPage = ({ userDetails }) => {
     const [email, setEmail] = useState('');
-    const [invitationStatus, setInvitationStatus] = useState(null);
     const [isInviting, setIsInviting] = useState(false);
     const [users, setUsers] = useState([]);
     const [loadingUsers, setLoadingUsers] = useState(false);
     const [subscriptionType, setSubscriptionType] = useState('');
+    const { showMessage } = useMessage();
+
 
     //const handleSubscriptionChange = (e) => {
     //    setSubscriptionType(e.target.value);
@@ -37,12 +39,12 @@ const BedrijfPage = ({ userDetails }) => {
         const userDomain = getEmailDomain(userDetails?.userName);
 
         if (userDomain && emailDomain && userDomain !== emailDomain) {
-            alert("Je kunt alleen gebruikers met hetzelfde bedrijfsdomein uitnodigen.");
+            showMessage("Je kunt alleen gebruikers met hetzelfde bedrijfsdomein uitnodigen.", "error")
             return;
         }
 
         if (userDetails?.userName === email) {
-            alert("Je kunt jezelf niet uitnodigen.");
+            showMessage("Je kunt jezelf niet uitnodigen.", "error")
             return;
         }
 
@@ -51,10 +53,10 @@ const BedrijfPage = ({ userDetails }) => {
             await sendNotification(email, "BedrijfVerzoek", userDetails?.bedrijf?.bedrijfId, "Bedrijf Uitnodiging",
                 `Je bent uitgenodigd om het bedrijf '${userDetails?.bedrijf?.naam}' te deelnemen, 
                 klik op een van de onderstaande opties.`);
-            setInvitationStatus('Uitnodiging verstuurd!.');
+            showMessage("Uitnodiging verstuurd.", "success")
         } catch (error) {
             console.error('Error versturen van uitnodiging', error);
-            setInvitationStatus('Uitnodiging niet verstuurd.');
+            showMessage("Uitnodiging versturen mislukt.", "error")
         } finally {
             setIsInviting(false);
         }
@@ -128,11 +130,6 @@ const BedrijfPage = ({ userDetails }) => {
                         {isInviting ? 'Inviting...' : 'Invite'}
                     </button>
                 </div>
-                {invitationStatus && (
-                    <div className={`status-message ${invitationStatus.includes('Failed') ? 'error' : 'success'}`}>
-                        {invitationStatus}
-                    </div>
-                )}
             </div>
 
             <div className="section-box">

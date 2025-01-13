@@ -179,3 +179,31 @@ input:checked + .slider {
         .login-link a:hover {
             text-decoration: underline;
         }
+
+.tos-container {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+    .tos-container .switch {
+        margin-right: 10px;
+    }
+
+    .tos-container .tos-label {
+        font-size: 14px;
+    }
+
+        .tos-container .tos-label a {
+            color: #E35A00;
+            text-decoration: none;
+        }
+
+            .tos-container .tos-label a:hover {
+                text-decoration: underline;
+            }
+
+.message-box div {
+    width: 100% !important;
+}

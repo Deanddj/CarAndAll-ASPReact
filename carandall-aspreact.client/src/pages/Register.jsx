@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useMessage } from '../context/MessageProvider.jsx';
+import { MessageBox } from '../components/MessageBox/MessageBox.jsx';
 import '../styles/Register.css';
 import '../index.css';
 import axios from 'axios';
@@ -15,40 +17,58 @@ const Register = () => {
     const [companyName, setCompanyName] = useState('');
     const [companyAddress, setCompanyAddress] = useState('');
     const [accountType, setAccountType] = useState('particulier');
+    const { showMessage } = useMessage();
     const navigate = useNavigate();        
+    const [acceptedToS, setAcceptedToS] = useState(false);
 
     const handleRegister = async (e) => {
-            e.preventDefault();
+        e.preventDefault();
 
-            if (password !== confirmPassword) {
-                alert('Wachtwoorden komen niet overeen');
-                return;
-            }
+        if (password !== confirmPassword) {
+            showMessage("Wachtwoorden komen niet overeen.", "error");
+            return;
+        }
 
-            const data = {
-                Naam: naam,
-                Email: email,
-                Wachtwoord: password,
-                Adres: address,
-                Telefoonnummer: accountType === 'particulier' ? phone : null,
-                Kvk: accountType === 'zakelijk' ? kvk : null,
-                BedrijfNaam: accountType === 'zakelijk' ? companyName : null,
-                BedrijfAdres: accountType === 'zakelijk' ? companyAddress : null,
-                AccountType: accountType 
-            };
+        if (acceptedToS === false) {
+            showMessage("U moet akkoord gaan met de algemene voorwaarden om een account aan te maken.", "error");
+            return;
+        }
 
-            try {
-                const response = await axios.post('https://localhost:7159/api/account/register', data, {
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                alert(response.data.message || 'Registratie successvol');
-                navigate('/login');
-            } catch (error) {
-                console.log((error.response?.data && error.message))
-                alert('Registratie mislukt: ' + (error.response?.data || error.message));
-            }
+        const data = {
+            Naam: naam,
+            Email: email,
+            Wachtwoord: password,
+            Adres: address,
+            Telefoonnummer: accountType === 'particulier' ? phone : null,
+            Kvk: accountType === 'zakelijk' ? kvk : null,
+            BedrijfNaam: accountType === 'zakelijk' ? companyName : null,
+            BedrijfAdres: accountType === 'zakelijk' ? companyAddress : null,
+            AccountType: accountType
         };
 
+        try {
+            const response = await axios.post('https://localhost:7159/api/account/register', data, {
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            showMessage("Registratie succesvol.", "success");
+            navigate('/login');
+        } catch (error) {
+            if (error.response?.data) {
+                const { Message, Errors } = error.response.data;
+
+                showMessage(Message || "Registratie mislukt.", "error");
+
+                if (Errors && Array.isArray(Errors)) {
+                    Errors.forEach((error) => {
+                        showMessage(error, "error");
+                    });
+                }
+            } else {
+                showMessage("Er is een onbekende fout opgetreden.", "error");
+            }
+        }
+    };
 
     const handleToggle = () => {
         setAccountType(accountType === 'particulier' ? 'zakelijk' : 'particulier');
@@ -56,6 +76,9 @@ const Register = () => {
 
     return (
         <div className="register-container">
+            <div className="message-box">
+                <MessageBox />
+            </div>
             <h2>Registreer bij CarAndAll</h2>
             <form onSubmit={handleRegister} className={`register-form ${accountType}`}>
                 <div className="slider-container">
@@ -177,7 +200,22 @@ const Register = () => {
                         )}
                     </div>
                 </div>
-                <button type="submit" className="register-button">Registreer</button>
+                <div className="tos-container">
+                    <label className="switch">
+                        <input
+                            type="checkbox"
+                            checked={acceptedToS}
+                            onChange={() => setAcceptedToS(!acceptedToS)}
+                        />
+                        <span className="slider"></span>
+                    </label>
+                    <span className="tos-label">
+                        Ik accepteer de <a href="/terms" target="_blank">algemene voorwaarden</a>
+                    </span>
+                </div>
+                <button type="submit" className="register-button">
+                    Registreer
+                </button>
             </form>
             <div className="login-link">
                 <p>Heb je al een account? <Link to="/login">Log hier in</Link></p>

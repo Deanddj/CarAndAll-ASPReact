@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useMessage } from '../context/MessageProvider.jsx';
+import { MessageBox } from '../components/MessageBox/MessageBox.jsx';
 import axios from 'axios';
 import '../styles/Login.css';
 import '../index.css';
@@ -8,6 +10,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const { showMessage } = useMessage();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -24,16 +27,21 @@ const Login = () => {
             );
 
             console.log(response.data.message);
-            alert('Succesvol ingelogd.');
-            navigate('/dashboard');
+            showMessage('Login succesvol.', 'success');
+            setTimeout(() => {
+                navigate('/dashboard');
+            }, 900);
         } catch (error) {
             console.error('Login mislukt:', error);
-            alert('Verkeerde email of wachtwoord');
+            showMessage('Login mislukt. Verkeerde email of wachtwoord.', 'error');
         }
     };
 
     return (
         <div className="login-container">
+            <div className="message-box">
+                <MessageBox />
+            </div>
             <h2>Inloggen bij CarAndAll</h2>
             <form onSubmit={handleLogin} className="login-form">
                 <div className="input-group">

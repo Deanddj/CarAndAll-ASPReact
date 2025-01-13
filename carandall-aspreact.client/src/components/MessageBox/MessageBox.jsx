@@ -19,6 +19,11 @@ export const MessageBox = () => {
                 backgroundColor:
                     message.type === 'success' ? 'rgba(0, 255, 0, 0.1)' : 'rgba(255, 0, 0, 0.1)',
                 animation: 'bubble 0.6s ease-out',
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                width: '80%',
+                maxWidth: '600px',
             }}
         >
             {message.text}

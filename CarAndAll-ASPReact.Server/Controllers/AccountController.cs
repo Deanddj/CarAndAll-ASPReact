@@ -90,6 +90,17 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 return BadRequest("Ongeldige info.");
             }
 
+            var existingUser = await _userManager.FindByEmailAsync(model.Email);
+            if (existingUser != null)
+            {
+                return BadRequest(new { Message = "Er is al een account met dit e-mailadres." });
+            }
+
+            if (model.Wachtwoord.Length < 8)
+            {
+                return BadRequest(new { Message = "Het wachtwoord moet minimaal 8 tekens bevatten." });
+            }
+
             User user;
 
             if (model.AccountType == "particulier")
@@ -130,7 +141,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
             }
             else
             {
-                return BadRequest("Ongeldig account type.");
+                return BadRequest(new { Message = "Ongeldig account type." });
             }
 
             var userResult = await _userManager.CreateAsync(user, model.Wachtwoord);
@@ -141,7 +152,21 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 return Ok(new { Message = "Gebruiker succesvol geregistreerd." });
             }
 
-            return BadRequest(userResult.ToJson());
+            var errorMessages = userResult.Errors.Select(e =>
+            {
+                if (e.Code == "PasswordRequiresNonAlphanumeric")
+                {
+                    return "Het wachtwoord moet ten minste één niet-alfanumeriek teken bevatten (bijv. !, @, #).";
+                }
+                else if (e.Code == "PasswordRequiresUpper")
+                {
+                    return "Het wachtwoord moet ten minste één hoofdletter bevatten (A-Z).";
+                }
+
+                return e.Description;
+            }).ToList();
+
+            return BadRequest(new { Message = "Registratie mislukt", Errors = errorMessages });
         }
 
         [HttpPost("logout")]

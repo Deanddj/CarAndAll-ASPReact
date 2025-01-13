@@ -52,3 +52,8 @@ h2 {
 .register-link {
     margin-top: 10px;
 }
+
+.message-box div {
+    padding: 10px 25px 10px 10px !important;
+    width: 100% !important;
+}

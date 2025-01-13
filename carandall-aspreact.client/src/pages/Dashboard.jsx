@@ -12,8 +12,8 @@ import HuurgeschiedenisHuurder from './HuurgeschiedenisHuurder.jsx';
 import HuurgeschiedenisBeheerder from './HuurgeschiedenisBeheerder.jsx';
 import axios from 'axios';
 import fetchUserData from '../api/userDataApi';
-import { MessageProvider, useMessage } from '../context/MessageProvider'; // Adjust path
-import { MessageBox } from '../components/MessageBox/MessageBox'; // Adjust path
+import { MessageProvider, useMessage } from '../context/MessageProvider';
+import { MessageBox } from '../components/MessageBox/MessageBox';
 
 const DashboardContent = () => {
     const location = useLocation();
@@ -21,8 +21,7 @@ const DashboardContent = () => {
     const [activeSection, setActiveSection] = useState('huren');
     const [userDetails, setUserDetails] = useState(null);
     const [vehicleId, setVehicleId] = useState(null);
-
-    const { showMessage, closeMessage } = useMessage(); // Access showMessage and closeMessage from context
+    const { showMessage, closeMessage } = useMessage();
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -41,11 +40,10 @@ const DashboardContent = () => {
             .then(data => setUserDetails(data))
             .catch(error => {
                 console.error('Error fetching user data:', error);
-                showMessage('Failed to fetch user details', 'error'); // Example usage
+                showMessage('Failed to fetch user details', 'error');
             });
     }, []);
 
-    // Clear message when activeSection changes to a new section (not the same section)
     const [previousSection, setPreviousSection] = useState(activeSection);
 
     useEffect(() => {
@@ -70,11 +68,10 @@ const DashboardContent = () => {
                 {},
                 { withCredentials: true }
             );
-            showMessage('Logout successful', 'success'); // Example usage
             window.location.reload();
         } catch (error) {
             console.error('Logout failed: ', error);
-            showMessage('Logout failed. Please try again.', 'error'); // Example usage
+            showMessage('Logout failed. Please try again.', 'error');
         }
     };
 

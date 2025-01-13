@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { MessageProvider } from './context/MessageProvider.jsx';
 import './index.css';
 import Homepage from './pages/HomePage.jsx';
 import Footer from './pages/Footer.jsx';
@@ -12,11 +13,10 @@ import RentCar from './pages/RentCar';
 
 const AppWithFooter = () => {
     const location = useLocation();
-
     const noFooterPaths = ['/dashboard'];
 
     return (
-        <>
+        <MessageProvider>
             <Routes>
                 <Route path="/" element={<Homepage />} />
                 <Route
@@ -28,13 +28,12 @@ const AppWithFooter = () => {
                     }
                 />
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />\
-                <Route path="/rentCar/:voertuigId" element={<RentCar />} /> 
-
+                <Route path="/register" element={<Register />} />
+                <Route path="/rentCar/:voertuigId" element={<RentCar />} />
             </Routes>
 
             {!noFooterPaths.includes(location.pathname) && <Footer />}
-        </>
+        </MessageProvider>
     );
 };
 

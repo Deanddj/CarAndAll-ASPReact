@@ -8,13 +8,20 @@ export const MessageProvider = ({ children }) => {
     const showMessage = (text, type) => {
         closeMessage();
         setMessage({ text, type, id: Date.now() });
+
         setTimeout(() => {
             const dashboardContent = document.querySelector('.dashboard-content');
+
             if (dashboardContent) {
                 dashboardContent.scrollTo({
                     top: 0,
                     behavior: 'smooth',
                     block: 'start',
+                });
+            } else {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
                 });
             }
         }, 0);
