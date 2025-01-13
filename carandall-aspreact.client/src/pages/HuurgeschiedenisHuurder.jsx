@@ -13,7 +13,13 @@ const HuurgeschiedenisHuurder = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [userDetails, setUserDetails] = useState(null);
-    const [openDetails, setOpenDetails] = useState(null); // Houd bij welk menu open is
+    const [openDetails, setOpenDetails] = useState(null);
+    const [openStatus, setOpenStatus] = useState({
+        'Goedgekeurd': true,   // All containers open by default
+        'In behandeling': true,
+        'Afgewezen': true
+    });
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -52,10 +58,8 @@ const HuurgeschiedenisHuurder = () => {
                 const data = await response.json();
 
                 const cars = data.$values || [];
-
                 setCars(cars);
                 setFilteredCars(cars);
-                console.log(data);
             } catch (error) {
                 console.error(error.message);
             }
@@ -64,6 +68,18 @@ const HuurgeschiedenisHuurder = () => {
         fetchUserDetails();
         fetchCars();
     }, []);
+
+    const calculateTotalPrice = (startDate, endDate, pricePerDay) => {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        // Bereken het aantal dagen
+        const timeDifference = end - start;
+        const days = timeDifference / (1000 * 3600 * 24); // Omrekenen van milliseconden naar dagen
+
+        // Vermenigvuldig met de prijs per dag
+        return days * pricePerDay;
+    };
 
     const sorters = {
         Default: (a, b) => a.voertuigId - b.voertuigId,
@@ -124,9 +140,39 @@ const HuurgeschiedenisHuurder = () => {
         setOpenDetails((prev) => (prev === carId ? null : carId));
     };
 
+    const toggleStatusDetails = (status) => {
+        setOpenStatus((prev) => ({
+            ...prev,
+            [status]: !prev[status]  // Toggle the state for the clicked status container
+        }));
+    };
+
     useEffect(() => {
         handleFilterChange();
     }, [typeFilter, OrderBy, orderByAscDesc, startDate, endDate]);
+
+    // Functie om verhuuraanvragen per status te groeperen
+    const groupByStatus = (cars) => {
+        const statusGroups = {
+            'Goedgekeurd': [],
+            'In behandeling': [],
+            'Afgewezen': []
+        };
+
+        cars.forEach(car => {
+            if (Array.isArray(car.verhuuraanvragen.$values)) {
+                car.verhuuraanvragen.$values.forEach(aanvraag => {
+                    if (statusGroups[aanvraag.status]) {
+                        statusGroups[aanvraag.status].push({ car, aanvraag });
+                    }
+                });
+            }
+        });
+
+        return statusGroups;
+    };
+
+    const statusGroups = groupByStatus(filteredCars);
 
     return (
         <div className="car-list">
@@ -186,42 +232,55 @@ const HuurgeschiedenisHuurder = () => {
                 </div>
             </div>
 
-            {/* Car List Section */}
-            <div className="huur-items">
-                {filteredCars.map((car) => (
-                    <button
-                        key={car.voertuigId}
-                        className="huur-item"
-                        onClick={() => toggleDetails(car.voertuigId)}
-                    >
-                        <div className="huur-item-header">
-                            <div className="car-image-placeholder"></div>
-                            <div>
-                                <p className="car-title">{car.merk} {car.type}</p>
-                                <p className="car-dates">
-                                    <b>{formatDate(car.verhuuraanvragen.$values[0]?.startdatum)}</b> - <b>{formatDate(car.verhuuraanvragen.$values[0]?.einddatum)}</b>
-                                </p>
-                            </div>
-                        </div>
+            {['Goedgekeurd', 'In behandeling', 'Afgewezen'].map(status => (
+                <div key={status} className={`vehicle-container ${status.toLowerCase().replace(' ', '-')}`}>
+                    <h3 onClick={() => toggleStatusDetails(status)}>
+                        {status}
                         <img
                             src={dropdownArrow}
                             alt="Dropdown Arrow"
-                            className={`dropdown-arrow-right ${openDetails === car.voertuigId ? 'open' : ''}`}
+                            className={`dropdown-arrow-right ${openStatus[status] ? 'open' : ''}`}
                         />
-                        <div
-                            id={`details-${car.voertuigId}`}
-                            className="huur-item-details"
-                            style={{ display: openDetails === car.voertuigId ? 'block' : 'none' }}
-                        >
-                            <p>Kleur: {car.kleur}</p>
-                            <p>Status: {car.status}</p>
-                            <p>Kenteken: {car.kenteken}</p>
-                            <p>Aanschafjaar: {car.aanschafjaar}</p>
-                            <p>Prijs: &euro;{car.prijs}</p>
+                    </h3>
+                    {openStatus[status] && (
+                        <div className="huur-items">
+                            {statusGroups[status].map(({ car, aanvraag }) => {
+                                const totalPrice = calculateTotalPrice(aanvraag.startdatum, aanvraag.einddatum, car.prijs);
+
+                                return (
+                                    <div key={aanvraag.verhuuraanvraagId} className="huur-item">
+                                        <div className="huur-item-header" onClick={() => toggleDetails(aanvraag.verhuuraanvraagId)}>
+                                            <div className="car-image-placeholder"></div>
+                                            <div className="car-info">
+                                                <p className="car-title">{car.merk} {car.type}</p>
+                                                <p className="car-dates">
+                                                    {formatDate(aanvraag.startdatum)} - {formatDate(aanvraag.einddatum)}
+                                                </p>
+                                            </div>
+                                            <img
+                                                src={dropdownArrow}
+                                                alt="Dropdown Arrow"
+                                                className={`dropdown-arrow-right ${openDetails === aanvraag.verhuuraanvraagId ? 'open' : ''}`}
+                                            />
+                                        </div>
+
+                                        {openDetails === aanvraag.verhuuraanvraagId && (
+                                            <div className="huur-item-details">
+                                                <p>Kleur: {car.kleur}</p>
+                                                <p>Status: {car.status}</p>
+                                                <p>Kenteken: {car.kenteken}</p>
+                                                <p>Aanschafjaar: {car.aanschafjaar}</p>
+                                                <p>Totale prijs: €{totalPrice.toFixed(2)}</p>
+                                                <p>Status aanvraag: {aanvraag.status}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
-                    </button>
-                ))}
-            </div>
+                    )}
+                </div>
+            ))}
         </div>
     );
 };
