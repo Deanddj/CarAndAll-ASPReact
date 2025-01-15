@@ -27,6 +27,10 @@ public class VerhuuraanvragenController : ControllerBase
         var verhuuraanvragen = await _context.Verhuuraanvragen
         .ToListAsync();
 
+        //foreach (var aanvraag in verhuuraanvragen)
+        //{
+        //    Console.WriteLine($"Id: {aanvraag.HuurderId}");
+        //}
         return Ok(verhuuraanvragen);
     }
 

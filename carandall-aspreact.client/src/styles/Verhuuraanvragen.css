@@ -1,0 +1,86 @@
+/* verhuuraanvragen.css */
+
+/* Alleen toepassen binnen de .verhuuraanvragen-wrapper */
+.verhuuraanvragen-wrapper {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    padding: 20px;
+    color: #333;
+}
+
+    .verhuuraanvragen-wrapper h1 {
+        text-align: center;
+        color: #444;
+        margin-bottom: 20px;
+    }
+
+    .verhuuraanvragen-wrapper table {
+        width: 90%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .verhuuraanvragen-wrapper thead {
+        background-color: #0078D4;
+        color: white;
+    }
+
+        .verhuuraanvragen-wrapper thead th {
+            padding: 15px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+    .verhuuraanvragen-wrapper tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+        .verhuuraanvragen-wrapper tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .verhuuraanvragen-wrapper tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    .verhuuraanvragen-wrapper tbody td {
+        padding: 15px;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    .verhuuraanvragen-wrapper button {
+        padding: 10px 15px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .verhuuraanvragen-wrapper button:hover {
+            filter: brightness(90%);
+        }
+
+        .verhuuraanvragen-wrapper button:first-child {
+            background-color: #28a745;
+            color: white;
+        }
+
+            .verhuuraanvragen-wrapper button:first-child:hover {
+                background-color: #218838;
+            }
+
+        .verhuuraanvragen-wrapper button:last-child {
+            background-color: #dc3545;
+            color: white;
+        }
+
+            .verhuuraanvragen-wrapper button:last-child:hover {
+                background-color: #c82333;
+            }

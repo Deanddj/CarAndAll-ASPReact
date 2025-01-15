@@ -364,6 +364,22 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 return StatusCode(500, new { Message = "Er is een fout opgetreden tijdens het verwijderen.", Error = ex.Message });
             }
         }
+
+        [HttpGet("getName/{Id}")]
+        public async Task<IActionResult> GetUserById(string Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id);
+
+            if (user == null)
+            {
+                return NotFound(new { Message = "User not found" });
+            }
+
+            return Ok(new
+            {
+                user.Naam
+            });
+        }
     }
 }
 
