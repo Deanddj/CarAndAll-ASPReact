@@ -7,6 +7,8 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
 }
 
 a {
@@ -16,7 +18,7 @@ a {
 }
 
 button {
-    background-color: #ff7615;
+    background-color: #FD842E;
     font-weight: 550;
     color: white;
     transition: background-color 0.3s ease;

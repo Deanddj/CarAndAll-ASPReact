@@ -117,10 +117,10 @@ const VehicleOverview = () => {
 
     const handleSaveNewVehicle = async () => {
         try {
-            for (let key in vehicleData) {
-                if (vehicleData[key] === '' || vehicleData[key] === 0 || vehicleData[key] === null) {
-                    showMessage("Vul alle velden in voordat u verdergaat.", "error")
+            for (let key in newVehicleData) {
+                if (newVehicleData[key] === '' || newVehicleData[key] === 0 || newVehicleData[key] === null) {
                     setShowAddPopup(false);
+                    showMessage("Vul alle velden in voordat u verdergaat.", "error");
                     return;
                 }
             }
@@ -162,7 +162,7 @@ const VehicleOverview = () => {
             kenteken: '',
             kleur: '',
             aanschafjaar: 0,
-            soort: '',
+            soort: 'Auto',
             prijs: 0,
         });
         setShowAddPopup(true);
@@ -243,73 +243,79 @@ const VehicleOverview = () => {
                 <div className="popup-overlay">
                     <div className="popup-form">
                         <h3>Nieuw Voertuig Toevoegen</h3>
-                        <div>
-                            <label>Soort:</label>
-                            <select
-                                name="soort"
-                                value={newVehicleData.soort || ''}
-                                onChange={handleAddChange}
-                            >
-                                <option value="auto">Auto</option>
-                                <option value="camper">Camper</option>
-                                <option value="caravan">Caravan</option>
-                            </select>
+                        <div className="form-columns">
+                            <div className="column">
+                                <div>
+                                    <label>Soort:</label>
+                                    <select
+                                        name="soort"
+                                        value={newVehicleData.soort || ''}
+                                        onChange={handleAddChange}
+                                    >
+                                        <option value="Auto">Auto</option>
+                                        <option value="Camper">Camper</option>
+                                        <option value="Caravan">Caravan</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Merk:</label>
+                                    <input
+                                        type="text"
+                                        name="merk"
+                                        value={newVehicleData.merk || ''}
+                                        onChange={handleAddChange}
+                                    />
+                                </div>
+                                <div>
+                                    <label>Type:</label>
+                                    <input
+                                        type="text"
+                                        name="type"
+                                        value={newVehicleData.type || ''}
+                                        onChange={handleAddChange}
+                                    />
+                                </div>
+                                <div>
+                                    <label>Kenteken:</label>
+                                    <input
+                                        type="text"
+                                        name="kenteken"
+                                        value={newVehicleData.kenteken || ''}
+                                        onChange={handleAddChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className="column">
+                                <div>
+                                    <label>Kleur:</label>
+                                    <input
+                                        type="text"
+                                        name="kleur"
+                                        value={newVehicleData.kleur || ''}
+                                        onChange={handleAddChange}
+                                    />
+                                </div>
+                                <div>
+                                    <label>Aanschafjaar:</label>
+                                    <input
+                                        type="number"
+                                        name="aanschafjaar"
+                                        value={newVehicleData.aanschafjaar || ''}
+                                        onChange={handleAddChange}
+                                    />
+                                </div>
+                                <div>
+                                    <label>Prijs:</label>
+                                    <input
+                                        type="number"
+                                        name="prijs"
+                                        value={newVehicleData.prijs || ''}
+                                        onChange={handleAddChange}
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <label>Merk:</label>
-                            <input
-                                type="text"
-                                name="merk"
-                                value={newVehicleData.merk || ''}
-                                onChange={handleAddChange}
-                            />
-                        </div>
-                        <div>
-                            <label>Type:</label>
-                            <input
-                                type="text"
-                                name="type"
-                                value={newVehicleData.type || ''}
-                                onChange={handleAddChange}
-                            />
-                        </div>
-                        <div>
-                            <label>Kenteken:</label>
-                            <input
-                                type="text"
-                                name="kenteken"
-                                value={newVehicleData.kenteken || ''}
-                                onChange={handleAddChange}
-                            />
-                        </div>
-                        <div>
-                            <label>Kleur:</label>
-                            <input
-                                type="text"
-                                name="kleur"
-                                value={newVehicleData.kleur || ''}
-                                onChange={handleAddChange}
-                            />
-                        </div>
-                        <div>
-                            <label>Aanschafjaar:</label>
-                            <input
-                                type="number"
-                                name="aanschafjaar"
-                                value={newVehicleData.aanschafjaar || ''}
-                                onChange={handleAddChange}
-                            />
-                        </div>
-                        <div>
-                            <label>Prijs:</label>
-                            <input
-                                type="number"
-                                name="prijs"
-                                value={newVehicleData.prijs || ''}
-                                onChange={handleAddChange}
-                            />
-                        </div>
-                        <div>
+                        <div className="form-buttons">
                             <button onClick={handleSaveNewVehicle}>Opslaan</button>
                             <button onClick={() => setShowAddPopup(false)} style={{ backgroundColor: '#8A8989' }}>
                                 Annuleren
@@ -318,6 +324,7 @@ const VehicleOverview = () => {
                     </div>
                 </div>
             )}
+
             <div className="vehicle-container">
                 {filteredVehicles.map((vehicle) => (
                     <div key={vehicle.voertuigId} className="vehicle-card">

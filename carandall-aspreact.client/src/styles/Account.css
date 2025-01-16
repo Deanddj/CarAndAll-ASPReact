@@ -1,4 +1,4 @@
-.account-section {
+.dashboard-content .account-section {
     margin: auto;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -9,11 +9,11 @@
     width: 100%;
 }
 
-    .account-section h2 {
+    .dashboard-content .account-section h2 {
         margin-bottom: 1rem;
     }
 
-    .account-section div {
+    .dashboard-content .account-section div {
         margin-bottom: 6px;
     }
 

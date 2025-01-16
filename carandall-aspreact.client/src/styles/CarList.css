@@ -15,7 +15,7 @@
     top: 0; /* Zet bovenaan */
     left: 0; /* Start vanaf de linkerkant */
     border-radius: 7px; /* Maak de randen smooth */
-    height: 70px;
+    height: 50px;
 }
 .car-icon {
     width: 80px; /* Pas de grootte aan van het plaatje */

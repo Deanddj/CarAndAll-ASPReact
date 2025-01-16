@@ -1,12 +1,13 @@
 .dashboard-layout {
     display: grid;
     grid-template-rows: auto 1fr auto;
-    grid-template-columns: 240px 1fr;
+    grid-template-columns: 200px 1fr;
     grid-template-areas:
         "navbar navbar"
         "sidebar content"
         "sidebar footer";
     height: 100vh;
+    background-color: #EEEEEE;
 }
 
 .dashboard-navbar {
@@ -17,11 +18,12 @@
     background: linear-gradient(to right, rgba(246, 128, 24, 0.75), rgba(227, 90, 0, 0.75));
     color: white;
     padding: 10px 10px 0px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1;
 }
 
 .navbar-logo h2 {
-    font-size: 24px;
+    font-size: 1.7rem;
     margin-bottom: 10px;
     text-decoration: inherit;
     color: white;
@@ -31,10 +33,11 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    display: none;
 }
 
 .navbar-logout {
-    font-size: 1rem;
+    font-size: 1.1rem;
     margin: 0;
     color: white;
     text-decoration: none;
@@ -52,45 +55,118 @@
 
 .dashboard-sidebar {
     grid-area: sidebar;
-    background-color: #f9f9f9;
+    background-color: #EEEEEE;
     color: #333;
-    padding: 0px;
+    padding: 1rem 10px;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid #ddd;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+    position: relative;
 }
 
     .dashboard-sidebar button {
         background-color: transparent;
-        color: #555; 
-        border: none;
-        padding: 15px 20px;
-        font-size: 16px;
+        color: #555;
+        padding: 13px 15px;
+        font-size: 1.1rem;
         font-weight: normal;
         text-align: left;
         cursor: pointer;
-        border-left: 4px solid transparent;
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        border-radius: 4px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 5px;
+        border: 1.3px solid transparent;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
     }
 
         .dashboard-sidebar button:hover {
-            background-color: #e0e0e0;
-            color: #333;
+            border: 1.3px solid #ccc;
+            background-color: #F3F1F1;
+            opacity: 1;
         }
 
     .dashboard-sidebar .active {
-        background-color: #d1d1d1;
-        color: #333;
-        font-weight: bold;
-        border-left: 4px solid #888; 
+        background-color: white;
+        color: black;
+        border: 1.3px solid #ccc;
+        padding: 13px 15px;
+        box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.05);
+    }
+
+        .dashboard-sidebar .active:hover {
+            background-color: white;
+            border: 1.3px solid #ccc;
+            opacity: 1;
+        }
+
+    .dashboard-sidebar .icon {
+        width: 16px;
+        height: 16px;
+        fill: #555;
+        transition: fill 0.3s ease;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
+
+    .dashboard-sidebar button:hover .icon {
+        fill: black;
+    }
+
+.separator {
+    margin-top: auto;
+    border: none;
+    border-top: 1px solid #ccc;
+    margin-bottom: 0;
+}
+
+.dashboard-sidebar .account-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    margin-top: 10px;
+    height: 40px;
+}
+
+.user-icon {
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-left: 5px;
+}
+
+    .user-icon .icon {
+        width: 20px;
+        height: 20px;
+    }
+
+.logout-text {
+    font-size: 1rem;
+    color: #555;
+    cursor: pointer;
+}
+
+    .logout-text:hover {
+        color: black;
     }
 
 .dashboard-content {
     grid-area: content;
     padding: 2rem;
     overflow-y: auto;
+    margin: 1rem;
+    background-color: white;
+    border-radius: 15px;
+    border: 1.3px solid #ccc;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 768px) {
@@ -106,10 +182,19 @@
     .dashboard-sidebar {
         flex-direction: row;
         justify-content: space-around;
+        padding: 1rem 1rem 0 1rem
     }
 
     .dashboard-content {
         padding: 1rem;
+    }
+
+    .navbar-right-section {
+        display: inherit;
+    }
+
+    .dashboard-sidebar .account-section {
+        display: none;
     }
 }
 

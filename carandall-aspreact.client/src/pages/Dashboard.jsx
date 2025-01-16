@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CarList from './CarList';
 import RentCar from './RentCar';
@@ -121,13 +121,13 @@ const DashboardContent = () => {
                             onClick={() => handleSectionChange('huren')}
                             className={activeSection === 'huren' ? 'active' : ''}
                         >
-                            Huren
+                            <img src="public/rental.svg" className="icon" alt="Voertuigen" /> Huren
                         </button>
                         <button
                             onClick={() => handleSectionChange('huurgeschiedenishuurder')}
                             className={activeSection === 'huurgeschiedenishuurder' ? 'active' : ''}
                         >
-                            HuurgeschiedenisHuurder
+                            <img src="public/history.svg" className="icon" alt="Voertuigen" /> Geschiedenis
                         </button>
                     </>
                 )}
@@ -137,7 +137,7 @@ const DashboardContent = () => {
                             onClick={() => handleSectionChange('editVoertuigen')}
                             className={activeSection === 'editVoertuigen' ? 'active' : ''}
                         >
-                            Voertuigen
+                            <img src="public/car(2).svg" className="icon" alt="Voertuigen" /> Voertuigen
                         </button>
                     </>
                 )}
@@ -145,13 +145,13 @@ const DashboardContent = () => {
                     onClick={() => handleSectionChange('notifications')}
                     className={activeSection === 'notifications' ? 'active' : ''}
                 >
-                    Notificaties
+                    <img src="public/notification.svg" className="icon" alt="Notificaties" /> Notificaties
                 </button>
                 <button
                     onClick={() => handleSectionChange('account')}
                     className={activeSection === 'account' ? 'active' : ''}
                 >
-                    Account
+                    <img src="public/profile.svg" className="icon" alt="Account" /> Account
                 </button>
                 {userDetails && userDetails.type === 'ZakelijkeBeheerder' && (
                     <>
@@ -159,16 +159,24 @@ const DashboardContent = () => {
                             onClick={() => handleSectionChange('bedrijf')}
                             className={activeSection === 'bedrijf' ? 'active' : ''}
                         >
-                            Bedrijf
+                            <span className="icon"></span> Bedrijf
                         </button>
                         <button
                             onClick={() => handleSectionChange('huurgeschiedenisBeheerder')}
                             className={activeSection === 'huurgeschiedenisBeheerder' ? 'active' : ''}
                         >
-                            HuurgeschiedenisBeheerder
+                            <span className="icon"></span> HuurgeschiedenisBeheerder
                         </button>
                     </>
                 )}
+
+                <hr className="separator" />
+                <div className="account-section">
+                    <div className="user-icon">
+                        <img src="public/user.svg" alt="User" className="icon" />
+                    </div>
+                    <span onClick={handleLogout} className="logout-text">Log uit</span>
+                </div>
             </aside>
 
             <main className="dashboard-content">
