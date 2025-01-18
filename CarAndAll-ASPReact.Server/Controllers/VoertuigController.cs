@@ -130,7 +130,6 @@ namespace CarAndAll_ASPReact.Server.Controllers
             {
                 var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                 Console.WriteLine($"De userId met de lijn van Dean is: {userId}");
-
                 Console.WriteLine("Ontvangen VerhuuraanvraagDto:");
                 Console.WriteLine($"Startdatum: {verhuuraanvraagDto.Startdatum}");
                 Console.WriteLine($"Einddatum: {verhuuraanvraagDto.Einddatum}");

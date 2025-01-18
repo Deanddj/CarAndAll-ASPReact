@@ -14,29 +14,49 @@ using System.Collections.Immutable;
 public class VerhuuraanvragenController : ControllerBase
 {
     private readonly CarAndAllDbContext _context;
+    private readonly NotificationService _notificationService;
 
-    public VerhuuraanvragenController(CarAndAllDbContext context)
+
+    public VerhuuraanvragenController(CarAndAllDbContext context, NotificationService notificationService)
     {
         _context = context;
+        _notificationService = notificationService;
+
     }
 
 
     [HttpGet("alle-aanvragen")]
-    public async Task<IActionResult> getaanvragen()
+    public async Task<IActionResult> GetAanvragen()
     {
         var verhuuraanvragen = await _context.Verhuuraanvragen
-        .ToListAsync();
+            .Include(va => va.Voertuig) 
+            .Select(va => new
+            {
+                va.VerhuuraanvraagId,
+                va.Startdatum,
+                va.Einddatum,
+                va.Status,
+                va.HuurderId,
+                Voertuig = new
+                {
+                    va.Voertuig.VoertuigId,
+                    va.Voertuig.Merk,
+                    va.Voertuig.Type,
+                    va.Voertuig.Kenteken,
+                    va.Voertuig.Kleur
+                }
+            })
+            .ToListAsync();
 
-        //foreach (var aanvraag in verhuuraanvragen)
-        //{
-        //    Console.WriteLine($"Id: {aanvraag.HuurderId}");
-        //}
         return Ok(verhuuraanvragen);
     }
 
+
+
     [HttpPut("goedkeuren/{id}")]
-    public async Task<IActionResult> GoedkeurenAanvraag(int id)
+    public async Task<IActionResult> GoedkeurenAanvraag(int id, [FromBody] AanvraagKeuring aanvraagbody)
     {
+        Console.WriteLine($"Aanvraag body: {aanvraagbody.Email}, {aanvraagbody.Voertuig.Merk}, {aanvraagbody.StartDatum}, {aanvraagbody.EindDatum}");
         var aanvraag = await _context.Verhuuraanvragen
             .FirstOrDefaultAsync(a => a.VerhuuraanvraagId == id);
 
@@ -45,14 +65,22 @@ public class VerhuuraanvragenController : ControllerBase
             return NotFound();
         }
 
-        aanvraag.Status = "Goedgekeurd";
-        await _context.SaveChangesAsync();
+            aanvraag.Status = "Goedgekeurd";
+            await _context.SaveChangesAsync();
+
+            var voertuig = aanvraagbody.Voertuig;
+            var message = $"Uw verzoek voor de {voertuig.Merk} {voertuig.Type} voor {aanvraagbody.StartDatum:dd-MM-yyyy} tot en met {aanvraagbody.EindDatum:dd-MM-yyyy} is goedgekeurd";
+
+
+        await _notificationService.SendNotificationAsync(aanvraagbody.Email, "Bericht", null, "Verhuurzoek Goedgekeurd", message);
+       
 
         return Ok(aanvraag);
     }
 
+
     [HttpPut("afkeuren/{id}")]
-    public async Task<IActionResult> AfkeurenAanvraag(int id)
+    public async Task<IActionResult> AfkeurenAanvraag(int id, [FromBody] AanvraagKeuring aanvraagbody)
     {
         var aanvraag = await _context.Verhuuraanvragen
             .FirstOrDefaultAsync(a => a.VerhuuraanvraagId == id);
@@ -65,9 +93,21 @@ public class VerhuuraanvragenController : ControllerBase
         aanvraag.Status = "Afgekeurd";
         await _context.SaveChangesAsync();
 
+        var voertuig = aanvraagbody.Voertuig;
+        var message = $"Uw verzoek voor de {voertuig.Merk} {voertuig.Type} voor {aanvraagbody.StartDatum:dd-MM-yyyy} tot en met {aanvraagbody.EindDatum:dd-MM-yyyy} is afgekeurd";
+        await _notificationService.SendNotificationAsync(aanvraagbody.Email, "Bericht", null, "Verhuurzoek Afgekeurd", message);
+
         return Ok(aanvraag);
     }
 
+    public class AanvraagKeuring
+    {
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public VoertuigDto Voertuig { get; set; }
+        public DateTime StartDatum { get; set; }
+        public DateTime EindDatum { get; set; }
+    }
 
 
 

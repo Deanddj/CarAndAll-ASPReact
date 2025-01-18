@@ -46,24 +46,50 @@ const Verhuuraanvragen = () => {
         const naam = await fetchNaamByUserId(updatedAanvraag.huurderId);
         setAanvragen(prevAanvragen =>
             prevAanvragen.map(aanvraag =>
-                aanvraag.verhuuraanvraagId === id ? { ...updatedAanvraag, naam } : aanvraag
+                aanvraag.verhuuraanvraagId === id
+                    ? { ...updatedAanvraag, naam, voertuig: aanvraag.voertuig } // Zorg dat voertuig mee komt
+                    : aanvraag
             )
         );
     };
 
+
     // Voor goedkeuren
-    const goedkeuren = async (id) => {
+    const goedkeuren = async (aanvraag) => {
+        console.log(`De aanvraag is:`, aanvraag);
         try {
-            const response = await fetch(`https://localhost:7159/api/verhuuraanvragen/goedkeuren/${id}`, {
+            console.log(`De userid is ${aanvraag.huurderId}`);
+
+            const userDetails = await fetch(`https://localhost:7159/api/account/getEmailAdres/${aanvraag.huurderId}`); 
+            if (!userDetails.ok) {
+                throw new Error('Netwerkfout of gebruikersgegevens niet gevonden');
+            }
+            const data = await userDetails.json();
+            var email = data.email;
+
+        } catch (err) {
+            alert('Fout: ' + err.message); 
+        }
+
+        try {
+            const response = await fetch(`https://localhost:7159/api/verhuuraanvragen/goedkeuren/${aanvraag.verhuuraanvraagId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                body: JSON.stringify({
+                    id: aanvraag.verhuuraanvraagId, 
+                    email: email,
+                    voertuig: aanvraag.voertuig,
+                    startDatum: aanvraag.startdatum,
+                    eindDatum: aanvraag.einddatum
+                })
+
             });
 
             if (response.ok) {
                 const updatedAanvraag = await response.json();
-                updateRequestStatus(id, updatedAanvraag);
+                updateRequestStatus(aanvraag.verhuuraanvraagId, updatedAanvraag);
             } else {
                 setFout('Er is een probleem bij het goedkeuren van de aanvraag.');
             }
@@ -72,19 +98,43 @@ const Verhuuraanvragen = () => {
         }
     };
 
+
     // Voor afkeuren
-    const afkeuren = async (id) => {
+    const afkeuren = async (aanvraag) => {
         try {
-            const response = await fetch(`https://localhost:7159/api/verhuuraanvragen/afkeuren/${id}`, {
+            console.log(`De userid is ${aanvraag.huurderId}`);
+
+            const userDetails = await fetch(`https://localhost:7159/api/account/getEmailAdres/${aanvraag.huurderId}`);
+            if (!userDetails.ok) {
+                throw new Error('Netwerkfout of gebruikersgegevens niet gevonden');
+            }
+            const data = await userDetails.json();
+            var email = data.email;
+
+        } catch (err) {
+            alert('Fout: ' + err.message);
+        }
+
+        try {
+            const response = await fetch(`https://localhost:7159/api/verhuuraanvragen/afkeuren/${aanvraag.verhuuraanvraagId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                body: JSON.stringify({
+                    id: aanvraag.verhuuraanvraagId,
+                    email: email,
+                    voertuig: aanvraag.voertuig,
+                    startDatum: aanvraag.startdatum,
+                    eindDatum: aanvraag.einddatum
+                })
+
+
             });
 
             if (response.ok) {
                 const updatedAanvraag = await response.json();
-                updateRequestStatus(id, updatedAanvraag);
+                updateRequestStatus(aanvraag.verhuuraanvraagId, updatedAanvraag);
             } else {
                 setFout('Er is een probleem bij het afkeuren van de aanvraag.');
             }
@@ -100,7 +150,8 @@ const Verhuuraanvragen = () => {
             <table>
                 <thead>
                     <tr>
-                        <th>Naam</th>
+                        <th>Klant</th>
+                        <th>Voertuig</th>
                         <th>Start Datum</th>
                         <th>Eind Datum</th>
                         <th>Status</th>
@@ -111,12 +162,13 @@ const Verhuuraanvragen = () => {
                     {aanvragen.map((aanvraag) => (
                         <tr key={aanvraag.verhuuraanvraagId}>
                             <td>{aanvraag.naam}</td>
-                            <td>{aanvraag.startdatum}</td>
-                            <td>{aanvraag.einddatum}</td>
+                            <td>{aanvraag.voertuig.merk} {aanvraag.voertuig.type}</td>
+                            <td>{aanvraag.startdatum.slice(0, 10)}</td>
+                            <td>{aanvraag.einddatum.slice(0, 10)}</td>
                             <td>{aanvraag.status}</td>
                             <td>
-                                <button onClick={() => goedkeuren(aanvraag.verhuuraanvraagId)}>Goedgekeuren</button>
-                                <button onClick={() => afkeuren(aanvraag.verhuuraanvraagId)}>Afkeuren</button>
+                                <button onClick={() => goedkeuren(aanvraag)}>Goedgekeuren</button>
+                                <button onClick={() => afkeuren(aanvraag)}>Afkeuren</button>
                             </td>
                         </tr>
                     ))}
