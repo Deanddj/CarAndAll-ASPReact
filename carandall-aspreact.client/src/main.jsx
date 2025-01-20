@@ -11,6 +11,7 @@ import ProtectedRoute from './pages/ProtectedRoute';
 import RentCar from './pages/RentCar';
 import PrivacyBeleid from './pages/PrivacyBeleid';
 
+
 const AppWithFooter = () => {
     const location = useLocation();
 
