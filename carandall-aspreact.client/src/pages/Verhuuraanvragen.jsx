@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useMessage } from '../context/MessageProvider'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import '../index.css';
@@ -7,6 +8,7 @@ import '../styles/Verhuuraanvragen.css';
 const Verhuuraanvragen = () => {
     const [aanvragen, setAanvragen] = useState([]);
     const [fout, setFout] = useState(null);
+    const { showMessage } = useMessage();
 
     const fetchNaamByUserId = async (userId) => {
         try {
@@ -90,10 +92,12 @@ const Verhuuraanvragen = () => {
             if (response.ok) {
                 const updatedAanvraag = await response.json();
                 updateRequestStatus(aanvraag.verhuuraanvraagId, updatedAanvraag);
+                showMessage("De verhuuraanvraag is gezet op 'goedgekeurd'.", "success");
             } else {
                 setFout('Er is een probleem bij het goedkeuren van de aanvraag.');
             }
         } catch (error) {
+            showMessage("Er is iets fout gegaanb", "error")
             setFout('Er is een fout opgetreden bij de API-aanroep.');
         }
     };
@@ -135,6 +139,7 @@ const Verhuuraanvragen = () => {
             if (response.ok) {
                 const updatedAanvraag = await response.json();
                 updateRequestStatus(aanvraag.verhuuraanvraagId, updatedAanvraag);
+                showMessage("De verhuuraanvraag is gezet op 'afgewezen' ", "success")
             } else {
                 setFout('Er is een probleem bij het afkeuren van de aanvraag.');
             }

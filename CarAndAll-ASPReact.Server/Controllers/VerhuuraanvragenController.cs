@@ -90,12 +90,12 @@ public class VerhuuraanvragenController : ControllerBase
             return NotFound();
         }
 
-        aanvraag.Status = "Afgekeurd";
+        aanvraag.Status = "Afgewezen";
         await _context.SaveChangesAsync();
 
         var voertuig = aanvraagbody.Voertuig;
         var message = $"Uw verzoek voor de {voertuig.Merk} {voertuig.Type} voor {aanvraagbody.StartDatum:dd-MM-yyyy} tot en met {aanvraagbody.EindDatum:dd-MM-yyyy} is afgekeurd";
-        await _notificationService.SendNotificationAsync(aanvraagbody.Email, "Bericht", null, "Verhuurzoek Afgekeurd", message);
+        await _notificationService.SendNotificationAsync(aanvraagbody.Email, "Bericht", null, "Verhuurzoek Afgewezen", message);
 
         return Ok(aanvraag);
     }
