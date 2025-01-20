@@ -112,6 +112,49 @@ namespace CarAndAll_ASPReact.Server.Controllers
             return Ok(voertuigenMetAanvragen);
         }
 
+        // Alleen voertuigen ophalen waar de user een verhuuraanvraag van heeft gemaakt
+        [HttpGet("voertuigen/met-aanvragen/van-user")]
+        public async Task<IActionResult> GetVoertuigenMetVerhuurAanvragenVanUser()
+        {
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("Gebruiker is niet ingelogd.");
+            }
+
+            var voertuigenMetAanvragen = await _context.Voertuigen
+                .Include(v => v.Verhuuraanvragen)
+                .Where(v => v.Verhuuraanvragen.Any(va => va.HuurderId == userId)) // Filteren op aanvragen van de gebruiker
+                .Select(v => new
+                {
+                    v.VoertuigId,
+                    v.Soort,
+                    v.Merk,
+                    v.Type,
+                    v.Kenteken,
+                    v.Kleur,
+                    v.Aanschafjaar,
+                    v.Status,
+                    v.Prijs,
+                    HeeftGoedgekeurdeAanvraag = v.Verhuuraanvragen.Any(va => va.HuurderId == userId && va.Status == "Goedgekeurd"),
+                    Verhuuraanvragen = v.Verhuuraanvragen
+                        .Where(va => va.HuurderId == userId) // Alleen aanvragen van de gebruiker
+                        .Select(va => new
+                        {
+                            va.VerhuuraanvraagId,
+                            va.Startdatum,
+                            va.Einddatum,
+                            va.Status
+                        })
+                        .ToList()
+                })
+                .ToListAsync();
+
+            return Ok(voertuigenMetAanvragen);
+        }
+
+
         //cookies
         [HttpGet("claims")]
         public IActionResult GetClaims()
