@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace CarAndAll_ASPReact.Server
 {
@@ -17,7 +18,13 @@ namespace CarAndAll_ASPReact.Server
             base.OnModelCreating(builder);
 
             builder.Entity<Medewerker>()
-                .HasBaseType<User>();
+            .HasBaseType<User>();
+
+            builder.Entity<Verhuuraanvraag>()
+            .HasOne(va => va.Voertuig)
+            .WithMany(v => v.Verhuuraanvragen)
+            .HasForeignKey(va => va.VoertuigId);
+
         }
         public DbSet<Bedrijf> Bedrijven { get; set; }
         public DbSet<Abonnement> Abonnementen { get; set; }

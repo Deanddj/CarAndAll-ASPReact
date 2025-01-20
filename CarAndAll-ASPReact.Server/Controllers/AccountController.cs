@@ -178,6 +178,20 @@ namespace CarAndAll_ASPReact.Server.Controllers
             return Ok(new { Message = "Succesvol uitgelogd." });
         }
 
+        [HttpGet("getEmailAdres/{userId}")]
+        public async Task<IActionResult> GetEmailByUserId(string userId)
+        {
+            var user = await _userManager.Users
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return NotFound(new { Message = "Gebruiker niet gevonden." });
+            }
+
+            return Ok(new { Email = user.Email });
+        }
+
         [HttpGet("get")]
         public async Task<IActionResult> GetUserDetails()
         {
@@ -363,6 +377,22 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 await transaction.RollbackAsync();
                 return StatusCode(500, new { Message = "Er is een fout opgetreden tijdens het verwijderen.", Error = ex.Message });
             }
+        }
+
+        [HttpGet("getName/{Id}")]
+        public async Task<IActionResult> GetUserById(string Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id);
+
+            if (user == null)
+            {
+                return NotFound(new { Message = "User not found" });
+            }
+
+            return Ok(new
+            {
+                user.Naam
+            });
         }
     }
 }

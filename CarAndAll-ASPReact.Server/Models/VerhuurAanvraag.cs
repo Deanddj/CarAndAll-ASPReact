@@ -14,9 +14,10 @@ namespace CarAndAll_ASPReact.Server.Models
 
         [JsonIgnore]
         public Huurder Huurder { get; set; }
+
         [ForeignKey("VoertuigId")]
         public int VoertuigId { get; set; }
-        [JsonIgnore]
+
         public Voertuig Voertuig { get; set; }
 
 
