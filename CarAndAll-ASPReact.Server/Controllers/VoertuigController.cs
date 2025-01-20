@@ -56,6 +56,41 @@ namespace CarAndAll_ASPReact.Server.Controllers
             return Ok(verhuuraanvragen);
         }
 
+        //Alle verhuuraanvragen
+        [HttpGet("verhuuraanvragen/op/{userId}")]
+        public async Task<IActionResult> GetAlleVerhuuraanvragen(string userId)
+        {
+            var verhuuraanvraag = await _context.Voertuigen
+                .Include(v => v.Verhuuraanvragen)
+                .Where(v => v.Verhuuraanvragen.Any(va => va.HuurderId == userId)) // Filteren op aanvragen van de gebruiker
+                .Select(v => new
+                {
+                    v.VoertuigId,
+                    v.Soort,
+                    v.Merk,
+                    v.Type,
+                    v.Kenteken,
+                    v.Kleur,
+                    v.Aanschafjaar,
+                    v.Status,
+                    v.Prijs,
+                    HeeftGoedgekeurdeAanvraag = v.Verhuuraanvragen.Any(va => va.HuurderId == userId && va.Status == "Goedgekeurd"),
+                    Verhuuraanvragen = v.Verhuuraanvragen
+                        .Where(va => va.HuurderId == userId) // Alleen aanvragen van de gebruiker
+                        .Select(va => new
+                        {
+                            va.VerhuuraanvraagId,
+                            va.Startdatum,
+                            va.Einddatum,
+                            va.Status
+                        })
+                        .ToList()
+                })
+                .ToListAsync();
+
+            return Ok(verhuuraanvraag);
+        }
+
         //Alle voertuigen met bijbehorende aanvragen opvragen
         [HttpGet("voertuigen/met-aanvragen")]
         public async Task<IActionResult> GetVoertuigenMetVerhuurAanvragen()
@@ -68,7 +103,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 Console.WriteLine("gebruiker niet gevonden");
                 return Unauthorized(new { message = "Gebruiker niet ingelogd." });
             }
-            
+
             var user = await _userManager.Users
                 .Include(u => (u as ZakelijkeBeheerder).Bedrijf)
                 .Include(u => (u as Huurder).Bedrijf)
@@ -85,7 +120,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
             var voertuigenMetAanvragen = _context.Voertuigen
                 .Include(v => v.Verhuuraanvragen)
-                .Where(v => !heeftBedrijf || v.Soort == "Auto") 
+                .Where(v => !heeftBedrijf || v.Soort == "Auto")
                 .Select(v => new
                 {
                     v.VoertuigId,
@@ -99,7 +134,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                     v.Prijs,
                     HeeftGoedgekeurdeAanvraag = v.Verhuuraanvragen.Any(va => va.Status == "Goedgekeurd"),
                     Verhuuraanvragen = v.Verhuuraanvragen
-                        .Where(va => va.Status == "Goedgekeurd") 
+                        .Where(va => va.Status == "Goedgekeurd")
                         .Select(va => new
                         {
                             va.VerhuuraanvraagId,
