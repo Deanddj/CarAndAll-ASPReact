@@ -8,6 +8,7 @@ using CarAndAll_ASPReact.Server.DTOs;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
 using System.Collections.Immutable;
+using Microsoft.AspNetCore.Identity;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -15,12 +16,14 @@ public class VerhuuraanvragenController : ControllerBase
 {
     private readonly CarAndAllDbContext _context;
     private readonly NotificationService _notificationService;
+    private readonly UserManager<User> _userManager;
 
 
-    public VerhuuraanvragenController(CarAndAllDbContext context, NotificationService notificationService)
+    public VerhuuraanvragenController(CarAndAllDbContext context, NotificationService notificationService, UserManager<User> userManager)
     {
         _context = context;
         _notificationService = notificationService;
+        _userManager = userManager;
 
     }
 
@@ -65,7 +68,21 @@ public class VerhuuraanvragenController : ControllerBase
             return NotFound();
         }
 
-            aanvraag.Status = "Goedgekeurd";
+        var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        if (user == null)
+        {
+            return Unauthorized("User not found.");
+        }
+
+        var medewerker = user as Medewerker;
+
+        if (medewerker == null)
+        {
+            return BadRequest("Je moet een medewerker zijn voor deze functie.");
+        }
+
+        aanvraag.Status = "Goedgekeurd";
             await _context.SaveChangesAsync();
 
             var voertuig = aanvraagbody.Voertuig;
@@ -88,6 +105,20 @@ public class VerhuuraanvragenController : ControllerBase
         if (aanvraag == null)
         {
             return NotFound();
+        }
+
+        var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        if (user == null)
+        {
+            return Unauthorized("User not found.");
+        }
+
+        var medewerker = user as Medewerker;
+
+        if (medewerker == null)
+        {
+            return BadRequest("Je moet een medewerker zijn voor deze functie.");
         }
 
         aanvraag.Status = "Afgewezen";

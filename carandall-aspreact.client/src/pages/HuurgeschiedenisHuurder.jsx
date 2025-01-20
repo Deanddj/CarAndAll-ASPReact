@@ -270,7 +270,7 @@ const HuurgeschiedenisHuurder = () => {
                                                 <p>Status: {car.status}</p>
                                                 <p>Kenteken: {car.kenteken}</p>
                                                 <p>Aanschafjaar: {car.aanschafjaar}</p>
-                                                <p>Totale prijs: €{totalPrice.toFixed(2)}</p>
+                                                <p>Totale prijs: &euro;{totalPrice.toFixed(2)}</p>
                                                 <p>Status aanvraag: {aanvraag.status}</p>
                                             </div>
                                         )}

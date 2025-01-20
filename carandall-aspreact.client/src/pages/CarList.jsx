@@ -246,7 +246,7 @@ const CarList = ({ onChangeSection }) => {
                             <p>Kenteken: {car.kenteken}</p>
                             <p>Status: {car.heeftGoedgekeurdeAanvraag ? 'Verhuurd' : car.status}</p>
                             {car.aanschafjaar && <p>Aanschafjaar: {car.aanschafjaar}</p>}
-                            <p>Prijs per dag: {car.prijs}</p>
+                            <p>Prijs per dag: &euro;{car.prijs}</p>
                             <p>
                                 <div className="vehicle-icon">
                                     <img src={foto} alt={`${car.soort} icoon`} className="car-icon" />

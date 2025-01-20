@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using System;
+using System.Globalization;
 using System.Security.Claims;
 using System.Text.Json;
 using static CarAndAll_ASPReact.Server.Controllers.VoertuigController;
@@ -213,6 +214,21 @@ namespace CarAndAll_ASPReact.Server.Controllers
                 Console.WriteLine($"Einddatum: {verhuuraanvraagDto.Einddatum}");
                 Console.WriteLine($"VoertuigId: {verhuuraanvraagDto.VoertuigId}");
 
+                var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+                if (user == null)
+                {
+                    return Unauthorized("User not found.");
+                }
+
+                var huurder = user as Huurder;
+
+                if (huurder == null)
+                {
+                    return BadRequest("Je moet een huurder zijn voor deze functie.");
+                }
+
+
                 var StartDatum = verhuuraanvraagDto.Startdatum;
                 var EindDatum = verhuuraanvraagDto.Einddatum;
 
@@ -245,7 +261,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                     string _voertuigMerk = verhuuraanvraagDto.VoertuigMerk;
                     string _voertuigType = verhuuraanvraagDto.VoertuigType;
                     double _voertuigPrijs = verhuuraanvraagDto.VoertuigPrijs;
-                    string message = $"Uw verhuurverzoek voor: {_voertuigMerk} {_voertuigType} van {StartDatum} t/m {EindDatum} is verzonden en wordt spoedig behandeld door een medewerker. Wanneer deze wordt geaccepteerd bedraagt de huurprijs per dag: {_voertuigPrijs}";
+                    string message = $"Uw verhuurverzoek voor: {_voertuigMerk} {_voertuigType} van {StartDatum.ToString("dd-MM-yyyy")} t/m {EindDatum.ToString("dd-MM-yyyy")} is verzonden en wordt spoedig behandeld door een medewerker. Wanneer deze wordt geaccepteerd bedraagt de huurprijs per dag: €{_voertuigPrijs}";
 
                     Console.WriteLine(message);
                     await _notificationService.SendNotificationAsync(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value, "Bericht", null, "Verhuurzoek Inzending", message);
@@ -266,6 +282,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
             }
         }
 
+        //voertuig status updaten
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody] VehicleModel vehicleModel)
         {
@@ -309,13 +326,29 @@ namespace CarAndAll_ASPReact.Server.Controllers
             }
         }
 
+        //voertuig toevoegen in database
         [HttpPost("voertuig/database/add")]
-        public IActionResult AddVoertuig([FromBody] VehicleModel vehicleModel)
+        public async Task<IActionResult> AddVoertuig([FromBody] VehicleModel vehicleModel)
         {
             if (_context.Voertuigen.Any(v => v.Kenteken == vehicleModel.Kenteken))
             {
                 return BadRequest("Een voertuig met dit kenteken bestaat al.");
             }
+
+            var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            if (user == null)
+            {
+                return Unauthorized("User not found.");
+            }
+
+            var medewerker = user as Medewerker;
+
+            if (medewerker == null)
+            {
+                return BadRequest("Je moet een medewerker zijn voor deze functie.");
+            }
+
 
             Voertuig voertuig = new Voertuig
             {
@@ -337,12 +370,26 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
         //Voertuig uit de database verwijderen
         [HttpDelete("{id}")]
-        public IActionResult DeleteVoertuig(int id)
+        public async Task<IActionResult> DeleteVoertuig(int id)
         {
             var voertuig = _context.Voertuigen.Find(id);
             if (voertuig == null)
             {
                 return NotFound("Voertuig niet gevonden.");
+            }
+
+            var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            if (user == null)
+            {
+                return Unauthorized("User not found.");
+            }
+
+            var medewerker = user as Medewerker;
+
+            if (medewerker == null)
+            {
+                return BadRequest("Je moet een medewerker zijn voor deze functie.");
             }
 
             _context.Voertuigen.Remove(voertuig);
@@ -353,7 +400,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
         //Status veranderen van voertuig in database
         [HttpPatch("{id}/status")]
-        public IActionResult UpdateStatus(int id, [FromBody] string nieuweStatus)
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] string nieuweStatus)
         {
             var geldigeStatussen = new[] { "Beschikbaar", "In reparatie", "Verhuurd" };
 
@@ -366,6 +413,20 @@ namespace CarAndAll_ASPReact.Server.Controllers
             if (voertuig == null)
             {
                 return NotFound($"Voertuig met ID {id} niet gevonden.");
+            }
+
+            var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            if (user == null)
+            {
+                return Unauthorized("User not found.");
+            }
+
+            var medewerker = user as Medewerker;
+
+            if (medewerker == null)
+            {
+                return BadRequest("Je moet een medewerker zijn voor deze functie.");
             }
 
             voertuig.Status = nieuweStatus;
