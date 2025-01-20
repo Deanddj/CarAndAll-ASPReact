@@ -99,7 +99,7 @@ const DashboardContent = () => {
             case 'verhuuraanvragen':
                 return <Verhuuraanvragen />;
             default:
-                return <div className="section">Welkom bj de dashboard!</div>;
+                return <div className="section">Welkom bij de dashboard!</div>;
         }
     };
 
@@ -146,7 +146,7 @@ const DashboardContent = () => {
                             onClick={() => handleSectionChange('verhuuraanvragen')}
                             className={activeSection === 'verhuuraanvragen' ? 'active' : ''}
                         >
-                            Verhuuraanvragen
+                            <img src="public/quote-request.svg" className="icon" alt="Verhuurdaanvragen" />Aanvragen
                         </button>
                     </>
                 )}
@@ -168,13 +168,13 @@ const DashboardContent = () => {
                             onClick={() => handleSectionChange('bedrijf')}
                             className={activeSection === 'bedrijf' ? 'active' : ''}
                         >
-                            <span className="icon"></span> Bedrijf
+                            <img src="public/city.svg" className="icon" alt="Voertuigen" /> Bedrijf
                         </button>
                         <button
                             onClick={() => handleSectionChange('huurgeschiedenisBeheerder')}
                             className={activeSection === 'huurgeschiedenisBeheerder' ? 'active' : ''}
                         >
-                            <span className="icon"></span> HuurgeschiedenisBeheerder
+                            <img src="public/history.svg" className="icon" alt="Huur Geschiedenis" /> Geschiedenis
                         </button>
                     </>
                 )}

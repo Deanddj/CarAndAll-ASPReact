@@ -6,7 +6,7 @@ function Footer() {
             <div className="footer-content">
                 <p>&copy; 2024 CarAndAll. Alle rechten voorbehouden.</p>
                 <p>
-                    <a href="/privacy-policy">Privacybeleid</a> |
+                    <a href="/privacybeleid">Privacybeleid</a> |
                     <a href="/terms-of-service"> Algemene Voorwaarden</a> |
                     <a href="/contact">Contact</a>
                 </p>
