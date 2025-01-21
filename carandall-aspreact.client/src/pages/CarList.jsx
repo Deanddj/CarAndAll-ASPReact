@@ -223,16 +223,16 @@ const CarList = ({ onChangeSection }) => {
                     let foto;
                     switch (car.soort) {
                         case 'Auto':
-                            foto = auto; // Zet hier het pad naar de afbeelding van een auto
+                            foto = auto;
                             break;
                         case 'Camper':
-                            foto = camper; // Zet hier het pad naar de afbeelding van een camper
+                            foto = camper;
                             break;
                         case 'Caravan':
-                            foto = caravan; // Zet hier het pad naar de afbeelding van een caravan
+                            foto = caravan;
                             break;
                         default:
-                            foto = spongebob; // Zet hier een standaard afbeelding in geval van een onbekende soort
+                            foto = spongebob; 
                     }
 
                     return (
@@ -256,7 +256,6 @@ const CarList = ({ onChangeSection }) => {
                                 onClick={() => {
                                     console.log("Navigating to ID:", car.voertuigId);
                                     handleNavigateToRentCar(car.voertuigId);
-                                    //navigate(`/rentCar/${car.voertuigId}`);
                                 }}
                             >
                                 Huren
