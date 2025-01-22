@@ -11,6 +11,7 @@ import VehicleOverview from './VehicleOverview.jsx';
 import HuurgeschiedenisHuurder from './HuurgeschiedenisHuurder.jsx';
 import HuurgeschiedenisBeheerder from './HuurgeschiedenisBeheerder.jsx';
 import Verhuuraanvragen from './Verhuuraanvragen.jsx';
+import UitwisselenVoertuig from './UitwisselenVoertuig.jsx';
 import axios from 'axios';
 import fetchUserData from '../api/userDataApi';
 import { MessageProvider, useMessage } from '../context/MessageProvider';
@@ -96,6 +97,8 @@ const DashboardContent = () => {
                 return <HuurgeschiedenisHuurder userDetails={userDetails} />;
             case 'huurgeschiedenisBeheerder':
                 return <HuurgeschiedenisBeheerder userDetails={userDetails} />;
+            case 'uitwisselenVoertuig':
+                return <UitwisselenVoertuig userDetails={userDetails} />;
             case 'verhuuraanvragen':
                 return <Verhuuraanvragen />;
             default:
@@ -134,7 +137,7 @@ const DashboardContent = () => {
                         </button>
                     </>
                 )}
-                {userDetails && userDetails.type === 'Medewerker' && (
+                {userDetails && userDetails.type === 'Medewerker' && userDetails.rol === 'Backoffice' && (
                     <>
                         <button
                             onClick={() => handleSectionChange('editVoertuigen')}
@@ -147,6 +150,16 @@ const DashboardContent = () => {
                             className={activeSection === 'verhuuraanvragen' ? 'active' : ''}
                         >
                             <img src="public/quote-request.svg" className="icon" alt="Verhuurdaanvragen" />Aanvragen
+                        </button>
+                    </>
+                )}
+                {userDetails && userDetails.type === 'Medewerker' && userDetails.rol === 'Frontoffice'&& (
+                    <>
+                        <button
+                            onClick={() => handleSectionChange('uitwisselenVoertuig')}
+                            className={activeSection === 'uitwisselenVoertuig' ? 'active' : ''}
+                        >
+                            <img src="public/car(2).svg" className="icon" alt="Voertuigen" /> Uitwisselen
                         </button>
                     </>
                 )}

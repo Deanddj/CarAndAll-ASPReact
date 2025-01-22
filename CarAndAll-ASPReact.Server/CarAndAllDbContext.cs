@@ -35,5 +35,6 @@ namespace CarAndAll_ASPReact.Server
         public DbSet<Voertuig> Voertuigen { get; set; }
         public DbSet<Verhuuraanvraag> Verhuuraanvragen { get; set; }
         public DbSet<Notification> Notificaties { get; set; }
+        public DbSet<Schadeclaim> Schadeclaims { get; set; }
     }
 }

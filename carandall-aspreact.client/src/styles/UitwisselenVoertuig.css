@@ -1,0 +1,342 @@
+/* Algemeen stijl voor de container */
+.uitgave-inname-container {
+    padding: 20px;
+    max-width: 2000px;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+/* Titel van de sectie */
+.uitgave-inname-container h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+/*----------------------------------------------------------*/
+/* De container voor de tabel */
+.uitgave {
+    padding: 20px;
+    max-width: 2000px;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    margin-bottom: 40px;
+}
+
+/* Titel van de sectie */
+.uitgave h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Tabel styling */
+.uitgave-tabel {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto; /* Centrerend horizontaal binnen de container */
+    border-collapse: separate; /* Voor afgeronde hoeken */
+    border-spacing: 0; /* Verwijdert eventuele afstand tussen de cellen */
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 12px; /* Rondere hoeken van de tabel zelf */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Betere schaduw voor visueel effect */
+}
+
+/* Hoofddeel van de tabel met ronderen hoeken */
+.uitgave-tabel thead {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+/* Cell styling om afgeronde hoeken te behouden */
+.uitgave-tabel th,
+.uitgave-tabel td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd; /* Toevoegen van links border */
+    border-right: 1px solid #ddd; /* Toevoegen van rechts border */
+}
+
+/* Voor de eerste en laatste cellen van elke rij */
+.uitgave-tabel tr:first-child th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.uitgave-tabel tr:first-child th:last-child {
+    border-top-right-radius: 12px;
+}
+
+.uitgave-tabel tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+
+.uitgave-tabel tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+}
+
+/* Styling voor koptekst */
+.uitgave-tabel th {
+    background-color: #0082e4;  
+    color: white;
+    font-weight: bold;
+    border-left: none; /* Verwijder linker grenslijn */
+    border-right: none; /* Verwijder rechter grenslijn */
+}
+
+/* Achtergrond voor even rijen */
+.uitgave-tabel tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hover effect voor rijen */
+.uitgave-tabel tr:hover {
+    background-color: #ddd;
+}
+
+/* Button Styling */
+.uitgave-button {
+    padding: 8px 16px;
+    background-color: #47b0ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .uitgave-button:hover {
+        background-color: #1c89db;
+    }   
+
+.uitgave-button:focus {
+    outline: none;
+}
+
+.uitgave-button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+/* Styling voor als er geen aanvragen zijn */
+.uitgave p {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+}
+
+/*----------------------------------------------------------*/
+/* De container voor de tabel */
+.inname {
+    padding: 20px;
+    max-width: 2000px;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    margin-top: 40px;
+}
+
+/* Titel van de sectie */
+.inname h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+
+/* Tabel styling */
+.inname-tabel {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto; /* Centrerend horizontaal binnen de container */
+    border-collapse: separate; /* Voor afgeronde hoeken */
+    border-spacing: 0; /* Verwijdert eventuele afstand tussen de cellen */
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 12px; /* Rondere hoeken van de tabel zelf */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Betere schaduw voor visueel effect */
+}
+
+    /* Hoofddeel van de tabel met ronderen hoeken */
+    .inname-tabel thead {
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    /* Cell styling om afgeronde hoeken te behouden */
+    .inname-tabel th,
+    .inname-tabel td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        border-left: 1px solid #ddd; /* Toevoegen van links border */
+        border-right: 1px solid #ddd; /* Toevoegen van rechts border */
+    }
+
+    /* Voor de eerste en laatste cellen van elke rij */
+    .inname-tabel tr:first-child th:first-child {
+        border-top-left-radius: 12px;
+    }
+
+    .inname-tabel tr:first-child th:last-child {
+        border-top-right-radius: 12px;
+    }
+
+    .inname-tabel tr:last-child td:first-child {
+        border-bottom-left-radius: 12px;
+    }
+
+    .inname-tabel tr:last-child td:last-child {
+        border-bottom-right-radius: 12px;
+    }
+
+    /* Styling voor koptekst */
+    .inname-tabel th {
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+        border-left: none; 
+        border-right: none; 
+    }
+
+    /* Achtergrond voor even rijen */
+    .inname-tabel tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    /* Hover effect voor rijen */
+    .inname-tabel tr:hover {
+        background-color: #ddd;
+    }
+
+/* Button Styling */
+.inname-button {
+    padding: 8px 16px;
+    background-color: #64db69;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .inname-button:hover {
+        background-color: #3bbd41;
+    }
+
+    .inname-button:focus {
+        outline: none;
+    }
+
+    .inname-button:disabled {
+        background-color: #ddd;
+        cursor: not-allowed;
+    }
+
+/* Styling voor als er geen aanvragen zijn */
+.inname p {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1010;
+}
+
+    .popup-form h3 {
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .popup-form .form-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .popup-form button {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        margin: 0 5px;
+    }
+
+        .popup-form button:hover {
+            opacity: 0.9;
+        }
+
+    /* Specifieke knoppenstijl */
+    .popup-form .form-buttons button:first-child {
+        background-color: #41cc00; /* "Geen schade"-knop */
+        color: white;
+    }
+
+    .popup-form .form-buttons button:last-child {
+        background-color: #db0000; /* "Schade claim"-knop */
+    }
+
+.popup-overlay .popup-form .close-popup-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #cb0000; /* Rode kleur voor sluitknop */
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px 10px;
+    z-index: 1011; /* Zorg ervoor dat deze knop zichtbaar is boven andere elementen */
+}
+
+    .popup-overlay .popup-form .close-popup-button:hover {
+        opacity: 0.9;
+    }
+
+.popup-form .commentaar-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    resize: vertical;
+}
+
+

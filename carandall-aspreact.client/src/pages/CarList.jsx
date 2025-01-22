@@ -7,6 +7,7 @@ import caravan from '../assets/Caravan logo.png';
 import camper from '../assets/Camper logo.png';
 import spongebob from '../assets/spongebob dumb stare.gif';
 
+
 const CarList = ({ onChangeSection }) => {
     const [cars, setCars] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
@@ -82,7 +83,7 @@ const CarList = ({ onChangeSection }) => {
             setStartDate(null);
             setEndDate(null);
             return;
-        }   
+        }
 
         const filtered = cars.filter((car) => {
             const matchesStatus =
@@ -173,15 +174,15 @@ const CarList = ({ onChangeSection }) => {
                     />
                 </div>
 
-                <div>
-                    <label>Status:</label>
-                    <select value={statusFilter} onChange={handleStatusFilterChange}>
-                        <option value="Alles">Alles</option>
-                        <option value="Beschikbaar">Beschikbaar</option>
-                        <option value="In reparatie">In reparatie</option>
-                        <option value="Verhuurd">Verhuurd</option>
-                    </select>
-                </div>
+                {/*<div>*/}
+                {/*    <label>Status:</label>*/}
+                {/*    <select value={statusFilter} onChange={handleStatusFilterChange}>*/}
+                {/*        <option value="Alles">Alles</option>*/}
+                {/*        <option value="Beschikbaar">Beschikbaar</option>*/}
+                {/*        <option value="In reparatie">In reparatie</option>*/}
+                {/*        <option value="Verhuurd">Verhuurd</option>*/}
+                {/*    </select>*/}
+                {/*</div>*/}
 
                 <div>
                     <label>Voertuig:</label>
@@ -219,52 +220,57 @@ const CarList = ({ onChangeSection }) => {
 
             <div className="car-items">
                 {filteredCars.map((car) => {
-                    // Kies de juiste foto op basis van het soort voertuig
-                    let foto;
-                    switch (car.soort) {
-                        case 'Auto':
-                            foto = auto; // Zet hier het pad naar de afbeelding van een auto
-                            break;
-                        case 'Camper':
-                            foto = camper; // Zet hier het pad naar de afbeelding van een camper
-                            break;
-                        case 'Caravan':
-                            foto = caravan; // Zet hier het pad naar de afbeelding van een caravan
-                            break;
-                        default:
-                            foto = spongebob; // Zet hier een standaard afbeelding in geval van een onbekende soort
+                    var foto = car.afbeelding
+                        ? `../Voertuigen/${car.afbeelding}`
+                        : null;
+                    if (!foto) {
+                        switch (car.soort) {
+                            case 'Auto':
+                                foto = auto;
+                                break;
+                            case 'Camper':
+                                foto = camper;
+                                break;
+                            case 'Caravan':
+                                foto = caravan;
+                                break;
+                            default:
+                                foto = spongebob;
+                        }
                     }
 
                     return (
                         <div key={car.voertuigId} className="car-item">
-                            <div className="title-div">
-                                <h3 className="Car-title">
-                                    {car.merk} {car.type}
-                                </h3>
+                            <div className="car-image">
+                                <img src={foto} alt={`${car.soort} icoon`} className="car-icon" />
                             </div>
-                            <p>Kleur: {car.kleur}</p>
-                            <p>Kenteken: {car.kenteken}</p>
-                            <p>Status: {car.heeftGoedgekeurdeAanvraag ? 'Verhuurd' : car.status}</p>
-                            {car.aanschafjaar && <p>Aanschafjaar: {car.aanschafjaar}</p>}
-                            <p>Prijs per dag: {car.prijs}</p>
-                            <p>
-                                <div className="vehicle-icon">
-                                    <img src={foto} alt={`${car.soort} icoon`} className="car-icon" />
+                            <div className="info-box">
+                                <div className="car-details">
+                                    <div className="title-div">
+                                        <h3 className="Car-title">
+                                            {car.merk} {car.type}
+                                        </h3>
+                                    </div>
+                                    <p><strong>Kleur: </strong>{car.kleur}</p>
+                                    {car.aanschafjaar && <p><strong>Aanschafjaar:</strong> {car.aanschafjaar}</p>}
+                                    <p><strong>Prijs per dag:</strong> &euro;{car.prijs}</p>
+                                    <button
+                                        onClick={() => {
+                                            console.log("Navigating to ID:", car.voertuigId);
+                                            handleNavigateToRentCar(car.voertuigId);
+                                        }}
+                                    >
+                                        Huren
+                                    </button>
                                 </div>
-                            </p>
-                            <button
-                                onClick={() => {
-                                    console.log("Navigating to ID:", car.voertuigId);
-                                    handleNavigateToRentCar(car.voertuigId);
-                                    //navigate(`/rentCar/${car.voertuigId}`);
-                                }}
-                            >
-                                Huren
-                            </button>
+                            </div>
                         </div>
                     );
+
+
                 })}
             </div>
+
         </div>
     );
 
