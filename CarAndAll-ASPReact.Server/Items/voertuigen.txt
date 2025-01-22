@@ -1,11 +1,11 @@
 ﻿
-Merk: Toyota, Type: Corolla, Kenteken: AB-123-CD, Kleur: Rood, Aanschafjaar: 2018, Soort: Auto, Prijs: 50,00
-Merk: Ford, Type: Focus, Kenteken: EF-456-GH, Kleur: Blauw, Aanschafjaar: 2019, Soort: Auto, Prijs: 50,00
-Merk: Volkswagen, Type: Golf, Kenteken: IJ-789-KL, Kleur: Zwart, Aanschafjaar: 2020, Soort: Auto, Prijs: 50,00
-Merk: Honda, Type: Civic, Kenteken: MN-012-OP, Kleur: Wit, Aanschafjaar: 2017, Soort: Auto, Prijs: 50,00
-Merk: BMW, Type: 3 Serie, Kenteken: QR-345-ST, Kleur: Grijs, Aanschafjaar: 2021, Soort: Auto, Prijs: 50,00
-Merk: Audi, Type: A4, Kenteken: UV-678-WX, Kleur: Zilver, Aanschafjaar: 2016, Soort: Auto, Prijs: 50,00
-Merk: Mercedes, Type: C-Klasse, Kenteken: YZ-901-AB, Kleur: Blauw, Aanschafjaar: 2022, Soort: Auto, Prijs: 50,00
+Merk: Toyota, Type: Corolla, Kenteken: AB-123-CD, Kleur: Rood, Aanschafjaar: 2018, Soort: Auto, Prijs: 50,00, Afbeelding: Toyota Corolla 2018.jpg
+Merk: Ford, Type: Focus, Kenteken: EF-456-GH, Kleur: Blauw, Aanschafjaar: 2019, Soort: Auto, Prijs: 50,00, Afbeelding: Ford focus 2019.jpg
+Merk: Volkswagen, Type: Golf, Kenteken: IJ-789-KL, Kleur: Zwart, Aanschafjaar: 2020, Soort: Auto, Prijs: 50,00, Afbeelding: vw golf 2020.jpg
+Merk: Honda, Type: Civic, Kenteken: MN-012-OP, Kleur: Wit, Aanschafjaar: 2017, Soort: Auto, Prijs: 50,00, Afbeelding: honda civic.jpg
+Merk: BMW, Type: 3 Serie, Kenteken: QR-345-ST, Kleur: Grijs, Aanschafjaar: 2021, Soort: Auto, Prijs: 50,00, Afbeelding:  bmw series 3.jpg
+Merk: Audi, Type: A4, Kenteken: UV-678-WX, Kleur: Zilver, Aanschafjaar: 2016, Soort: Auto, Prijs: 50,00, Afbeelding: audi a4.jpg
+Merk: Mercedes, Type: C-Klasse, Kenteken: YZ-901-AB, Kleur: Blauw, Aanschafjaar: 2022, Soort: Auto, Prijs: 50,00, Afbeelding: mercedes c klasse.jpg
 Merk: Nissan, Type: Qashqai, Kenteken: CD-234-EF, Kleur: Groen, Aanschafjaar: 2015, Soort: Auto, Prijs: 50,00, Afbeelding:Nissan Qashqai.jpg
 Merk: Peugeot, Type: 208, Kenteken: GH-567-IJ, Kleur: Rood, Aanschafjaar: 2021, Soort: Auto, Prijs: 50,00, Afbeelding:peugeot-208.jpg
 Merk: Renault, Type: Clio, Kenteken: KL-890-MN, Kleur: Zwart, Aanschafjaar: 2018, Soort: Auto, Prijs: 50,00, Afbeelding:Renault Clio.jpeg
