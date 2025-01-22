@@ -223,6 +223,9 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Property<int?>("Aanschafjaar")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Afbeelding")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Kenteken")
                         .IsRequired()
                         .HasColumnType("TEXT");

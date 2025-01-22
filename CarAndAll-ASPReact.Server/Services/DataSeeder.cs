@@ -39,7 +39,8 @@ namespace CarAndAll_ASPReact.Server.Services
                         Aanschafjaar = ConvertToInt(GetValue(parts, "Aanschafjaar")),
                         Soort = GetValue(parts, "Soort:"),
                         Status = "Beschikbaar",
-                        Prijs = ConvertToDouble(GetValue(parts, "Prijs"))
+                        Prijs = ConvertToDouble(GetValue(parts, "Prijs")),
+                        Afbeelding = GetValue(parts, "Afbeelding:")
                     };
 
                     bool bestaatAl = _context.Voertuigen.Any(v => v.Kenteken == voertuig.Kenteken);

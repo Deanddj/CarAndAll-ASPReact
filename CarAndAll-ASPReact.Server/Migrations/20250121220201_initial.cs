@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -73,6 +73,7 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     Kleur = table.Column<string>(type: "TEXT", nullable: false),
                     Aanschafjaar = table.Column<int>(type: "INTEGER", nullable: true),
                     Status = table.Column<string>(type: "TEXT", nullable: false),
+                    Afbeelding = table.Column<string>(type: "TEXT", nullable: true),
                     Prijs = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
@@ -133,6 +134,7 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     Telefoonnummer = table.Column<string>(type: "TEXT", nullable: true),
                     Adres = table.Column<string>(type: "TEXT", nullable: true),
                     BedrijfId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Rol = table.Column<string>(type: "TEXT", nullable: true),
                     ZakelijkeBeheerder_BedrijfId = table.Column<int>(type: "INTEGER", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),

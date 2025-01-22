@@ -133,6 +133,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                     v.Aanschafjaar,
                     v.Status,
                     v.Prijs,
+                    v.Afbeelding,
                     HeeftGoedgekeurdeAanvraag = v.Verhuuraanvragen.Any(va => va.Status == "Goedgekeurd"),
                     Verhuuraanvragen = v.Verhuuraanvragen
                         .Where(va => va.Status == "Goedgekeurd")

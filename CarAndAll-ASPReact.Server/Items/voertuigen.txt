@@ -6,22 +6,21 @@ Merk: Honda, Type: Civic, Kenteken: MN-012-OP, Kleur: Wit, Aanschafjaar: 2017, S
 Merk: BMW, Type: 3 Serie, Kenteken: QR-345-ST, Kleur: Grijs, Aanschafjaar: 2021, Soort: Auto, Prijs: 50,00
 Merk: Audi, Type: A4, Kenteken: UV-678-WX, Kleur: Zilver, Aanschafjaar: 2016, Soort: Auto, Prijs: 50,00
 Merk: Mercedes, Type: C-Klasse, Kenteken: YZ-901-AB, Kleur: Blauw, Aanschafjaar: 2022, Soort: Auto, Prijs: 50,00
-Merk: Nissan, Type: Qashqai, Kenteken: CD-234-EF, Kleur: Groen, Aanschafjaar: 2015, Soort: Auto, Prijs: 50,00
-Merk: Peugeot, Type: 208, Kenteken: GH-567-IJ, Kleur: Rood, Aanschafjaar: 2021, Soort: Auto, Prijs: 50,00
-Merk: Renault, Type: Clio, Kenteken: KL-890-MN, Kleur: Zwart, Aanschafjaar: 2018, Soort: Auto, Prijs: 50,00
+Merk: Nissan, Type: Qashqai, Kenteken: CD-234-EF, Kleur: Groen, Aanschafjaar: 2015, Soort: Auto, Prijs: 50,00, Afbeelding:Nissan Qashqai.jpg
+Merk: Peugeot, Type: 208, Kenteken: GH-567-IJ, Kleur: Rood, Aanschafjaar: 2021, Soort: Auto, Prijs: 50,00, Afbeelding:peugeot-208.jpg
+Merk: Renault, Type: Clio, Kenteken: KL-890-MN, Kleur: Zwart, Aanschafjaar: 2018, Soort: Auto, Prijs: 50,00, Afbeelding:Renault Clio.jpeg
 Merk: Hobby, Type: De Luxe, Kenteken: OP-123-QR, Kleur: Wit, Aanschafjaar: 2017, Soort: Auto, Prijs: 50,00
-Merk: Fendt, Type: Bianco, Kenteken: ST-456-UV, Kleur: Grijs, Aanschafjaar: 2018, Soort: Auto, Prijs: 50,00
-Merk: Knaus, Type: Sport, Kenteken: WX-789-YZ, Kleur: Blauw, Aanschafjaar: 2019, Soort: Auto, Prijs: 50,00
+Merk: Knaus, Type: Sport, Kenteken: WX-789-YZ, Kleur: Blauw, Aanschafjaar: 2019, Soort: Auto, Prijs: 50,00, Afbeelding:Knaus Sport 2019.jpg
 Merk: Dethleffs, Type: Camper, Kenteken: AB-012-CD, Kleur: Groen, Aanschafjaar: 2016, Soort: Auto, Prijs: 50,00
 Merk: Adria, Type: Altea, Kenteken: EF-345-GH, Kleur: Zilver, Aanschafjaar: 2020, Soort: Auto, Prijs: 50,00
-Merk: Eriba, Type: Touring, Kenteken: IJ-678-KL, Kleur: Rood, Aanschafjaar: 2015, Soort: Auto, Prijs: 50,00
+Merk: Eriba, Type: Touring, Kenteken: IJ-678-KL, Kleur: Rood, Aanschafjaar: 2015, Soort: Auto, Prijs: 50,00, Afbeelding:Eriba Touring 2015.jpg
 Merk: Tabbert, Type: Puccini, Kenteken: MN-901-OP, Kleur: Zwart, Aanschafjaar: 2021, Soort: Auto, Prijs: 50,00
 Merk: Burstner, Type: Premio, Kenteken: QR-234-ST, Kleur: Wit, Aanschafjaar: 2019, Soort: Auto, Prijs: 50,00
 Merk: LMC, Type: Musica, Kenteken: UV-567-WX, Kleur: Blauw, Aanschafjaar: 2018, Soort: Auto, Prijs: 50,00
 Merk: Sprite, Type: Cruzer, Kenteken: YZ-890-AB, Kleur: Grijs, Aanschafjaar: 2022, Soort: Auto, Prijs: 50,00
 Merk: Hobby, Type: De Luxe, Kenteken: AB-123-CD, Kleur: Wit, Aanschafjaar: 2018, Soort: Caravan, Prijs: 40,00
-Merk: Fendt, Type: Bianco, Kenteken: EF-456-GH, Kleur: Grijs, Aanschafjaar: 2019, Soort: Caravan, Prijs: 40,00
-Merk: Knaus, Type: Sport, Kenteken: IJ-789-KL, Kleur: Blauw, Aanschafjaar: 2020, Soort: Caravan, Prijs: 40,00
+Merk: Fendt, Type: Bianco, Kenteken: EF-456-GH, Kleur: Grijs, Aanschafjaar: 2019, Soort: Caravan, Prijs: 40,00, Afbeelding:Fendt Bianco 2018.jpg
+Merk: Knaus, Type: Sport, Kenteken: IJ-789-KL, Kleur: Blauw, Aanschafjaar: 2020, Soort: Caravan, Prijs: 40,00, Afbeelding:Knaus Sport 2019.jpg
 Merk: Adria, Type: Altea, Kenteken: MN-012-OP, Kleur: Zilver, Aanschafjaar: 2017, Soort: Caravan, Prijs: 40,00
 Merk: Dethleffs, Type: Camper, Kenteken: QR-345-ST, Kleur: Groen, Aanschafjaar: 2021, Soort: Caravan, Prijs: 40,00
 Merk: Tabbert, Type: Puccini, Kenteken: UV-678-WX, Kleur: Zwart, Aanschafjaar: 2016, Soort: Caravan, Prijs: 40,00
