@@ -7,7 +7,7 @@ import sendNotification from '../api/notificationApi';
 axios.defaults.baseURL = 'https://localhost:7159';
 axios.defaults.withCredentials = true;
 
-const BedrijfPage = ({ userDetails }) => {
+const BedrijfPage = ({ userDetails, setUserDetails }) => {
     const [email, setEmail] = useState('');
     const [isInviting, setIsInviting] = useState(false);
     const [users, setUsers] = useState([]);
@@ -15,10 +15,38 @@ const BedrijfPage = ({ userDetails }) => {
     const [subscriptionType, setSubscriptionType] = useState('');
     const { showMessage } = useMessage();
 
+    const handleSubscriptionChange = (newAbonnementstype) => {
+        setSubscriptionType(newAbonnementstype);
 
-    //const handleSubscriptionChange = (e) => {
-    //    setSubscriptionType(e.target.value);
-    //};
+        const payload = {
+            naam: userDetails.naam || null,
+            email: userDetails.userName || null,
+            adres: userDetails.adres || null,
+            telefoonnummer: userDetails.telefoonnummer || null,
+            bedrijf: userDetails.type === 'ZakelijkeBeheerder' ? {
+                naam: userDetails.bedrijf?.naam || null,
+                adres: userDetails.bedrijf?.adres || null,
+                kvk: userDetails.bedrijf?.kvk || null,
+                abonnementstype: newAbonnementstype
+            } : null,
+            rol: userDetails.rol || null,
+            bedrijfId: userDetails.bedrijfId || null,
+        };
+
+        axios.put('/api/account/update', payload)
+            .then(() => {
+                showMessage("Abonnementstype succesvol bijgewerkt.", "success");
+                return axios.get('/api/account/get');
+            })
+            .then((response) => {
+                setUserDetails(response.data);
+                setSubscriptionType(response.data.bedrijf?.abonnementstype);
+            })
+            .catch(error => {
+                console.error('Fout bij het bijwerken van abonnementstype:', error);
+                showMessage("Bijwerken van abonnementstype mislukt.", "error");
+            });
+    };
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -88,10 +116,8 @@ const BedrijfPage = ({ userDetails }) => {
         if (userDetails?.bedrijf?.bedrijfId) {
             fetchUsers();
         }
-        //setSubscriptionType(userDetails?.bedrijf);
+        setSubscriptionType(userDetails?.bedrijf?.abonnementstype);
     }, [userDetails]);
-
-
 
     return (
         <div className="bedrijf-page">
@@ -100,14 +126,14 @@ const BedrijfPage = ({ userDetails }) => {
                 <div className="subscription-options">
                     <div
                         className={`subscription-option ${subscriptionType === 'prepaid' ? 'selected' : ''}`}
-                        onClick={() => setSubscriptionType('prepaid')}
+                        onClick={() => handleSubscriptionChange('prepaid')}
                     >
                         <h3>Prepaid</h3>
                         <p>Betaal vooraf en krijg volledige controle over uw uitgaven.</p>
                     </div>
                     <div
                         className={`subscription-option ${subscriptionType === 'pay-as-you-go' ? 'selected' : ''}`}
-                        onClick={() => setSubscriptionType('pay-as-you-go')}
+                        onClick={() => handleSubscriptionChange('pay-as-you-go')}
                     >
                         <h3>Pay-as-you-go</h3>
                         <p>Betaal alleen voor wat u gebruikt, zonder verplichtingen.</p>

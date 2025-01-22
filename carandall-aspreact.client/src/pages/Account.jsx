@@ -46,6 +46,7 @@ const AccountSection = () => {
                 naam: updatedData.bedrijf?.naam || null,
                 adres: updatedData.bedrijf?.adres || null,
                 kvk: updatedData.bedrijf?.kvk || null,
+                abonnementstype: userDetails.bedrijf?.abonnementstype || null,
             } : null,
             rol: updatedData.rol || null,
             bedrijfId: updatedData.bedrijfId || null,
@@ -54,7 +55,6 @@ const AccountSection = () => {
         axios.put('/api/account/update', payload)
             .then(() => {
                 showMessage("Gebruiker data succesvol bijgewerkt.", "success");
-
                 return axios.get('/api/account/get');
             })
             .then((response) => {
@@ -62,7 +62,7 @@ const AccountSection = () => {
                 setIsEditing(false);
             })
             .catch(error => {
-                console.error('Foout met bijwerken van gebruiker data:', error);
+                console.error('Fout met bijwerken van gebruiker data:', error);
                 showMessage("Gebruikers data bijwerken mislukt.", "error");
             });
     };

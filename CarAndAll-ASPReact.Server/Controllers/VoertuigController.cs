@@ -95,7 +95,6 @@ namespace CarAndAll_ASPReact.Server.Controllers
         [HttpGet("voertuigen/met-aanvragen")]
         public async Task<IActionResult> GetVoertuigenMetVerhuurAanvragen()
         {
-            Console.WriteLine("hallo");
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))
@@ -237,8 +236,6 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
                 try
                 {
-
-                    Console.WriteLine("Hij probeert te saven");
                     _context.Verhuuraanvragen.Add(nieuweAanvraag);
                     await _context.SaveChangesAsync();
 

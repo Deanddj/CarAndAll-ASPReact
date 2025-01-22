@@ -15,7 +15,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(to right, rgba(246, 128, 24, 0.75), rgba(227, 90, 0, 0.75));
+    background: linear-gradient(to left, rgba(246, 128, 24, 0.75), rgba(227, 90, 0, 0.75));
     color: white;
     padding: 10px 10px 0px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -33,15 +33,33 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    display: none;
 }
 
+    .navbar-right-section .icon {
+        width: 25px;
+        height: 25px;
+        fill: #555;
+        transition: fill 0.3s ease;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
+
+    .navbar-right-section .icon:hover {
+        cursor: pointer;
+    }
+
 .navbar-logout {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin: 0;
     color: white;
     text-decoration: none;
+    font-weight: 750;
 }
+    
+    .navbar-logout:hover {
+        cursor: pointer;
+    }
 
 .account-icon {
     font-size: 26px;
@@ -142,19 +160,23 @@
     padding: 20px;
     margin-left: 5px;
 }
+    
+    .user-icon:hover {
+        cursor: pointer;
+    }
 
     .user-icon .icon {
         width: 20px;
         height: 20px;
     }
 
-.logout-text {
+.account-name {
     font-size: 1rem;
     color: #555;
     cursor: pointer;
 }
 
-    .logout-text:hover {
+    .account-name:hover {
         color: black;
     }
 
@@ -187,10 +209,6 @@
 
     .dashboard-content {
         padding: 1rem;
-    }
-
-    .navbar-right-section {
-        display: inherit;
     }
 
     .dashboard-sidebar .account-section {

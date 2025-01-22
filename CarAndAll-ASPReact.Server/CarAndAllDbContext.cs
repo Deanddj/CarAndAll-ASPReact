@@ -8,6 +8,10 @@ namespace CarAndAll_ASPReact.Server
 {
     public class CarAndAllDbContext : IdentityDbContext<User>
     {
+        public CarAndAllDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

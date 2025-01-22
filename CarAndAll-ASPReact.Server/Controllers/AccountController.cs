@@ -320,6 +320,9 @@ namespace CarAndAll_ASPReact.Server.Controllers
 
                         if (!string.IsNullOrEmpty(model.Bedrijf.Kvk))
                             beheerder.Bedrijf.Kvk = model.Bedrijf.Kvk;
+
+                        if (!string.IsNullOrEmpty(model.Bedrijf.Abonnementstype))
+                            beheerder.Bedrijf.Abonnementstype = model.Bedrijf.Abonnementstype;
                     }
                     break;
 
@@ -432,4 +435,5 @@ public class BedrijfUpdateModel
     public string Naam { get; set; }
     public string Adres { get; set; }
     public string Kvk { get; set; }
+    public string Abonnementstype { get; set; }
 }

@@ -91,7 +91,7 @@ const DashboardContent = () => {
             case 'account':
                 return <Account />;
             case 'bedrijf':
-                return <Bedrijf userDetails={userDetails} />;
+                return <Bedrijf userDetails={userDetails} setUserDetails={setUserDetails} />;
             case 'huurgeschiedenishuurder':
                 return <HuurgeschiedenisHuurder userDetails={userDetails} />;
             case 'huurgeschiedenisBeheerder':
@@ -113,7 +113,7 @@ const DashboardContent = () => {
                     <a className="navbar-logout" onClick={handleLogout}>
                         Log uit
                     </a>
-                    <FaUserCircle className="account-icon" />
+                    <img src="public/logout.svg" className="icon" alt="Logout" />
                 </div>
             </nav>
 
@@ -181,10 +181,12 @@ const DashboardContent = () => {
 
                 <hr className="separator" />
                 <div className="account-section">
-                    <div className="user-icon">
+                    <div onClick={() => handleSectionChange('account')} className="user-icon">
                         <img src="public/user.svg" alt="User" className="icon" />
                     </div>
-                    <span onClick={handleLogout} className="logout-text">Log uit</span>
+                    {userDetails && userDetails.naam != null && (
+                        <span onClick={() => handleSectionChange('account')} className="account-name">{userDetails.naam}</span>
+                    )}
                 </div>
             </aside>
 
