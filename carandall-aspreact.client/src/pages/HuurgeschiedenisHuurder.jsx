@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Huurgeschiedenis.css';
 import '../index.css';
 import dropdownArrow from '../assets/Dropdown menu arrow.png';
+import auto from '../assets/car logo.png';
+import caravan from '../assets/Caravan logo.png';
+import camper from '../assets/Camper logo.png';
+import spongebob from '../assets/spongebob dumb stare.gif';
 
 const HuurgeschiedenisHuurder = () => {
     const [cars, setCars] = useState([]);
@@ -247,10 +251,33 @@ const HuurgeschiedenisHuurder = () => {
                             {statusGroups[status].map(({ car, aanvraag }) => {
                                 const totalPrice = calculateTotalPrice(aanvraag.startdatum, aanvraag.einddatum, car.prijs);
 
+                                //console.log(`De afbeelding is: ${car.afbeelding}`);
+                                //var foto = car.afbeelding
+                                //    ? `../Voertuigen/${car.afbeelding}`
+                                //    : null;
+
+                                //if (!foto) {
+                                //    switch (car.soort) {
+                                //        case 'Auto':
+                                //            foto = auto;
+                                //            break;
+                                //        case 'Camper':
+                                //            foto = camper;
+                                //            break;
+                                //        case 'Caravan':
+                                //            foto = caravan;
+                                //            break;
+                                //        default:
+                                //            foto = spongebob; 
+                                //    }
+                                //}
+
                                 return (
                                     <div key={aanvraag.verhuuraanvraagId} className="huur-item">
                                         <div className="huur-item-header" onClick={() => toggleDetails(aanvraag.verhuuraanvraagId)}>
-                                            <div className="car-image-placeholder"></div>
+                                            <div className="car-image-placeholder">
+                                                <img src={spongebob} alt={`${car.soort} icoon`} className="car-icon" />
+                                            </div>
                                             <div className="car-info">
                                                 <p className="car-title">{car.merk} {car.type}</p>
                                                 <p className="car-dates">

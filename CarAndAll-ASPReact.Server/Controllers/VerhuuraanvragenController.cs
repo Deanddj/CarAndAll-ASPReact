@@ -31,7 +31,7 @@ public class VerhuuraanvragenController : ControllerBase
     public async Task<IActionResult> GetAanvragen()
     {
         var verhuuraanvragen = await _context.Verhuuraanvragen
-            .Include(va => va.Voertuig) 
+            .Include(va => va.Voertuig)
             .Select(va => new
             {
                 va.VerhuuraanvraagId,
@@ -109,7 +109,7 @@ public class VerhuuraanvragenController : ControllerBase
                 user = new
                 {
                     va.Huurder.Id,
-                    va.Huurder.Naam, 
+                    va.Huurder.Naam,
                     va.Huurder.Email
                 }
             })
@@ -195,7 +195,7 @@ public class VerhuuraanvragenController : ControllerBase
             return NotFound();
         }
 
-            aanvraag.Status = "Uitgegeven";
+        aanvraag.Status = "Uitgegeven";
 
         var voertuig = await _context.Voertuigen
             .FirstOrDefaultAsync(v => v.VoertuigId == aanvraag.VoertuigId);
@@ -216,7 +216,7 @@ public class VerhuuraanvragenController : ControllerBase
     }
 
     [HttpPut("inname-voertuigen/{id}")]
-    public async Task<IActionResult> innameVoertuig(int id)
+    public async Task<IActionResult> innameVoertuig(int id, [FromBody] StatusDto status)
     {
         //Console.WriteLine($"Aanvraag body: {aanvraagbody.Email}, {aanvraagbody.Voertuig.Merk}, {aanvraagbody.StartDatum}, {aanvraagbody.EindDatum}");
         var aanvraag = await _context.Verhuuraanvragen
@@ -231,10 +231,10 @@ public class VerhuuraanvragenController : ControllerBase
 
         var voertuig = await _context.Voertuigen
             .FirstOrDefaultAsync(v => v.VoertuigId == aanvraag.VoertuigId);
-
+        Console.WriteLine($"De status is: {status.Status}");
         if (voertuig != null)
         {
-            voertuig.Status = "Beschikbaar";
+            voertuig.Status = status.Status;
         }
 
         await _context.SaveChangesAsync();

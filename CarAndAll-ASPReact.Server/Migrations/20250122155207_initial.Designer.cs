@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     [DbContext(typeof(CarAndAllDbContext))]
-    [Migration("20250122023350_initial")]
+    [Migration("20250122155207_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -106,6 +106,31 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.HasKey("NotificationId");
 
                     b.ToTable("Notificaties");
+                });
+
+            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Schadeclaim", b =>
+                {
+                    b.Property<int>("schadeclaimId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Commentaar")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("Datum")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("VoertuigId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("schadeclaimId");
+
+                    b.HasIndex("VoertuigId");
+
+                    b.ToTable("Schadeclaims");
                 });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.User", b =>
@@ -450,6 +475,17 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Navigation("Bedrijf");
                 });
 
+            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Schadeclaim", b =>
+                {
+                    b.HasOne("CarAndAll_ASPReact.Server.Models.Voertuig", "Voertuig")
+                        .WithMany("Schadeclaims")
+                        .HasForeignKey("VoertuigId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Voertuig");
+                });
+
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Verhuuraanvraag", b =>
                 {
                     b.HasOne("CarAndAll_ASPReact.Server.Models.Huurder", "Huurder")
@@ -552,6 +588,8 @@ namespace CarAndAll_ASPReact.Server.Migrations
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Voertuig", b =>
                 {
+                    b.Navigation("Schadeclaims");
+
                     b.Navigation("Verhuuraanvragen");
                 });
 

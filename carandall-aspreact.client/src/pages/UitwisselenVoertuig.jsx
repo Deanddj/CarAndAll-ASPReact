@@ -100,14 +100,27 @@ const UitwisselenVoertuig = ({ onChangeSection }) => {
         }
     };
 
-    const handleInname = async () => {
+
+
+    const handleInname = async (status) => {
         try {
+            console.log(status);
+            var voertuigStatus = status;
+  
+
+
             const response = await fetch(`https://localhost:7159/api/verhuuraanvragen/inname-voertuigen/${selectedAanvraag.verhuuraanvraagId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                body: JSON.stringify({
+                    status: voertuigStatus
+                })
+                , credentials: 'include'
             });
+
+            console.log(`De gestuurde data is: ${voertuigStatus}`);
 
             if (response.ok) {
                 showMessage("De voertuig is ingenomen.", "success");
@@ -121,6 +134,10 @@ const UitwisselenVoertuig = ({ onChangeSection }) => {
         }
         setPopupVisible(false);
     };
+
+    const handleInnameGeenSchade = async () => {
+        handleInname("Beschikbaar");
+    }
 
     const handleSchadeClaim = async () => {
         const voertuigId = selectedAanvraag.voertuig.voertuigId;
@@ -136,7 +153,7 @@ const UitwisselenVoertuig = ({ onChangeSection }) => {
             });
 
             if (response.ok) {
-                handleInname();
+                handleInname("In reparatie");
                 showMessage("Schadeclaim is ingediend.", "success");
             } else {
                 showMessage("Er is een fout opgetreden bij het indienen van de schadeclaim.", "error");
@@ -249,7 +266,7 @@ const UitwisselenVoertuig = ({ onChangeSection }) => {
                     <div className="popup-form">
                         <h3>Schade claim</h3>
                         <div className="form-buttons">
-                            <button onClick={handleInname}>Geen schade</button>
+                            <button onClick={handleInnameGeenSchade}>Geen schade</button>
                             <button onClick={handleSchadeClaim}>Schade claim indienen</button>
                         </div>
                         <textarea

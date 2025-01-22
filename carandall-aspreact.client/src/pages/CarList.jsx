@@ -174,15 +174,15 @@ const CarList = ({ onChangeSection }) => {
                     />
                 </div>
 
-                <div>
-                    <label>Status:</label>
-                    <select value={statusFilter} onChange={handleStatusFilterChange}>
-                        <option value="Alles">Alles</option>
-                        <option value="Beschikbaar">Beschikbaar</option>
-                        <option value="In reparatie">In reparatie</option>
-                        <option value="Verhuurd">Verhuurd</option>
-                    </select>
-                </div>
+                {/*<div>*/}
+                {/*    <label>Status:</label>*/}
+                {/*    <select value={statusFilter} onChange={handleStatusFilterChange}>*/}
+                {/*        <option value="Alles">Alles</option>*/}
+                {/*        <option value="Beschikbaar">Beschikbaar</option>*/}
+                {/*        <option value="In reparatie">In reparatie</option>*/}
+                {/*        <option value="Verhuurd">Verhuurd</option>*/}
+                {/*    </select>*/}
+                {/*</div>*/}
 
                 <div>
                     <label>Voertuig:</label>
