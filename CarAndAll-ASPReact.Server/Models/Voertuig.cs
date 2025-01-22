@@ -12,7 +12,7 @@
         public string Status { get; set; } // bv: "Beschikbaar", "In reparatie" of "Verhuurd"
         public double Prijs { get; set; }
         public ICollection<Verhuuraanvraag> Verhuuraanvragen { get; set; }
-
+        public ICollection<Schadeclaim> Schadeclaims { get; set; }
 
     }
 }

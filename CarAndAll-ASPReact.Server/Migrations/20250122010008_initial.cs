@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -133,6 +133,7 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     Telefoonnummer = table.Column<string>(type: "TEXT", nullable: true),
                     Adres = table.Column<string>(type: "TEXT", nullable: true),
                     BedrijfId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Rol = table.Column<string>(type: "TEXT", nullable: true),
                     ZakelijkeBeheerder_BedrijfId = table.Column<int>(type: "INTEGER", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -162,6 +163,28 @@ namespace CarAndAll_ASPReact.Server.Migrations
                         column: x => x.ZakelijkeBeheerder_BedrijfId,
                         principalTable: "Bedrijven",
                         principalColumn: "BedrijfId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schadeclaims",
+                columns: table => new
+                {
+                    schadeclaimId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Commentaar = table.Column<string>(type: "TEXT", nullable: true),
+                    Status = table.Column<string>(type: "TEXT", nullable: true),
+                    Datum = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    VoertuigId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schadeclaims", x => x.schadeclaimId);
+                    table.ForeignKey(
+                        name: "FK_Schadeclaims_Voertuigen_VoertuigId",
+                        column: x => x.VoertuigId,
+                        principalTable: "Voertuigen",
+                        principalColumn: "VoertuigId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -333,6 +356,11 @@ namespace CarAndAll_ASPReact.Server.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Schadeclaims_VoertuigId",
+                table: "Schadeclaims",
+                column: "VoertuigId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Verhuuraanvragen_HuurderId",
                 table: "Verhuuraanvragen",
                 column: "HuurderId");
@@ -366,6 +394,9 @@ namespace CarAndAll_ASPReact.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Notificaties");
+
+            migrationBuilder.DropTable(
+                name: "Schadeclaims");
 
             migrationBuilder.DropTable(
                 name: "Verhuuraanvragen");
