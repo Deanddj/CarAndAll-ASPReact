@@ -39,6 +39,7 @@
         border-radius: 5px;
         background-color: #f5f5f5;
         transition: all 0.3s ease;
+        min-width: 130px;
     }
 
     .filter-container label {
@@ -244,6 +245,14 @@
     border-left: 5px solid #00000090; /* Voegt een rand van 5px breed en oranje (#ff5733) toe aan de linkerzijde */
     box-shadow: 0 4px 9px rgba(0, 0, 0, 0.1);
 }
+
+.message {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #555;
+    margin-top: 20px;
+}
+
 
 
 

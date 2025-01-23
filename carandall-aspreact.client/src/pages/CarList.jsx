@@ -185,7 +185,7 @@ const CarList = ({ onChangeSection }) => {
                 {/*</div>*/}
 
                 <div>
-                    <label>Voertuig:</label>
+                    <label> Soort Voertuig:</label>
                     <select value={typeFilter} onChange={handleTypeFilterChange}>
                         {userDetails && userDetails.bedrijf ? (
                             <option value="Auto">Auto</option>
@@ -219,56 +219,62 @@ const CarList = ({ onChangeSection }) => {
             </div>
 
             <div className="car-items">
-                {filteredCars.map((car) => {
-                    var foto = car.afbeelding
-                        ? `../Voertuigen/${car.afbeelding}`
-                        : null;
-                    if (!foto) {
-                        switch (car.soort) {
-                            case 'Auto':
-                                foto = auto;
-                                break;
-                            case 'Camper':
-                                foto = camper;
-                                break;
-                            case 'Caravan':
-                                foto = caravan;
-                                break;
-                            default:
-                                foto = spongebob;
-                        }
-                    }
+                {(!startDate || !endDate) && (
+                    <p className="message">Voer eerst een begin- en einddatum in om beschikbare voertuigen te bekijken.</p>
+                )}
+                {startDate && endDate && (
+                    <div className="car-items">
+                        {filteredCars.map((car) => {
+                            var foto = car.afbeelding
+                                ? `../Voertuigen/${car.afbeelding}`
+                                : null;
+                            if (!foto) {
+                                switch (car.soort) {
+                                    case 'Auto':
+                                        foto = auto;
+                                        break;
+                                    case 'Camper':
+                                        foto = camper;
+                                        break;
+                                    case 'Caravan':
+                                        foto = caravan;
+                                        break;
+                                    default:
+                                        foto = spongebob;
+                                }
+                            }
 
-                    return (
-                        <div key={car.voertuigId} className="car-item">
-                            <div className="car-image">
-                                <img src={foto} alt={`${car.soort} icoon`} className="car-icon" />
-                            </div>
-                            <div className="info-box">
-                                <div className="car-details">
-                                    <div className="title-div">
-                                        <h3 className="Car-title">
-                                            {car.merk} {car.type}
-                                        </h3>
+                            return (
+                                <div key={car.voertuigId} className="car-item">
+                                    <div className="car-image">
+                                        <img src={foto} alt={`${car.soort} icoon`} className="car-icon" />
                                     </div>
-                                    <p><strong>Kleur: </strong>{car.kleur}</p>
-                                    {car.aanschafjaar && <p><strong>Aanschafjaar:</strong> {car.aanschafjaar}</p>}
-                                    <p><strong>Prijs per dag:</strong> &euro;{car.prijs}</p>
-                                    <button
-                                        onClick={() => {
-                                            console.log("Navigating to ID:", car.voertuigId);
-                                            handleNavigateToRentCar(car.voertuigId);
-                                        }}
-                                    >
-                                        Huren
-                                    </button>
+                                    <div className="info-box">
+                                        <div className="car-details">
+                                            <div className="title-div">
+                                                <h3 className="Car-title">
+                                                    {car.merk} {car.type}
+                                                </h3>
+                                            </div>
+                                            <p><strong>Kleur: </strong>{car.kleur}</p>
+                                            {car.aanschafjaar && <p><strong>Aanschafjaar:</strong> {car.aanschafjaar}</p>}
+                                            <p><strong>Prijs per dag:</strong> &euro;{car.prijs}</p>
+                                            <button
+                                                onClick={() => {
+                                                    console.log("Navigating to ID:", car.voertuigId);
+                                                    handleNavigateToRentCar(car.voertuigId);
+                                                }}
+                                            >
+                                                Huren
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    );
+                            );
+                        })}
+                    </div>
+                )}
 
-
-                })}
             </div>
 
         </div>
