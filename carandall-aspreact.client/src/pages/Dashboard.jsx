@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import CarList from './CarList';
 import RentCar from './RentCar';
 import '../styles/Dashboard.css';
-import { FaUserCircle } from 'react-icons/fa';
 import Account from './Account.jsx';
 import Bedrijf from './Bedrijf.jsx';
 import Notifications from './Notifications.jsx';
@@ -28,14 +27,35 @@ const DashboardContent = () => {
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const section = params.get('section');
+
         if (section) {
             setActiveSection(section);
             if (section.startsWith('rentcar/')) {
                 const id = section.split('/')[1];
                 setVehicleId(id);
             }
+        } else if (userDetails) {
+            // Set activeSection based on userDetails.type and userDetails.rol
+            switch (userDetails.type) {
+                case 'Huurder':
+                    setActiveSection('huren');
+                    break;
+                case 'ZakelijkeBeheerder':
+                    setActiveSection('bedrijf');
+                    break;
+                case 'Medewerker':
+                    console.log(userDetails.rol);
+                    if (userDetails.rol === 'Backoffice') {
+                        setActiveSection('editVoertuigen');
+                    } else if (userDetails.rol === 'Frontoffice') {
+                        setActiveSection('uitwisselenVoertuig');
+                    }
+                    break;
+                default:
+                    console.warn('Unknown user type:', userDetails.type);
+            }
         }
-    }, [location]);
+    }, [location.pathname, location.search, userDetails]);
 
     useEffect(() => {
         fetchUserData()
@@ -116,7 +136,7 @@ const DashboardContent = () => {
                     <a className="navbar-logout" onClick={handleLogout}>
                         Log uit
                     </a>
-                    <img src="public/logout.svg" className="icon" alt="Logout" />
+                    <img src="public/logout.svg" className="icon" alt="Logout" onClick={handleLogout} />
                 </div>
             </nav>
 
