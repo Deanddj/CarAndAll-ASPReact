@@ -25,7 +25,6 @@ namespace CarAndAll_ASPReact.Server.Controllers
             _userManager = userManager;
             _context = context;
             _notificationService = notificationService;
-            _userManager = userManager;
         }
 
         //Gegevens van 1 auto opvragen, met bijbehorende verhuuraanvragen erbij
