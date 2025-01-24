@@ -35,7 +35,6 @@ const DashboardContent = () => {
                 setVehicleId(id);
             }
         } else if (userDetails) {
-            // Set activeSection based on userDetails.type and userDetails.rol
             switch (userDetails.type) {
                 case 'Huurder':
                     setActiveSection('huren');
