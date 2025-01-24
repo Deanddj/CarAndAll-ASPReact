@@ -107,7 +107,10 @@ const Register = () => {
                                 value={naam}
                                 onChange={(e) => setNaam(e.target.value)}
                                 required
+                                aria-describedby="naam-desc"
+                                placeholder="Bijv. Gijori"
                             />
+                            <small id="naam-desc">Vul je naam in.</small>
                         </div>
                         <div className="input-group">
                             <label htmlFor="email">E-mail</label>
@@ -116,8 +119,10 @@ const Register = () => {
                                 id="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                required
+                                aria-describedby="email-desc"
+                                placeholder="Bijv. CarAndAll@gmail.com"
                             />
+                            <small id="email-desc">Vul een geldig e-mailadres in.</small>
                         </div>
                         <div className="input-group">
                             <label htmlFor="password">Wachtwoord</label>
@@ -126,8 +131,9 @@ const Register = () => {
                                 id="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                required
+                                aria-describedby="password-desc"
                             />
+                            <small id="password-desc">Minimaal 6 tekens, 1 hoofdletter en 1 speciaal teken.</small>
                         </div>
                         <div className="input-group">
                             <label htmlFor="confirmPassword">Bevestig Wachtwoord</label>
@@ -136,8 +142,9 @@ const Register = () => {
                                 id="confirmPassword"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
+                                aria-describedby="confirmPassword-desc"
                             />
+                            <small id="confirmPassword-desc">Voer hetzelfde wachtwoord in ter bevestiging.</small>
                         </div>
                     </div>
                     <div className="right-side">
@@ -150,8 +157,10 @@ const Register = () => {
                                         id="companyName"
                                         value={companyName}
                                         onChange={(e) => setCompanyName(e.target.value)}
-                                        required
+                                        aria-describedby="companyName-desc"
+                                        placeholder="Bijv. CarAndAll"
                                     />
+                                    <small id="companyName-desc">Vul de naam van het bedrijf in.</small>
                                 </div>
                                 <div className="input-group">
                                     <label htmlFor="kvk">KVK</label>
@@ -160,8 +169,10 @@ const Register = () => {
                                         id="kvk"
                                         value={kvk}
                                         onChange={(e) => setKVK(e.target.value)}
-                                        required
+                                        aria-describedby="kvk-desc"
+                                        placeholder="Bijv. 12345678"
                                     />
+                                    <small id="kvk-desc">Voer het KVK-nummer van het bedrijf in (8 cijfers).</small>
                                 </div>
                                 <div className="input-group">
                                     <label htmlFor="companyAddress">Bedrijf Adres</label>
@@ -171,7 +182,10 @@ const Register = () => {
                                         value={companyAddress}
                                         onChange={(e) => setCompanyAddress(e.target.value)}
                                         required
+                                        aria-describedby="companyAddress-desc"
+                                        placeholder="Bijv. Voorbeeldstraat 1"
                                     />
+                                    <small id="companyAddress-desc">Geef het volledige adres van het bedrijf (Straat en huisnummer)</small>
                                 </div>
                             </>
                         ) : (
@@ -183,8 +197,10 @@ const Register = () => {
                                         id="phone"
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
-                                        required
-                                    />
+                                            aria-describedby="phone-desc"
+                                            placeholder="Bijv. 0612345678"
+                                        />
+                                        <small id="phone-desc">Voer een geldig telefoonnummer in.</small>
                                 </div>
                                 <div className="input-group">
                                     <label htmlFor="address">Adres</label>
@@ -193,8 +209,10 @@ const Register = () => {
                                         id="address"
                                         value={address}
                                         onChange={(e) => setAddress(e.target.value)}
-                                        required
-                                    />
+                                            aria-describedby="address-desc"
+                                            placeholder="Bijv. Voorbeeldstraat 1"
+                                        />
+                                        <small id="address-desc">Geef het volledige adres (Straat en huisnummer).</small>
                                 </div>
                             </>
                         )}

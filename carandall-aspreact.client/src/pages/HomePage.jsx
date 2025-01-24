@@ -10,10 +10,15 @@ function App() {
                 </div>
                 <div className="profile">
                     <a href="/dashboard">
-                        <button className="dashboard-btn">Dashboard</button>
+                        <button className="dashboard-btn"
+                            aria-label="Ga naar Dashboard"
+                            >
+                            Dashboard
+                        </button>
                     </a>
                     <a href="/dashboard?section=account">
-                        <FaUserCircle className="account-icon" />
+                        <FaUserCircle className="account-icon"
+                            aria-label="Ga naar Dashboard" />
                     </a>
                 </div>
             </nav>
@@ -25,7 +30,8 @@ function App() {
                             Bij CarAndAll maken we het huren van auto's en campers eenvoudig en betrouwbaar. Of je nu particulier of zakelijk
                             een auto nodig hebt, wij bieden flexibele oplossingen die bij jouw behoeften passen.
                         </p>
-                        <button onClick={() => document.getElementById('bottom-section').scrollIntoView({ behavior: 'smooth' })}>
+                        <button onClick={() => document.getElementById('bottom-section').scrollIntoView({ behavior: 'smooth' })}
+                            aria-label="Bekijk opties">
                             Opties bekijken
                         </button>
                     </div>

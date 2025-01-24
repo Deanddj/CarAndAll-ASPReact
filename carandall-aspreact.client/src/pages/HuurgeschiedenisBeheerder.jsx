@@ -258,7 +258,9 @@ const HuurgeschiedenisBeheerder = () => {
                 <div className="sort-container">
                     <label>Sorteren Op:</label>
                     <div className="sort-select-wrapper">
-                        <select value={OrderBy} onChange={(e) => setOrderBy(e.target.value)}>
+                        <select value={OrderBy} onChange={(e) => setOrderBy(e.target.value)}
+                            aria-label="Kies sorteeroptie"
+                            >
                             <option value="Default">Default</option>
                             <option value="Prijs">Prijs</option>
                             <option value="Bouwjaar">Bouwjaar</option>

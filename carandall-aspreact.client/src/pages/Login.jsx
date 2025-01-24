@@ -61,10 +61,13 @@ const Login = () => {
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
                     />
                 </div>
-                <button type="submit" className="login-button">Inloggen</button>
+                <button
+                    type="submit"
+                    className="login-button"
+                    aria-label="Klik om in te loggen">
+                    Inloggen</button>
             </form>
             <div className="register-link">
                 <p>Geen account? <Link to="/register">Registreer hier</Link></p>

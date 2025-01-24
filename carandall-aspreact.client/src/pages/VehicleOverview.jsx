@@ -234,7 +234,10 @@ const VehicleOverview = () => {
                         onChange={handleSearchChange}
                     />
                 </div>
-                <button className="plus-button" onClick={handleAdd}>
+                <button className="plus-button"
+                    onClick={handleAdd}
+                    aria-label="Voeg item toe"
+                    >
                     <span className="plus-icon">+</span>
                 </button>
             </div>

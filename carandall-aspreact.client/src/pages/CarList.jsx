@@ -212,6 +212,7 @@ const CarList = ({ onChangeSection }) => {
                         <button
                             onClick={handleOrderByAscDescChange}
                             className={`sort-arrow ${orderByAscDesc}`}
+                            aria-label={orderByAscDesc === 'asc' ? 'Sorteer oplopend' : 'Sorteer aflopend'}
                         />
                     </div>
                 </div>
@@ -258,6 +259,7 @@ const CarList = ({ onChangeSection }) => {
                                     handleNavigateToRentCar(car.voertuigId);
                                     //navigate(`/rentCar/${car.voertuigId}`);
                                 }}
+                                aria-label="Huur auto"
                             >
                                 Huren
                             </button>

@@ -126,7 +126,9 @@ const BedrijfPage = ({ userDetails }) => {
                         onChange={handleEmailChange}
                         placeholder="Voer email address in"
                     />
-                    <button onClick={handleInvite} disabled={isInviting}>
+                    <button onClick={handleInvite}
+                        disabled={isInviting}
+                        aria-label="Nodig bedrijfmedewerker uit">
                         {isInviting ? 'Inviting...' : 'Invite'}
                     </button>
                 </div>
@@ -144,6 +146,7 @@ const BedrijfPage = ({ userDetails }) => {
                                 <button
                                     className="delete-button"
                                     onClick={() => handleDeleteUser(user.id)}
+                                    aria-label='Verwijder bedrijfmedewerker ${user.naam}'
                                 >
                                     Verwijder
                                 </button>
