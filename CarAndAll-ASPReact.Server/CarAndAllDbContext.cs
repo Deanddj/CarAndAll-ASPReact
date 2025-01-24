@@ -8,6 +8,10 @@ namespace CarAndAll_ASPReact.Server
 {
     public class CarAndAllDbContext : IdentityDbContext<User>
     {
+        public CarAndAllDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -31,5 +35,6 @@ namespace CarAndAll_ASPReact.Server
         public DbSet<Voertuig> Voertuigen { get; set; }
         public DbSet<Verhuuraanvraag> Verhuuraanvragen { get; set; }
         public DbSet<Notification> Notificaties { get; set; }
+        public DbSet<Schadeclaim> Schadeclaims { get; set; }
     }
 }

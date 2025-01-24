@@ -10,9 +10,10 @@
         public string Kleur {  get; set; }
         public int? Aanschafjaar {  get; set; }
         public string Status { get; set; } // bv: "Beschikbaar", "In reparatie" of "Verhuurd"
+        public string? Afbeelding { get; set; }
         public double Prijs { get; set; }
         public ICollection<Verhuuraanvraag> Verhuuraanvragen { get; set; }
-
+        public ICollection<Schadeclaim> Schadeclaims { get; set; }
 
     }
 }

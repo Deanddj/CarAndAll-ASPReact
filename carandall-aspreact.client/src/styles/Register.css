@@ -5,7 +5,7 @@
     justify-content: center;
     padding: 20px;
     background-color: #f4f4f4;
-    height: 110vh;
+    max-height: 130vh;
 }
 
 h2 {

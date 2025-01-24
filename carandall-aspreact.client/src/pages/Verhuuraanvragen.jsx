@@ -86,6 +86,7 @@ const Verhuuraanvragen = () => {
                     startDatum: aanvraag.startdatum,
                     eindDatum: aanvraag.einddatum
                 })
+                , credentials: 'include'
 
             });
 
@@ -132,7 +133,7 @@ const Verhuuraanvragen = () => {
                     startDatum: aanvraag.startdatum,
                     eindDatum: aanvraag.einddatum
                 })
-
+                , credentials: 'include'
 
             });
 

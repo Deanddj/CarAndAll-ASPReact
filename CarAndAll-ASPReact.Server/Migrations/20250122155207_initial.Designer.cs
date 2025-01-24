@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarAndAll_ASPReact.Server.Migrations
 {
     [DbContext(typeof(CarAndAllDbContext))]
-    [Migration("20250106140217_test")]
-    partial class test
+    [Migration("20250122155207_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -106,6 +106,31 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.HasKey("NotificationId");
 
                     b.ToTable("Notificaties");
+                });
+
+            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Schadeclaim", b =>
+                {
+                    b.Property<int>("schadeclaimId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Commentaar")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("Datum")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("VoertuigId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("schadeclaimId");
+
+                    b.HasIndex("VoertuigId");
+
+                    b.ToTable("Schadeclaims");
                 });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.User", b =>
@@ -225,6 +250,9 @@ namespace CarAndAll_ASPReact.Server.Migrations
 
                     b.Property<int?>("Aanschafjaar")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Afbeelding")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Kenteken")
                         .IsRequired()
@@ -397,16 +425,11 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Property<int?>("BedrijfId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BedrijfId1")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Telefoonnummer")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasIndex("BedrijfId");
-
-                    b.HasIndex("BedrijfId1");
 
                     b.HasDiscriminator().HasValue("Huurder");
                 });
@@ -429,21 +452,13 @@ namespace CarAndAll_ASPReact.Server.Migrations
                     b.Property<int>("BedrijfId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BedrijfId1")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("BedrijfId");
-
-                    b.HasIndex("BedrijfId1")
+                    b.HasIndex("BedrijfId")
                         .IsUnique();
 
                     b.ToTable("AspNetUsers", t =>
                         {
                             t.Property("BedrijfId")
                                 .HasColumnName("ZakelijkeBeheerder_BedrijfId");
-
-                            t.Property("BedrijfId1")
-                                .HasColumnName("ZakelijkeBeheerder_BedrijfId1");
                         });
 
                     b.HasDiscriminator().HasValue("ZakelijkeBeheerder");
@@ -458,6 +473,17 @@ namespace CarAndAll_ASPReact.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Bedrijf");
+                });
+
+            modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Schadeclaim", b =>
+                {
+                    b.HasOne("CarAndAll_ASPReact.Server.Models.Voertuig", "Voertuig")
+                        .WithMany("Schadeclaims")
+                        .HasForeignKey("VoertuigId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Voertuig");
                 });
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Verhuuraanvraag", b =>
@@ -533,12 +559,8 @@ namespace CarAndAll_ASPReact.Server.Migrations
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Huurder", b =>
                 {
                     b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
-                        .WithMany()
-                        .HasForeignKey("BedrijfId");
-
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", null)
                         .WithMany("Huurders")
-                        .HasForeignKey("BedrijfId1");
+                        .HasForeignKey("BedrijfId");
 
                     b.Navigation("Bedrijf");
                 });
@@ -546,14 +568,10 @@ namespace CarAndAll_ASPReact.Server.Migrations
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", b =>
                 {
                     b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", "Bedrijf")
-                        .WithMany()
-                        .HasForeignKey("BedrijfId")
+                        .WithOne("ZakelijkeBeheerder")
+                        .HasForeignKey("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", "BedrijfId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("CarAndAll_ASPReact.Server.Models.Bedrijf", null)
-                        .WithOne("ZakelijkeBeheerder")
-                        .HasForeignKey("CarAndAll_ASPReact.Server.Models.ZakelijkeBeheerder", "BedrijfId1");
 
                     b.Navigation("Bedrijf");
                 });
@@ -570,6 +588,8 @@ namespace CarAndAll_ASPReact.Server.Migrations
 
             modelBuilder.Entity("CarAndAll_ASPReact.Server.Models.Voertuig", b =>
                 {
+                    b.Navigation("Schadeclaims");
+
                     b.Navigation("Verhuuraanvragen");
                 });
 

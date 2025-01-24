@@ -151,8 +151,8 @@
 }
 
 .car-image-placeholder {
-    width: 60px;
-    height: 60px;
+    width: 110px;
+    height: auto;
     background-color: #eaeaea;
     border-radius: 5px;
 }
@@ -197,7 +197,7 @@
 }
 
     .huur-item-details p {
-        font-size: 25px; /* Verhoog de font-size voor alle p-tags in deze container */
+        font-size: 18px; /* Verhoog de font-size voor alle p-tags in deze container */
         margin: 5px 0; /* Zorg voor wat ruimte tussen de paragrafen */
         color: #333; /* Donkere kleur voor de tekst */
     }

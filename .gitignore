@@ -361,4 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/carandall-aspreact.client/public
+/CarAndAll-ASPReact.Server/CarAndAll.db
+/CarAndAll-ASPReact.Server/CarAndAll.db-shm
+/CarAndAll-ASPReact.Server/CarAndAll.db-wal
