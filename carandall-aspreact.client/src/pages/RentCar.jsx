@@ -179,7 +179,12 @@ const RentCar = () => {
                         onChange={(e) => setEndDate(e.target.value)}
                     />
                 </label>
-                <button onClick={handleRent}>Huur Dit Voertuig</button>
+                <button onClick={handleRent}
+                    aria-label="Klik om dit voertuig te huren"
+                >
+                    Huur Dit Voertuig
+                </button>
+
             </div>
         </div>
     );

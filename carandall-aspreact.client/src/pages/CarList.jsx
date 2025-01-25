@@ -213,6 +213,7 @@ const CarList = ({ onChangeSection }) => {
                         <button
                             onClick={handleOrderByAscDescChange}
                             className={`sort-arrow ${orderByAscDesc}`}
+                            aria-label={orderByAscDesc === 'asc' ? 'Sorteer oplopend' : 'Sorteer aflopend'}
                         />
                     </div>
                 </div>

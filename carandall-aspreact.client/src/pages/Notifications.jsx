@@ -133,6 +133,7 @@ const Notifications = () => {
                                             e.stopPropagation();
                                             handleAccept(notification.notificationId);
                                         }}
+                                        aria-label="Accepteer bedrijfuitnodiging"
                                     >
                                         Accepteer
                                     </button>
@@ -142,6 +143,7 @@ const Notifications = () => {
                                             e.stopPropagation();
                                             handleDecline(notification.notificationId);
                                         }}
+                                        aria-label="Weiger bedrijfuitnodiging"
                                     >
                                         Weiger
                                     </button>

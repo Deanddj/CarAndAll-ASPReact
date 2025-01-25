@@ -35,7 +35,6 @@ const DashboardContent = () => {
                 setVehicleId(id);
             }
         } else if (userDetails) {
-            // Set activeSection based on userDetails.type and userDetails.rol
             switch (userDetails.type) {
                 case 'Huurder':
                     setActiveSection('huren');
@@ -146,14 +145,16 @@ const DashboardContent = () => {
                         <button
                             onClick={() => handleSectionChange('huren')}
                             className={activeSection === 'huren' ? 'active' : ''}
+                            aria-label="Naar verhuursectie"
                         >
-                            <img src="public/rental.svg" className="icon" alt="Voertuigen" /> Huren
+                            <img src="public/rental.svg" className="icon" alt="Huren icoon" /> Huren
                         </button>
                         <button
                             onClick={() => handleSectionChange('huurgeschiedenishuurder')}
                             className={activeSection === 'huurgeschiedenishuurder' ? 'active' : ''}
+                            aria-label="Naar huurgeschiedenis sectie"
                         >
-                            <img src="public/history.svg" className="icon" alt="Voertuigen" /> Geschiedenis
+                            <img src="public/history.svg" className="icon" alt="Geschiedenis icoon" /> Geschiedenis
                         </button>
                     </>
                 )}
@@ -162,14 +163,16 @@ const DashboardContent = () => {
                         <button
                             onClick={() => handleSectionChange('editVoertuigen')}
                             className={activeSection === 'editVoertuigen' ? 'active' : ''}
+                            aria-label="Voertuigen bewerken, toevoegen of verwijderen"
                         >
-                            <img src="public/car(2).svg" className="icon" alt="Voertuigen" /> Voertuigen
+                            <img src="public/car(2).svg" className="icon" alt="Voertuigen icoon" /> Voertuigen
                         </button>
                         <button
                             onClick={() => handleSectionChange('verhuuraanvragen')}
                             className={activeSection === 'verhuuraanvragen' ? 'active' : ''}
+                            aria-label="Bekijk verhuuraanvragen"
                         >
-                            <img src="public/quote-request.svg" className="icon" alt="Verhuurdaanvragen" />Aanvragen
+                            <img src="public/quote-request.svg" className="icon" alt="Verhuuraanvragen icoon" />Aanvragen
                         </button>
                     </>
                 )}
@@ -186,26 +189,30 @@ const DashboardContent = () => {
                 <button
                     onClick={() => handleSectionChange('notifications')}
                     className={activeSection === 'notifications' ? 'active' : ''}
+                    aria-label="Bekijk notificaties"
                 >
-                    <img src="public/notification.svg" className="icon" alt="Notificaties" /> Notificaties
+                    <img src="public/notification.svg" className="icon" alt="Notificaties icoon" /> Notificaties
                 </button>
                 <button
                     onClick={() => handleSectionChange('account')}
                     className={activeSection === 'account' ? 'active' : ''}
+                    aria-label="Bekijk account instellingen"
                 >
-                    <img src="public/profile.svg" className="icon" alt="Account" /> Account
+                    <img src="public/profile.svg" className="icon" alt="Account icoon" /> Account
                 </button>
                 {userDetails && userDetails.type === 'ZakelijkeBeheerder' && (
                     <>
                         <button
                             onClick={() => handleSectionChange('bedrijf')}
                             className={activeSection === 'bedrijf' ? 'active' : ''}
+                            aria-label="Bekijk bedrijfsinstellingen"
                         >
-                            <img src="public/city.svg" className="icon" alt="Voertuigen" /> Bedrijf
+                            <img src="public/city.svg" className="icon" alt="Bedrijf icoon" /> Bedrijf
                         </button>
                         <button
                             onClick={() => handleSectionChange('huurgeschiedenisBeheerder')}
                             className={activeSection === 'huurgeschiedenisBeheerder' ? 'active' : ''}
+                            aria-label="Bekijk huurgeschiedenis van bedrijfsmedewerkers"
                         >
                             <img src="public/history.svg" className="icon" alt="Huur Geschiedenis" /> Geschiedenis
                         </button>

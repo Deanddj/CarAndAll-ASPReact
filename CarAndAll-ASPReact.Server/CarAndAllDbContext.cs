@@ -14,8 +14,11 @@ namespace CarAndAll_ASPReact.Server
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlite("Data Source=CarAndAll.db");
+            if (!optionsBuilder.IsConfigured)
+            {
+                base.OnConfiguring(optionsBuilder);
+                optionsBuilder.UseSqlite("Data Source=CarAndAll.db");
+            }
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

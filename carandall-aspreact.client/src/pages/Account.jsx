@@ -113,7 +113,7 @@ const AccountSection = () => {
                                 setIsEditing(true);
                             }}
                             style={{ marginRight: '1px', marginTop: '10px' }}
-                        >
+                            aria-label="Bewerk accountgegevens">
                             Bewerken
                         </button>
 
@@ -191,18 +191,25 @@ const AccountSection = () => {
                                 </div>
                             </>
                         )}
-                            <button onClick={handleSave} style={{ marginRight: '6px', backgroundColor: '#4CAF50'}}>
+                            <button onClick={handleSave}
+                                style={{ marginRight: '6px', backgroundColor: '#4CAF50' }}
+                                aria-label="Sla wijzigingen op">
                             Opslaan
-                        </button>
+                            </button>
+
                             <button onClick={() => {
                                 setUpdatedData(userDetails);
                                 setIsEditing(false);
-                            }} style={{ backgroundColor: '#8A8989' }}>
+                            }}
+                                style={{ backgroundColor: '#8A8989' }}
+                                aria-label="Annuleer bewerkingen">
                             Annuleren
                         </button>
                     </div>
                 )}
-                <button onClick={handleDelete} style={{ backgroundColor: 'red' }}>
+                <button onClick={handleDelete}
+                    style={{ backgroundColor: 'red' }}
+                    aria-label="Verwijder je account">
                     Account Verwijderen
                 </button>
             </div>
