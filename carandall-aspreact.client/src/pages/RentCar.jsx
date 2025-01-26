@@ -19,7 +19,6 @@ const RentCar = () => {
         }
     }, [location]);
 
-
     useEffect(() => {
         if (!voertuigId) return;  // Als voertuigId nog niet is ingesteld, doe niks
 
@@ -90,6 +89,7 @@ const RentCar = () => {
 
         console.log('Verstuurde data:', rentData);
 
+        // Chatgpt prompt: Hoe kun je een periode overlapping checken?
         if (!isOverlap) {
             try {
                 const response = await fetch('https://localhost:7159/api/voertuig', {
@@ -117,6 +117,7 @@ const RentCar = () => {
         }
     };
 
+    // Chatgpt prompt: Hoe format je datum in dd/mm/jj?
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString('nl-NL', options);

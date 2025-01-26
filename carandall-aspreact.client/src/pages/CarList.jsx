@@ -69,6 +69,7 @@ const CarList = ({ onChangeSection }) => {
         fetchCars();
     }, []);
 
+    // Chatgpt prompt: Wat is een kortere alternatief om te sorteren ipv if elseif steeds?
     const sorters = {
         'Default': (a, b) => a.voertuigId - b.voertuigId,
         'Prijs': (a, b) => a.prijs - b.prijs,
@@ -94,6 +95,7 @@ const CarList = ({ onChangeSection }) => {
 
             const matchesType = typeFilter === 'Alles' || car.soort === typeFilter;
 
+            // Chatgpt prompt: Hoe kun je een periode overlapping checken?
             const selectedStartDate = new Date(startDate);
             const selectedEndDate = new Date(endDate);
 
