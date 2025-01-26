@@ -420,8 +420,4 @@ public class VerhuuraanvragenController : ControllerBase
         public int id { get; set; }
         public string naam { get; set; }
     }
-
-
-
-
 }

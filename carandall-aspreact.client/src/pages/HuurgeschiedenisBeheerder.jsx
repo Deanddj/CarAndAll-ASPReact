@@ -100,6 +100,7 @@ const HuurgeschiedenisBeheerder = () => {
         fetchData();
     }, [navigate]);
 
+    // Chatgpt prompt: Wat is een kortere alternatief om te sorteren ipv if elseif steeds?
     const sorters = {
         Default: (a, b) => a.voertuigId - b.voertuigId,
         Prijs: (a, b) => a.prijs - b.prijs,
@@ -126,6 +127,7 @@ const HuurgeschiedenisBeheerder = () => {
             const selectedStartDate = startDate ? new Date(startDate) : null;
             const selectedEndDate = endDate ? new Date(endDate) : null;
 
+            // Chatgpt prompt: Hoe kun je een periode overlapping checken?
             const matchesDates =
                 !startDate || !endDate || // Geen filter voor datums
                 (Array.isArray(car.verhuuraanvragen) && // Direct check if it's an array
@@ -163,6 +165,7 @@ const HuurgeschiedenisBeheerder = () => {
         }
     }, [typeFilter, OrderBy, orderByAscDesc, startDate, endDate, openDetails]);
 
+    // Chatgpt prompt: Hoe format je datum in dd/mm/jj?
     const formatDate = (dateString) => {
         if (!dateString) return '';
         const date = new Date(dateString);
@@ -172,6 +175,7 @@ const HuurgeschiedenisBeheerder = () => {
         return `${day}/${month}/${year}`;
     };
 
+    // Chatgpt prompt: Hoe kan je totale prijs berekenen van de totaal gehuurde dagen?
     const calculateTotalPrice = (startDate, endDate, pricePerDay) => {
         const start = new Date(startDate);
         const end = new Date(endDate);

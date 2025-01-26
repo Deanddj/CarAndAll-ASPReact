@@ -55,7 +55,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dataSeeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
-    dataSeeder.SeedData(); // Roep de SeedData methode aan
+    dataSeeder.SeedData(); 
 }
 
 app.UseDefaultFiles();

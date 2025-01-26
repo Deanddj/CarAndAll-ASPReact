@@ -7,14 +7,13 @@ import caravan from '../assets/Caravan logo.png';
 import camper from '../assets/Camper logo.png';
 import spongebob from '../assets/spongebob dumb stare.gif';
 
-
 const CarList = ({ onChangeSection }) => {
     const [cars, setCars] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
     const [statusFilter, setStatusFilter] = useState('Alles');
     const [typeFilter, setTypeFilter] = useState('Alles');
-    const [OrderBy, setOrderBy] = useState('Default'); // Default sorteren op prijs
-    const [orderByAscDesc, setOrderByAscDesc] = useState('asc'); // 'asc' voor oplopend, 'desc' voor aflopend
+    const [OrderBy, setOrderBy] = useState('Default');
+    const [orderByAscDesc, setOrderByAscDesc] = useState('asc');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [userDetails, setUserDetails] = useState(null);
@@ -38,7 +37,6 @@ const CarList = ({ onChangeSection }) => {
                 }
 
                 const data = await response.json();
-                console.log(data);
                 setUserDetails(data);
             } catch (error) {
                 console.error('Fout:', error.message);
@@ -55,9 +53,7 @@ const CarList = ({ onChangeSection }) => {
                     throw new Error('Fout met voertuigen verkrijgen.');
                 }
                 const data = await response.json();
-
                 const cars = data.$values || [];
-
                 setCars(cars);
                 setFilteredCars(cars);
             } catch (error) {
@@ -69,6 +65,7 @@ const CarList = ({ onChangeSection }) => {
         fetchCars();
     }, []);
 
+    // Chatgpt prompt: Wat is een kortere alternatief om te sorteren ipv if elseif steeds?
     const sorters = {
         'Default': (a, b) => a.voertuigId - b.voertuigId,
         'Prijs': (a, b) => a.prijs - b.prijs,
@@ -94,26 +91,22 @@ const CarList = ({ onChangeSection }) => {
 
             const matchesType = typeFilter === 'Alles' || car.soort === typeFilter;
 
+            // Chatgpt prompt: Hoe kun je een periode overlapping checken?
             const selectedStartDate = new Date(startDate);
             const selectedEndDate = new Date(endDate);
 
             const matchesDates = !startDate || !endDate || (Array.isArray(car.verhuuraanvragen.$values) && car.verhuuraanvragen.$values.every((aanvraag) => {
                 const aanvraagStart = new Date(aanvraag.startdatum);
                 const aanvraagEnd = new Date(aanvraag.einddatum);
-                const isOverlap = (selectedStartDate <= aanvraagEnd && selectedEndDate >= aanvraagStart);
-                return !isOverlap;
+                return !(selectedStartDate <= aanvraagEnd && selectedEndDate >= aanvraagStart);
             }));
 
             return matchesStatus && matchesType && matchesDates;
         });
 
-        const sorted = filtered.sort((a, b) => { //dit is de gesorteerde lijst voertuigen
-            const sortOp = sorters[OrderBy] || ((a, b) => 0); //dit bepaalt op wat je wilt sorteren zoals prijs of bouwjaar etc
-            if (orderByAscDesc === 'asc') {
-                return sortOp(a, b);
-            } else {
-                return sortOp(b, a);
-            } // dit bepaalt of het oplopend of aflopend is en vervolgens returned de lijst gebasseerd daarop
+        const sorted = filtered.sort((a, b) => {
+            const sortOp = sorters[OrderBy] || ((a, b) => 0);
+            return orderByAscDesc === 'asc' ? sortOp(a, b) : sortOp(b, a);
         });
 
         setFilteredCars(sorted);
@@ -123,71 +116,45 @@ const CarList = ({ onChangeSection }) => {
         onChangeSection(`rentcar/${voertuigId}`);
     }
 
-    const handleStatusFilterChange = (event) => {
-        setStatusFilter(event.target.value);
-    };
-
-    const handleTypeFilterChange = (event) => {
-        setTypeFilter(event.target.value);
-    };
-
-    const handleOrderByChange = (event) => {
-        setOrderBy(event.target.value);
-    };
-
-    const handleOrderByAscDescChange = () => {
-        setOrderByAscDesc((prev) => (prev === 'asc' ? 'desc' : 'asc'));
-    };
-
-    const handleStartDateChange = (event) => {
-        setStartDate(event.target.value);
-    };
-
-    const handleEndDateChange = (event) => {
-        setEndDate(event.target.value);
-    };
-
     useEffect(() => {
         handleFilterChange();
     }, [statusFilter, typeFilter, OrderBy, orderByAscDesc, startDate, endDate]);
 
     return (
         <div className="car-list">
-            <h2>Voertuigen Te Huur</h2>
+            <h1>Voertuigen Te Huur</h1>
 
             <div className="filter-container">
                 <div>
-                    <label>Startdatum:</label>
+                    <label htmlFor="startDate">Startdatum:</label>
                     <input
+                        id="startDate"
                         type="date"
                         value={startDate || ''}
-                        onChange={handleStartDateChange}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        aria-required="true"
                     />
                 </div>
 
                 <div>
-                    <label>Einddatum:</label>
+                    <label htmlFor="endDate">Einddatum:</label>
                     <input
+                        id="endDate"
                         type="date"
                         value={endDate || ''}
-                        onChange={handleEndDateChange}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        aria-required="true"
                     />
                 </div>
 
-                {/*<div>*/}
-                {/*    <label>Status:</label>*/}
-                {/*    <select value={statusFilter} onChange={handleStatusFilterChange}>*/}
-                {/*        <option value="Alles">Alles</option>*/}
-                {/*        <option value="Beschikbaar">Beschikbaar</option>*/}
-                {/*        <option value="In reparatie">In reparatie</option>*/}
-                {/*        <option value="Verhuurd">Verhuurd</option>*/}
-                {/*    </select>*/}
-                {/*</div>*/}
-
                 <div>
-                    <label> Soort Voertuig:</label>
-                    <select value={typeFilter} onChange={handleTypeFilterChange}>
-                        {userDetails && userDetails.bedrijf ? (
+                    <label htmlFor="vehicleType">Soort Voertuig:</label>
+                    <select
+                        id="vehicleType"
+                        value={typeFilter}
+                        onChange={(e) => setTypeFilter(e.target.value)}
+                    >
+                        {userDetails?.bedrijf ? (
                             <option value="Auto">Auto</option>
                         ) : (
                             <>
@@ -201,9 +168,13 @@ const CarList = ({ onChangeSection }) => {
                 </div>
 
                 <div className="sort-container">
-                    <label>Sorteren Op:</label>
+                    <label htmlFor="sortOrder">Sorteren Op:</label>
                     <div className="sort-select-wrapper">
-                        <select value={OrderBy} onChange={handleOrderByChange}>
+                        <select
+                            id="sortOrder"
+                            value={OrderBy}
+                            onChange={(e) => setOrderBy(e.target.value)}
+                        >
                             <option value="Default">Default</option>
                             <option value="Prijs">Prijs</option>
                             <option value="Bouwjaar">Bouwjaar</option>
@@ -211,9 +182,9 @@ const CarList = ({ onChangeSection }) => {
                             <option value="Type">Type</option>
                         </select>
                         <button
-                            onClick={handleOrderByAscDescChange}
+                            onClick={() => setOrderByAscDesc(prev => prev === 'asc' ? 'desc' : 'asc')}
                             className={`sort-arrow ${orderByAscDesc}`}
-                            aria-label={orderByAscDesc === 'asc' ? 'Sorteer oplopend' : 'Sorteer aflopend'}
+                            aria-label={orderByAscDesc === 'asc' ? 'Oplopend sorteren' : 'Aflopend sorteren'}
                         />
                     </div>
                 </div>
@@ -221,50 +192,43 @@ const CarList = ({ onChangeSection }) => {
 
             <div className="car-items">
                 {(!startDate || !endDate) && (
-                    <p className="message">Voer eerst een begin- en einddatum in om beschikbare voertuigen te bekijken.</p>
+                    <p className="message" role="alert">Voer eerst een begin- en einddatum in om beschikbare voertuigen te bekijken.</p>
                 )}
                 {startDate && endDate && (
-                    <div className="car-items">
+                    <div role="list" className="car-items">
                         {filteredCars.map((car) => {
-                            var foto = car.afbeelding
-                                ? `../Voertuigen/${car.afbeelding}`
-                                : null;
+                            let foto = car.afbeelding ? `../Voertuigen/${car.afbeelding}` : null;
                             if (!foto) {
                                 switch (car.soort) {
-                                    case 'Auto':
-                                        foto = auto;
-                                        break;
-                                    case 'Camper':
-                                        foto = camper;
-                                        break;
-                                    case 'Caravan':
-                                        foto = caravan;
-                                        break;
-                                    default:
-                                        foto = spongebob;
+                                    case 'Auto': foto = auto; break;
+                                    case 'Camper': foto = camper; break;
+                                    case 'Caravan': foto = caravan; break;
+                                    default: foto = spongebob;
                                 }
                             }
 
                             return (
-                                <div key={car.voertuigId} className="car-item">
+                                <div key={car.voertuigId} role="listitem" className="car-item">
                                     <div className="car-image">
-                                        <img src={foto} alt={`${car.soort} icoon`} className="car-icon" />
+                                        <img
+                                            src={foto}
+                                            alt={`${car.merk} ${car.type}`}
+                                            className="car-icon"
+                                        />
                                     </div>
                                     <div className="info-box">
                                         <div className="car-details">
                                             <div className="title-div">
-                                                <h3 className="Car-title">
+                                                <h2 className="Car-title">
                                                     {car.merk} {car.type}
-                                                </h3>
+                                                </h2>
                                             </div>
                                             <p><strong>Kleur: </strong>{car.kleur}</p>
                                             {car.aanschafjaar && <p><strong>Aanschafjaar:</strong> {car.aanschafjaar}</p>}
                                             <p><strong>Prijs per dag:</strong> &euro;{car.prijs}</p>
                                             <button
-                                                onClick={() => {
-                                                    console.log("Navigating to ID:", car.voertuigId);
-                                                    handleNavigateToRentCar(car.voertuigId);
-                                                }}
+                                                onClick={() => handleNavigateToRentCar(car.voertuigId)}
+                                                aria-label={`Huur ${car.merk} ${car.type}`}
                                             >
                                                 Huren
                                             </button>
@@ -275,12 +239,9 @@ const CarList = ({ onChangeSection }) => {
                         })}
                     </div>
                 )}
-
             </div>
-
         </div>
     );
-
 };
 
 export default CarList;
