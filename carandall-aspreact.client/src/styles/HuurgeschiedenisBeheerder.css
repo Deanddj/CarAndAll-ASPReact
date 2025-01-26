@@ -23,7 +23,6 @@
         align-self: center;
     }
 
-/* Sort Section */
 .sort-container {
     display: flex;
     flex-direction: column;
@@ -78,7 +77,6 @@
         transform: rotate(0deg);
     }
 
-/* Responsiveness */
 @media (max-width: 768px) {
     .filter-container {
         flex-direction: column;
@@ -95,21 +93,20 @@
 ..vehicle-container {
     display: flex;
     flex-direction: column;
-    padding: 30px; /* Verhoogd voor meer ruimte binnen de container */
+    padding: 30px;
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 5000px; /* Verhoogd de breedte van de container */
+    max-width: 5000px; 
     margin: auto;
 }
 
-/* Add styles for the vehicle container dropdown */
 .vehicle-container h3 {
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Zorgt ervoor dat de tekst en de pijl aan de uiteinden van de container staan */
+    justify-content: space-between; 
 }
 
 .vehicle-container .dropdown-arrow-right {
@@ -123,7 +120,7 @@
 .huur-items {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Verhoogd voor meer ruimte tussen de items */
+    gap: 20px; 
 }
 
 .huur-item {
@@ -159,17 +156,17 @@
 }
 
 .car-title {
-    font-size: 24px; /* Verhoogd voor betere leesbaarheid */
+    font-size: 24px; 
     font-weight: bold;
     margin: 0;
-    color: #000; /* Zwart voor de naam van de auto */
+    color: #000; 
 }
 
 .car-dates {
-    font-size: 18px; /* Verhoogd voor betere leesbaarheid */
+    font-size: 18px; 
     font-weight: bold;
     margin: 0;
-    color: #333; /* Donkere kleur voor de datum */
+    color: #333; 
     text-align: left;
 }
 
@@ -194,26 +191,26 @@
 }
 
     .huur-item-details p {
-        font-size: 25px; /* Verhoog de font-size voor alle p-tags in deze container */
-        margin: 5px 0; /* Zorg voor wat ruimte tussen de paragrafen */
-        color: #333; /* Donkere kleur voor de tekst */
+        font-size: 25px; 
+        margin: 5px 0; 
+        color: #333;
     }
 
 .status-container {
-    margin-bottom: 40px; /* Vergroot de ruimte tussen status-containers */
-    padding: 20px; /* Vergroot de padding voor meer ruimte binnen de container */
+    margin-bottom: 40px;
+    padding: 20px; 
     border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: #f9f9f9; /* Lichte achtergrondkleur voor status-groepen */
-    position: relative; /* Positioning context for the arrow */
-    min-height: 110px; /* Voeg een minimale hoogte toe voor grotere containers */
-    line-height: 1.5; /* Verhoog de lijnhoogte voor meer ruimte */
+    background-color: #f9f9f9; 
+    position: relative;
+    min-height: 110px; 
+    line-height: 1.5; 
 }
 
     .status-container h3 {
-        font-size: 24px; /* Vergroot de lettergrootte van de kop */
+        font-size: 24px; 
         font-weight: bold;
-        margin-bottom: 20px; /* Vergroot de ruimte onder de kop */
+        margin-bottom: 20px;
         color: #333;
     }
 
@@ -224,18 +221,18 @@
     }
 
     .status-counter {
-        font-size: 16px; /* Zorgt ervoor dat de tekst subtiel blijft */
-        color: #303234; /* Lichtere zwarttint */
-        margin-bottom: 8px; /* Ruimte tussen de counter en de statusnaam */
+        font-size: 16px; 
+        color: #303234;
+        margin-bottom: 8px; 
         text-align: left;
     }
 
     .status-container .huur-items {
-        gap: 25px; /* Vergroot de ruimte tussen de items */
+        gap: 25px; 
     }
 
     .status-container h4 {
-        font-size: 24px; /* Vergroot de lettergrootte van de kop in de status-groep */
+        font-size: 24px;
         font-weight: bold;
         cursor: pointer;
         display: flex;
@@ -260,41 +257,41 @@
 }
 
 .goedgekeurd {
-    border-left: 5px solid #28a745; /* Groene balk voor goedgekeurd */
-    background-color: #e0fcd5; /* Lichte gele achtergrond */
+    border-left: 5px solid #28a745; 
+    background-color: #e0fcd5; 
 }
 
 .in-behandeling {
     border-left: 5px solid #ff6a07;
-    background-color: #fcedd5; /* Lichte gele achtergrond */
+    background-color: #fcedd5; 
 }
 
 .afgewezen {
-    border-left: 5px solid #dc3545; /* Rode balk voor afgewezen */
-    background-color: #fcd5d5; /* Lichte gele achtergrond */
+    border-left: 5px solid #dc3545;
+    background-color: #fcd5d5; 
 }
 
 .goedgekeurd, .in-behandeling, .afgewezen {
-    margin-bottom: 30px; /* Vergroot de marge tussen statusgroepen */
+    margin-bottom: 30px; 
 }
 
 .huurder-container {
-    margin-bottom: 10px; /* Vergroot de marge tussen huurder-containers */
-    background-color: #f0f8ff; /* Lichte blauwe achtergrondkleur */
+    margin-bottom: 10px; 
+    background-color: #f0f8ff; 
     border: 1px solid #ccc;
-    border-radius: 8px; /* Aangepaste afgeronde hoeken */
-    padding: 20px; /* Verhoogd de padding voor meer ruimte binnen de container */
-    position: relative; /* Positioning context for the arrow */
+    border-radius: 8px; 
+    padding: 20px; 
+    position: relative; 
 }
 
     .huurder-container h3 {
-        font-size: 26px; /* Vergroot de lettergrootte van de kop */
+        font-size: 26px;
         font-weight: bold;
         cursor: pointer;
         display: flex;
         align-items: center;
         gap: 10px;
-        justify-content: space-between; /* Zorgt ervoor dat de tekst en de pijl aan de uiteinden van de container staan */
+        justify-content: space-between; 
     }
 
     .huurder-container .dropdown-arrow-right {
@@ -339,7 +336,7 @@
     height: auto;
     cursor: pointer;
     transition: transform 0.3s ease;
-    margin-left: auto; /* Zorgt ervoor dat de pijl aan de rechterkant blijft */
+    margin-left: auto; 
 }
 
     .dropdown-arrow-right.open {
