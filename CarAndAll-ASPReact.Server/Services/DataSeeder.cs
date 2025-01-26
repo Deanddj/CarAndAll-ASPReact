@@ -86,39 +86,38 @@ namespace CarAndAll_ASPReact.Server.Services
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                return 0; // Default value if the value is empty
+                return 0;
             }
 
-            value = value.Replace(": ", "").Trim(); // Remove ": " and any surrounding spaces
+            value = value.Replace(": ", "").Trim();
 
-            //Console.WriteLine($"Aanschafjaar string after stripping: '{value}'"); // Debugging: Check the stripped value
 
-            int result = 0; // Default value if the conversion fails
+
+            int result = 0; 
             if (int.TryParse(value, out result))
             {
                 return result;
             }
 
-            return 0; // Or another default value if the conversion fails
+            return 0;
         }
         static double ConvertToDouble(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                return 0.0; // Default value if the value is empty
+                return 0.0; 
             }
 
-            value = value.Replace(": ", "").Trim(); // Remove ": " and any surrounding spaces
+            value = value.Replace(": ", "").Trim(); 
 
-            // Console.WriteLine($"Value string after stripping: '{value}'"); // Debugging: Check the stripped value
 
-            double result = 0.0; // Default value if the conversion fails
+            double result = 0.0; 
             if (double.TryParse(value, out result))
             {
-                return Math.Round(result, 2); // Round the result to 2 decimal places
+                return Math.Round(result, 2);
             }
 
-            return 0.0; // Or another default value if the conversion fails
+            return 0.0; 
         }
 
     }

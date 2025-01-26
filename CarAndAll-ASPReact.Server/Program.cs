@@ -8,7 +8,7 @@ using CarAndAll_ASPReact.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Logging.AddConsole();
+//builder.Logging.AddConsole();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -55,7 +55,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dataSeeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
-    dataSeeder.SeedData(); // Roep de SeedData methode aan
+    dataSeeder.SeedData(); 
 }
 
 app.UseDefaultFiles();
