@@ -8,7 +8,7 @@ using CarAndAll_ASPReact.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Logging.AddConsole();
+builder.Logging.AddConsole();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
