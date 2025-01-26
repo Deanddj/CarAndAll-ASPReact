@@ -13,6 +13,7 @@ const Verhuuraanvragen = () => {
     const fetchNaamByUserId = async (userId) => {
         try {
             const response = await axios.get(`https://localhost:7159/api/account/getName/${userId}`);
+
             return response.data.naam || "Onbekend";
         } catch (error) {
             console.error(error);
@@ -22,7 +23,11 @@ const Verhuuraanvragen = () => {
 
     const fetchAanvragen = async () => {
         try {
-            const response = await fetch('https://localhost:7159/api/verhuuraanvragen/alle-aanvragen');
+            const response = await fetch('https://localhost:7159/api/verhuuraanvragen/alle-aanvragen', {
+                method: 'GET',
+                credentials: 'include',
+            });
+
             const data = await response.json();
             if (data && Array.isArray(data.$values)) {
                 const enrichedAanvragen = await Promise.all(

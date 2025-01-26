@@ -30,6 +30,27 @@ public class VerhuuraanvragenController : ControllerBase
     [HttpGet("alle-aanvragen")]
     public async Task<IActionResult> GetAanvragen()
     {
+        var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        if (user == null)
+        {
+            return Unauthorized("User not found.");
+        }
+
+        var medewerker = user as Medewerker;
+
+        if (medewerker == null)
+        {
+            return BadRequest("Je moet een huurder zijn voor deze functie.");
+        }
+
+        var rol = medewerker.Rol;
+        if (rol != "Backoffice")
+        {
+            return BadRequest("Je moet een back office medewerker zijn voor deze functie.");
+        }
+
+        Console.WriteLine("diddy is inside alle aanvragen");
+
         var verhuuraanvragen = await _context.Verhuuraanvragen
             .Include(va => va.Voertuig)
             .Select(va => new
@@ -67,13 +88,13 @@ public class VerhuuraanvragenController : ControllerBase
 
         if (medewerker == null)
         {
-            return BadRequest("Je moet een huurder zijn voor deze functie.");
+            return BadRequest("Je moet een medewerker zijn voor deze functie.");
         }
 
         var rol = medewerker.Rol;
-        if (rol == "frontOffice")
+        if (rol != "Frontoffice")
         {
-            return BadRequest("Je moet een front office medewerker zijn voor deze functie.");
+            return BadRequest("Je moet een front front medewerker zijn voor deze functie.");
         }
 
         var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
