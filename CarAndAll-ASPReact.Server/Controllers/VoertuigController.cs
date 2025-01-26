@@ -264,7 +264,6 @@ namespace CarAndAll_ASPReact.Server.Controllers
                     Console.WriteLine(e);
                 }
 
-
                 return CreatedAtAction(nameof(GetVerhuurAanvragenVoorVoertuig), new { voertuigId = nieuweAanvraag.VoertuigId }, nieuweAanvraag);
             }
             catch (Exception ex)

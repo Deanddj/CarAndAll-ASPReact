@@ -132,11 +132,11 @@ public class VerhuuraanvragenController : ControllerBase
 
         if (medewerker == null)
         {
-            return BadRequest("Je moet een huurder zijn voor deze functie.");
+            return BadRequest("Je moet een medewerker zijn voor deze functie.");
         }
 
         var rol = medewerker.Rol;
-        if (rol == "frontOffice")
+        if (rol != "Frontoffice")
         {
             return BadRequest("Je moet een front office medewerker zijn voor deze functie.");
         }
@@ -218,7 +218,6 @@ public class VerhuuraanvragenController : ControllerBase
     [HttpPut("inname-voertuigen/{id}")]
     public async Task<IActionResult> innameVoertuig(int id, [FromBody] StatusDto status)
     {
-        //Console.WriteLine($"Aanvraag body: {aanvraagbody.Email}, {aanvraagbody.Voertuig.Merk}, {aanvraagbody.StartDatum}, {aanvraagbody.EindDatum}");
         var aanvraag = await _context.Verhuuraanvragen
             .FirstOrDefaultAsync(a => a.VerhuuraanvraagId == id);
 
@@ -231,19 +230,13 @@ public class VerhuuraanvragenController : ControllerBase
 
         var voertuig = await _context.Voertuigen
             .FirstOrDefaultAsync(v => v.VoertuigId == aanvraag.VoertuigId);
-        Console.WriteLine($"De status is: {status.Status}");
+
         if (voertuig != null)
         {
             voertuig.Status = status.Status;
         }
 
         await _context.SaveChangesAsync();
-
-        //var message = $"Uw verzoek voor de {voertuig.Merk} {voertuig.Type} voor {aanvraagbody.StartDatum:dd-MM-yyyy} tot en met {aanvraagbody.EindDatum:dd-MM-yyyy} is goedgekeurd";
-
-
-        //await _notificationService.SendNotificationAsync(aanvraagbody.Email, "Bericht", null, "Verhuurzoek Goedgekeurd", message);
-
         return Ok(aanvraag);
     }
 
