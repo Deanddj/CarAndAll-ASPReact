@@ -25,7 +25,11 @@ const RentCar = () => {
 
         const fetchVehicle = async () => {
             try {
-                const response = await fetch(`https://localhost:7159/api/voertuig/${voertuigId}`);
+                const response = await fetch(`https://localhost:7159/api/voertuig/${voertuigId}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+
                 if (!response.ok) throw new Error('Failed to fetch vehicle data');
                 const data = await response.json();
                 setVoertuig(data);
@@ -36,7 +40,10 @@ const RentCar = () => {
 
         const fetchRentalPeriods = async () => {
             try {
-                const response = await fetch(`https://localhost:7159/api/voertuig/voertuigAanvragen/${voertuigId}`);
+                const response = await fetch(`https://localhost:7159/api/voertuig/voertuigAanvragen/${voertuigId}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
                 if (!response.ok) throw new Error('Failed to fetch rental periods');
 
                 const cars = await response.json();

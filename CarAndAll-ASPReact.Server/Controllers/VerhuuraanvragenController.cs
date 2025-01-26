@@ -40,7 +40,7 @@ public class VerhuuraanvragenController : ControllerBase
 
         if (medewerker == null)
         {
-            return BadRequest("Je moet een huurder zijn voor deze functie.");
+            return BadRequest("Je moet een medewerker zijn voor deze functie.");
         }
 
         var rol = medewerker.Rol;

@@ -31,6 +31,19 @@ namespace CarAndAll_ASPReact.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVoertuig(int id)
         {
+            var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (user == null)
+            {
+                return Unauthorized("User not found.");
+            }
+
+            var huurder = user as Huurder;
+
+            if (huurder == null)
+            {
+                return BadRequest("Je moet een huurder zijn voor deze functie.");
+            }
+
             Console.WriteLine("Voertuigcontroller id");
             var voertuig = await _context.Voertuigen
                 .Include(v => v.Verhuuraanvragen)
@@ -40,14 +53,26 @@ namespace CarAndAll_ASPReact.Server.Controllers
             {
                 return NotFound(new { message = "Voertuig niet gevonden" });
             }
-
             return Ok(voertuig);
         }
 
         //Alleen verhuuraanvragen van een auto opvragen
         [HttpGet("voertuigAanvragen/{voertuigId}")]
-        public IActionResult GetVerhuurAanvragenVoorVoertuig(int voertuigId)
+        public async Task<IActionResult> GetVerhuurAanvragenVoorVoertuig(int voertuigId)
         {
+            var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (user == null)
+            {
+                return Unauthorized("User not found.");
+            }
+
+            var huurder = user as Huurder;
+
+            if (huurder == null)
+            {
+                return BadRequest("Je moet een huurder zijn voor deze functie.");
+            }
+            
             var verhuuraanvragen = _context.Verhuuraanvragen
                 .Where(va => va.VoertuigId == voertuigId && va.Status == "Goedgekeurd") //HANDMATIG NAAR GOEDGEKEURD IN DATBASE ZETTEN
                 .Select(va => new { va.Startdatum, va.Einddatum })
@@ -60,6 +85,18 @@ namespace CarAndAll_ASPReact.Server.Controllers
         [HttpGet("verhuuraanvragen/op/{userId}")]
         public async Task<IActionResult> GetAlleVerhuuraanvragen(string userId)
         {
+            var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (user == null)
+            {
+                return Unauthorized("User not found.");
+            }
+
+            var beheerder = user as ZakelijkeBeheerder;
+
+            if (beheerder == null)
+            {
+                return BadRequest("Je moet een zakelijke beheerder zijn voor deze functie.");
+            }
             var verhuuraanvraag = await _context.Voertuigen
                 .Include(v => v.Verhuuraanvragen)
                 .Where(v => v.Verhuuraanvragen.Any(va => va.HuurderId == userId)) // Filteren op aanvragen van de gebruiker
@@ -82,7 +119,7 @@ namespace CarAndAll_ASPReact.Server.Controllers
                             va.VerhuuraanvraagId,
                             va.Startdatum,
                             va.Einddatum,
-                            va.Status
+                            va.Status   
                         })
                         .ToList()
                 })
@@ -151,6 +188,19 @@ namespace CarAndAll_ASPReact.Server.Controllers
         [HttpGet("voertuigen/met-aanvragen/van-user")]
         public async Task<IActionResult> GetVoertuigenMetVerhuurAanvragenVanUser()
         {
+            var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (user == null)
+            {
+                return Unauthorized("User not found.");
+            }
+
+            var huurder = user as Huurder;
+
+            if (huurder == null)
+            {
+                return BadRequest("Je moet een huurder zijn voor deze functie.");
+            }
+
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))

@@ -108,7 +108,7 @@ const Register = () => {
                                 onChange={(e) => setNaam(e.target.value)}
                                 required
                                 aria-describedby="naam-desc"
-                                placeholder="Bijv. Gijori"
+                                placeholder="Bijv. Marijn"
                             />
                             <small id="naam-desc">Vul je naam in.</small>
                         </div>
