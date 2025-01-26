@@ -1,25 +1,25 @@
 .car-title {
-    color: white; /* Witte tekst */
+    color: white; 
     display: flex;
-    align-items: center; /* Zorgt ervoor dat tekst en plaatje horizontaal gecentreerd zijn */
-    gap: 8px; /* Ruimte tussen tekst en plaatje */
+    align-items: center; 
+    gap: 8px; 
 }
 
 .title-div {
-    background-color: #ff6a0033; /* Oranje achtergrond */
-    padding: 10px; /* Ruimte binnen de titel-div */
-    width: 100%; /* Zorg dat de breedte volledig gevuld is */
-    margin: 0; /* Verwijder standaard marges */
-    box-sizing: border-box; /* Inclusief padding in breedteberekening */
-    position: relative; /* Houd de positie stabiel */
-    top: 0; /* Zet bovenaan */
-    left: 0; /* Start vanaf de linkerkant */
-    border-radius: 7px; /* Maak de randen smooth */
+    background-color: #ff6a0033; 
+    padding: 10px;
+    width: 100%; 
+    margin: 0; 
+    box-sizing: border-box; 
+    position: relative; 
+    top: 0;
+    left: 0; 
+    border-radius: 7px;
     height: 50px;
 }
 .car-icon {
-    width: 80px; /* Pas de grootte aan van het plaatje */
-    height: auto; /* Houd de originele verhoudingen */
+    width: 80px; 
+    height: auto; 
 }
 
 .filter-container {
@@ -48,7 +48,6 @@
         align-self: center;
     }
 
-/* Sorteren Op Container */
 .sort-container {
     display: flex;
     flex-direction: column;
@@ -57,7 +56,7 @@
     gap: 5px;
 }
 
-/* Sorteren Select en Pijl */
+
 .sort-select-wrapper {
     display: flex;
     align-items: center;
@@ -104,7 +103,6 @@
         transform: rotate(0deg);
     }
 
-/* Responsiviteit */
 @media (max-width: 768px) {
     .filter-container {
         flex-direction: column;
@@ -149,9 +147,9 @@
     }
 
 .car-image {
-    flex-shrink: 0; /* Zorgt ervoor dat de afbeelding niet in hoogte krimpt */
-    width: 550px; /* Breedte is vast, maar hoogte wordt automatisch bepaald */
-    height: auto; /* Hoogte van de afbeelding blijft afhankelijk van de oorspronkelijke verhouding */
+    flex-shrink: 0; 
+    width: 550px; 
+    height: auto; 
     padding-right: 1rem;
 }
 
@@ -169,13 +167,13 @@
     display: flex;
     flex-direction: column;
     text-align: left;
-/*    justify-content: space-between;*/
 }
+
 .info-box {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%; /* Zorgt ervoor dat de info-box de volledige hoogte van de container gebruikt */
+    height: 100%;
     padding: 1rem;
     border: 1px solid #ccc;
     margin-top: 0;
@@ -209,7 +207,7 @@
 .car-item button {
     align-self: center;
     color: white;
-    background-color: #00a2ed9e; /* Oranje achtergrond */
+    background-color: #00a2ed9e; 
     border: none;
     padding: 1rem 2rem;
     cursor: pointer;
@@ -230,19 +228,19 @@
 
 
 .title-div {
-    background-color: #E35A00; /* Warme donkeroranje kleur */
-    color: white; /* Witte tekstkleur voor contrast */
-    padding: 10px 15px; /* Ruimte binnen de div */
-    width: fit-content; /* Breedte aangepast aan de inhoud */
-    max-width: 300px; /* Maximale breedte */
-    margin: 0 auto; /* Optioneel: centreren binnen een container */
-    box-sizing: border-box; /* Inclusief padding in breedteberekening */
-    border-radius: 7px; /* Smooth randen */
-    display: flex; /* Flexbox voor uitlijning */
-    align-items: center; /* Verticaal centreren van inhoud */
+    background-color: #E35A00; 
+    color: white; 
+    padding: 10px 15px;
+    width: fit-content;
+    max-width: 300px; 
+    margin: 0 auto; 
+    box-sizing: border-box; 
+    border-radius: 7px; 
+    display: flex; 
+    align-items: center; 
     height: 24%;
     text-align: center;
-    border-left: 5px solid #00000090; /* Voegt een rand van 5px breed en oranje (#ff5733) toe aan de linkerzijde */
+    border-left: 5px solid #00000090; 
     box-shadow: 0 4px 9px rgba(0, 0, 0, 0.1);
 }
 

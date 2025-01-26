@@ -86,6 +86,7 @@ const UitwisselenVoertuig = ({ onChangeSection }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 }
+                , credentials: 'include'
             });
 
             if (response.ok) {
@@ -106,7 +107,7 @@ const UitwisselenVoertuig = ({ onChangeSection }) => {
         try {
             console.log(status);
             var voertuigStatus = status;
-  
+
 
 
             const response = await fetch(`https://localhost:7159/api/verhuuraanvragen/inname-voertuigen/${selectedAanvraag.verhuuraanvraagId}`, {
@@ -150,6 +151,7 @@ const UitwisselenVoertuig = ({ onChangeSection }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ commentaar: opmerking, datum: new Date().toISOString() })
+                , credentials: 'include'
             });
 
             if (response.ok) {
@@ -164,7 +166,7 @@ const UitwisselenVoertuig = ({ onChangeSection }) => {
             setPopupVisible(false);
         }
 
-        
+
     };
 
     const openPopup = (aanvraag) => {

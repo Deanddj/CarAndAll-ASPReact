@@ -1,9 +1,6 @@
-/* verhuuraanvragen.css */
 
-/* Alleen toepassen binnen de .verhuuraanvragen-wrapper */
 .verhuuraanvragen-wrapper {
     font-family: Arial, sans-serif;
-/*    background-color: #ffffff;*/
     padding: 20px;
     color: #333;
 }

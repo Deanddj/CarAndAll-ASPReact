@@ -27,9 +27,29 @@ public class VerhuuraanvragenController : ControllerBase
 
     }
 
+    // Wordt gebruikt door back office medewerker alleen
     [HttpGet("alle-aanvragen")]
     public async Task<IActionResult> GetAanvragen()
     {
+        var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        if (user == null)
+        {
+            return Unauthorized("User not found.");
+        }
+
+        var medewerker = user as Medewerker;
+
+        if (medewerker == null)
+        {
+            return BadRequest("Je moet een huurder zijn voor deze functie.");
+        }
+
+        var rol = medewerker.Rol;
+        if (rol != "Backoffice")
+        {
+            return BadRequest("Je moet een back office medewerker zijn voor deze functie.");
+        }
+
         var verhuuraanvragen = await _context.Verhuuraanvragen
             .Include(va => va.Voertuig)
             .Select(va => new
@@ -67,13 +87,13 @@ public class VerhuuraanvragenController : ControllerBase
 
         if (medewerker == null)
         {
-            return BadRequest("Je moet een huurder zijn voor deze functie.");
+            return BadRequest("Je moet een medewerker zijn voor deze functie.");
         }
 
         var rol = medewerker.Rol;
-        if (rol == "frontOffice")
+        if (rol != "Frontoffice")
         {
-            return BadRequest("Je moet een front office medewerker zijn voor deze functie.");
+            return BadRequest("Je moet een front front medewerker zijn voor deze functie.");
         }
 
         var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -186,7 +206,26 @@ public class VerhuuraanvragenController : ControllerBase
     [HttpPut("uitgave-voertuigen/{id}")]
     public async Task<IActionResult> uitgaveVoertuig(int id)
     {
-        //Console.WriteLine($"Aanvraag body: {aanvraagbody.Email}, {aanvraagbody.Voertuig.Merk}, {aanvraagbody.StartDatum}, {aanvraagbody.EindDatum}");
+        var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        if (user == null)
+        {
+            return Unauthorized("User not found.");
+        }
+
+        var medewerker = user as Medewerker;
+
+        if (medewerker == null)
+        {
+            return BadRequest("Je moet een medewerker zijn voor deze functie.");
+        }
+
+        var rol = medewerker.Rol;
+        if (rol != "Frontoffice")
+        {
+            return BadRequest("Je moet een front office medewerker zijn voor deze functie.");
+        }
+
         var aanvraag = await _context.Verhuuraanvragen
             .FirstOrDefaultAsync(a => a.VerhuuraanvraagId == id);
 
@@ -207,17 +246,32 @@ public class VerhuuraanvragenController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        //var message = $"Uw verzoek voor de {voertuig.Merk} {voertuig.Type} voor {aanvraagbody.StartDatum:dd-MM-yyyy} tot en met {aanvraagbody.EindDatum:dd-MM-yyyy} is goedgekeurd";
-
-
-        //await _notificationService.SendNotificationAsync(aanvraagbody.Email, "Bericht", null, "Verhuurzoek Goedgekeurd", message);
-
         return Ok(aanvraag);
     }
 
     [HttpPut("inname-voertuigen/{id}")]
     public async Task<IActionResult> innameVoertuig(int id, [FromBody] StatusDto status)
     {
+        var user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        if (user == null)
+        {
+            return Unauthorized("User not found.");
+        }
+
+        var medewerker = user as Medewerker;
+
+        if (medewerker == null)
+        {
+            return BadRequest("Je moet een medewerker zijn voor deze functie.");
+        }
+
+        var rol = medewerker.Rol;
+        if (rol != "Frontoffice")
+        {
+            return BadRequest("Je moet een front office medewerker zijn voor deze functie.");
+        }
+
         var aanvraag = await _context.Verhuuraanvragen
             .FirstOrDefaultAsync(a => a.VerhuuraanvraagId == id);
 
@@ -267,8 +321,14 @@ public class VerhuuraanvragenController : ControllerBase
             return BadRequest("Je moet een medewerker zijn voor deze functie.");
         }
 
+        var rol = medewerker.Rol;
+        if (rol != "Backoffice")
+        {
+            return BadRequest("Je moet een back office medewerker zijn voor deze functie.");
+        }
+
         aanvraag.Status = "Goedgekeurd";
-            await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
         var voertuig = aanvraagbody.Voertuig;
         var message = $"Uw verzoek voor de {voertuig.Merk} {voertuig.Type} voor {aanvraagbody.StartDatum:dd-MM-yyyy} tot en met {aanvraagbody.EindDatum:dd-MM-yyyy} is goedgekeurd";
@@ -305,6 +365,13 @@ public class VerhuuraanvragenController : ControllerBase
         {
             return BadRequest("Je moet een medewerker zijn voor deze functie.");
         }
+
+        var rol = medewerker.Rol;
+        if (rol != "Backoffice")
+        {
+            return BadRequest("Je moet een back office medewerker zijn voor deze functie.");
+        }
+ 
 
         aanvraag.Status = "Afgewezen";
         await _context.SaveChangesAsync();
@@ -353,8 +420,4 @@ public class VerhuuraanvragenController : ControllerBase
         public int id { get; set; }
         public string naam { get; set; }
     }
-
-
-
-
 }
